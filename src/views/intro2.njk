@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% include "partials/header.njk" %}
+
+<body>
+    <div class="container" style="height: 100vh; display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+            <h1>Learn About Us</h1>
+            <p>We are committed to delivering high-quality services and exceptional support. Join us and experience the difference.</p>
+        </div>
+        <div>
+            <button class="next-button" onclick="window.location.href='/signup'">Next</button>
+        </div>
+    </div>
+
+    {% include "partials/footer.njk" %}
+</body>
+</html>

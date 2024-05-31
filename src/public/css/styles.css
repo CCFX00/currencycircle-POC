@@ -1,0 +1,79 @@
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #020229;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  color: #01011d;
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+p {
+  color: #01011d;
+  font-size: 1.2em;
+  margin-bottom: 40px;
+}
+
+button, .next-button {
+  background-color: #01011d;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
+
+button:hover, .next-button:hover {
+  background-color: #00004d;
+}
+
+.container {
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  padding: 20px;
+  background-color: #ffffff;
+  color: #000000;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+form {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+input[type=text],
+input[type=email],
+input[type=password],
+input[type=date],
+select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+
+
+/*# sourceMappingURL=styles.css.map */
