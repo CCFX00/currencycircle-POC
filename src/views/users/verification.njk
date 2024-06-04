@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% include "partials/header.njk" %}
+
+<body>
+    <div class="container">
+        <header>
+            <div class="back-button">
+                <i class="icon-arrow-left"></i>
+            </div>
+            <h1>Verification Code</h1>
+            <div class="spacer"></div>
+        </header>
+        <main>
+            <p>Verify Your Mobile Number</p></br></br>
+            <h1>Enter 4-digit</br>Verification Code</h1>
+            <p>Code sent to user email. This code will expire in <span style="color: #00d1b2; font-weight: bold;">1 hour<span></p>
+            <form action>
+                <div class="input-group">
+                    <input type="text" id="verificationCode" placeholder="Enter 6-digit Verification code" maxlength="4">
+                    <button type="button" class="icon-button">
+                        <i class="icon-dropdown"></i>
+                    </button>
+                </div>
+                <div class="action-buttons">
+                    <button class="submit-button">Submit</button></br></br>
+                </div>
+            </form>
+            <a href="/resend" style="color: #05b497;">Resend Code</a>
+            <p id="message"></p>
+        </main>
+    </div>
+
+    {% include "partials/footer.njk" %}
+</body>
+</html>

@@ -25,3 +25,30 @@ function submitFormData() {
     // Clear all data from local storage
     localStorage.clear();
 }
+
+function submitLoginFormData(){
+    document.getElementById('userLogin').submit()
+    // window.location.href = '/user'
+}
+
+function submitforgotPasswordData(){
+    document.getElementById('forgotPassword').submit()
+}
+
+function submitresetPasswordData(){
+    document.getElementById('resetPassword').submit()
+}
+
+function verifyCode() {
+    const code = document.getElementById('verificationCode').value;
+    const message = document.getElementById('message');
+    if (code.length === 6) {
+        // This is where you would typically send the code to your server for verification
+        // For the purposes of this example, we'll just display a success message
+        message.textContent = 'Verification successful!';
+        message.style.color = 'green';
+    } else {
+        message.textContent = 'Please enter a valid 6-digit code.';
+        message.style.color = 'red';
+    }
+}

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% include "partials/header.njk" %}
+
+<body>
+    <div class="container">
+        <h1>Message</h1>
+
+        {% if data === 'forgotPassword' %}        
+            <p>{{ message }}</p>
+            <a href="/password/reset" class="button">Reset Password</a>
+        {% elif data === 'updatedPassword' %}
+            <p>{{ message }}</p>
+            <a href="/login" class="button">Login</a>
+        {% elif data === 'loggedIn' %}
+            <p>{{ message }}</p>
+            <a href="/user" class="button">Explore</a>
+        {% elif data === 'resendOtp' %}
+            <p>{{ message }}</p>
+            <a href="/user" class="button">Verify User</a>
+        {% endif %}
+
+    </div>
+
+    {% include "partials/footer.njk" %}
+</body>
+</html>

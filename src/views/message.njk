@@ -6,7 +6,13 @@
 <body>
     <div class="container">
         <h1>Message</h1>
-        <p>{{ message }}</p>
+
+        {% if data === false %}        
+            <p style="color: red;">{{ message }}</p>
+        {% else %}
+            <p>{{ message }}</p>
+        {% endif %}
+        
     </div>
 
     {% include "partials/footer.njk" %}

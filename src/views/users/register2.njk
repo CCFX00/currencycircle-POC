@@ -4,38 +4,49 @@
 {% include "partials/header.njk" %}
 
 <body>
-    <div class="container">
-        <h1>Registration - Step 2</h1>
-        <form id="registrationFormStep2" action="/signup" method="post">
-            <div class="form-group">
-                <label for="profession">Profession</label>
-                <input type="text" id="profession" name="profession" placeholder="Profession" required>
-            </div>
-            <div class="form-group">
-                <label for="addressLine1">Address Line 1</label>
-                <input type="text" id="addressLine1" name="addressLine1" placeholder="Address Line 1" required>
-            </div>
-            <div class="form-group">
-                <label for="addressLine2">Address Line 2</label>
-                <input type="text" id="addressLine2" name="addressLine2" placeholder="Address Line 2" required>
-            </div>
-            <div class="form-group">
-                <label for="city">City</label>
-                <input type="text" id="city" name="city" placeholder="City" required>
-            </div>
-            <div class="form-group">
-                <label for="code">Postal Code</label>
-                <input type="text" id="code" name="code" placeholder="Postal Code" required>
-            </div>
-            <div class="form-group">
-                <input type="checkbox" id="tcs" name="tcs" value="true" required>
-                <label for="tcs">I agree to the terms and conditions</label>
-            </div>
-            <input type="hidden" id="step1Data" name="step1Data" value="">
-            <button type="button" onclick="submitFormData()">Sign Up</button>
-        </form>
-    </div>
-    
-    {% include "partials/footer.njk" %}
+  <div id="register2-container" class="container">
+    <header>
+      <img src="/images/logo.png" alt="Currency Circle Logo" class="logo">
+    </header>
+    <main>
+      <h1>Personal Information</h1>
+      <form id="registrationFormStep2" action="/signup" method="post">
+        <div class="input-group">
+          <input type="text" name="profession" placeholder="Profession">
+          <button type="button" class="icon-button"><i class="icon-dropdown"></i></button>
+        </div>
+        <div class="input-group">
+          <input type="text" name="addressLine1" placeholder="Address 1">
+          <button type="button" class="icon-button"><i class="icon-home"></i></button>
+        </div>
+        <div class="input-group">
+          <input type="text" name="addressLine2" placeholder="Address 2">
+          <button type="button" class="icon-button"><i class="icon-home"></i></button>
+        </div>
+        <div class="input-group">
+          <input type="text" name="city" placeholder="City">
+          <button type="button" class="icon-button"><i class="icon-city"></i></button>
+        </div>
+        <div class="input-group">
+          <input type="text" name="code" placeholder="Zip Code">
+          <button type="button" class="icon-button"><i class="icon-postcode"></i></button>
+        </div>
+        <div class="upload-section">
+          <p>Please upload a proof of ID e.g Passport, National ID card or Driver's License.</p>
+          <div class="upload-box">
+            <i class="icon-upload"></i>
+            <p>Accepted formats are JPG and PNG.</p>
+          </div>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="terms">
+          <label for="terms">Accept <a href="#">Terms & Conditions</a></label>
+        </div>
+        <input type="hidden" id="step1Data" name="step1Data" value="">
+        <button type="submit" class="next-button" onclick="submitFormData()">Next</button>
+      </form>
+    </main>
+  </div>
 </body>
+{% include "partials/footer.njk" %}
 </html>

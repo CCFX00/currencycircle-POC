@@ -1,0 +1,99 @@
+@import "variables";
+@import "base";
+
+#register2-container {
+  header {
+    .logo {
+      max-width: 150px;
+      margin: 20px auto;
+    }
+  }
+
+  main {
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .input-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+
+      input {
+        flex-grow: 1;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        margin-right: 10px;
+      }
+
+      .icon-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+
+        i {
+          font-size: 20px;
+          color: #fff;
+        }
+      }
+    }
+
+    .upload-section {
+      margin-top: 20px;
+      text-align: left;
+
+      p {
+        margin-bottom: 10px;
+      }
+
+      .upload-box {
+        padding: 20px;
+        background-color: #333;
+        border-radius: 5px;
+        text-align: center;
+
+        i {
+          font-size: 30px;
+          color: #fff;
+          margin-bottom: 10px;
+        }
+
+        p {
+          margin: 0;
+        }
+      }
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+
+      input {
+        margin-right: 10px;
+      }
+
+      label {
+        a {
+          color: #0cb19b;
+        }
+      }
+    }
+
+    .next-button {
+      padding: 10px 20px;
+      background-color: #05b497;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: 20px;
+
+      &:hover {
+        background-color: $hover-color;
+      }
+    }
+  }
+}

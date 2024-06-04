@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% include "partials/header.njk" %}
+
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="/images/logo2.png" alt="Currency Circle">
+        </div>
+        <h1>Hey, Welcome Back!</h1>
+        <p>Login to your Account</p>
+        <form id="userLogin" action="/login" method="POST">
+            <div class="input-group">
+                <input type="email" name="email" placeholder="Email">
+                <div class="icon-button">
+                    <i class="icon-email"></i>
+                </div>
+            </div>
+            <div class="input-group">
+                <input type="password" name="password" placeholder="Password">
+                <div class="icon-button">
+                    <i class="icon-lock"></i>
+                </div>
+            </div>
+            <a href="/password/forgot" class="forgot-password">Forgot Password?</a>
+            <button type="submit" class="login-button">Login</button>
+        </form>
+        <div class="or-divider">
+            <span>Or</span>
+        </div>
+        <div class="social-buttons">
+            <button class="facebook-button">
+                <i class="icon-facebook"></i>
+                Facebook
+            </button>
+            <button class="google-button">
+                <i class="icon-google"></i>
+                Google
+            </button>
+        </div>
+        <p class="sign-up-text">Register a new account? <a href="/signup" class="sign-up-link">Sign Up</a></p>
+    </div>
+
+    {% include "partials/footer.njk" %}
+</body>
+</html>

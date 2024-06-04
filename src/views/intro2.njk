@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 
-{% include "partials/header.njk" %}
+{% include "partials/header.njk" %} 
 
 <body>
-    <div class="container" style="height: 100vh; display: flex; flex-direction: column; justify-content: space-between;">
-        <div>
-            <h1>Learn About Us</h1>
-            <p>We are committed to delivering high-quality services and exceptional support. Join us and experience the difference.</p>
-        </div>
-        <div>
-            <button class="next-button" onclick="window.location.href='/signup'">Next</button>
-        </div>
+  <div id="intro2-container" class="container">
+    <div class="content">
+      <img src="/images/image2.png" alt="Image" class="image">
+      <div class="text">
+        <h1>You Control Your Bid Or Offer Rate</h1>
+        <p>Join The Marketplace, Connect With Ordinary People And Swap Your Currency Hassle-Free</p>
+      </div>
+      <a href="/signup" class="button">Next</a>
     </div>
-
-    {% include "partials/footer.njk" %}
+  </div>
 </body>
+
+{% include "partials/footer.njk" %}
 </html>
