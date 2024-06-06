@@ -151,4 +151,40 @@ footer {
   color: rgb(255, 255, 255);
 }
 
-/*# sourceMappingURL=intro1.css.map */
+#intro-image {
+  transition: opacity 1s ease; /* Adjust the transition duration as needed */
+}
+
+/* Add CSS styles for the content container to ensure proper alignment */
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Ensure content is left-aligned */
+}
+
+/* Add CSS styles for the dots container */
+.dots-container {
+  display: flex;
+  justify-content: flex-start; /* Align dots to the left */
+  align-items: center;
+  margin-top: 20px;
+  width: 100%; /* Ensure the container takes the full width */
+}
+
+/* Add CSS styles for the dots */
+.dot {
+  height: 12px;
+  width: 12px;
+  margin: 0 5px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+/* Add CSS styles for the active dot */
+.dot.active {
+  background-color: #05b497;
+}
+
+/*# sourceMappingURL=intro.css.map */

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% include "partials/header.njk" %}
+
+<head>
+  <!-- Link to your CSS file if it's not already included in the partials -->
+  <link rel="stylesheet" href="/path/to/your/styles.css">
+</head>
+
+<body id="welcome-page"> <!-- Add an ID to the body tag -->
+  <div id="intro1-container" class="container">
+    <div class="content">
+      <img id="welcome-image" src="/images/logo.png" alt="Image" class="image">
+    </div>
+  </div>
+
+  <!-- Spinner -->
+  <div id="spinner-container" class="spinner-container">
+    <div class="spinner"></div>
+  </div>
+
+  {% include "partials/footer.njk" %}
+
+  <!-- Include the external JS file -->
+  <script src="/path/to/your/external.js"></script>
+</body>
+
+</html>

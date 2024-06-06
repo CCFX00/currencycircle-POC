@@ -7,18 +7,33 @@
     <div class="container">
         <h1>Message</h1>
 
-        {% if data === 'forgotPassword' %}        
+        {% if endpoint === 'forgotPassword' %}        
             <p>{{ message }}</p>
             <a href="/password/reset" class="button">Reset Password</a>
-        {% elif data === 'updatedPassword' %}
+        {% elif endpoint === 'updatedPassword' %}
             <p>{{ message }}</p>
             <a href="/login" class="button">Login</a>
-        {% elif data === 'loggedIn' %}
+        {% elif endpoint === 'loggedIn' %}
             <p>{{ message }}</p>
             <a href="/user" class="button">Explore</a>
-        {% elif data === 'resendOtp' %}
+        {% elif endpoint === 'resendOtp' %}
             <p>{{ message }}</p>
-            <a href="/user" class="button">Verify User</a>
+            <a href="/verify" class="button">Verify User</a>
+        {% elif endpoint === 'verificationFailed' %}
+            <p>{{ message }}</p>
+            <a href="/verify" class="button">Go Back</a>
+        {% elif endpoint === 'userVerified' %}
+            <p>{{ message }}</p>
+            <a href="/login" class="button">Login</a>
+        {% elif endpoint === 'signup' %}
+            <p>{{ message | safe }}</p>
+            <a href="/verify" class="button">Verify User</a>
+        {% elif endpoint === 'login' %}
+            <p  style="color: red;">{{ message }}</p>
+            <a href="/verify" class="button">Verify my account</a>
+        {% elif endpoint === 'loginWrongPass' %}
+            <p  style="color: red;">{{ message }}</p>
+            <a href="/login" class="button">Back to Login</a>
         {% endif %}
 
     </div>

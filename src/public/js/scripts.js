@@ -39,16 +39,97 @@ function submitresetPasswordData(){
     document.getElementById('resetPassword').submit()
 }
 
-function verifyCode() {
-    const code = document.getElementById('verificationCode').value;
-    const message = document.getElementById('message');
-    if (code.length === 6) {
-        // This is where you would typically send the code to your server for verification
-        // For the purposes of this example, we'll just display a success message
-        message.textContent = 'Verification successful!';
-        message.style.color = 'green';
-    } else {
-        message.textContent = 'Please enter a valid 6-digit code.';
-        message.style.color = 'red';
+function verifyUser() {
+    document.getElementById('verifyUser').submit()
+}
+
+function resendVerification(){
+    document.getElementById('resendVerification').submit()    
+}
+
+function redirectToEndpoint(button) {
+    const buttonText = button.textContent.trim().toLowerCase();
+    let endpoint = '';
+
+    if (buttonText === 'signup') {
+        endpoint = '/signup';
+    } else if (buttonText === 'login') {
+        endpoint = '/login';
+    }
+
+    if (endpoint) {
+        window.location.href = endpoint;
     }
 }
+
+ // Array of image sources
+ const imageSources = [
+    "/images/image1.png",
+    "/images/image2.png"
+  ];
+
+  // Index to keep track of the current image
+  let currentIndex = 0;
+
+  // Function to change the image with a fade effect
+  function changeImageWithFade() {
+    // Get the image element
+    const image = document.getElementById("intro-image");
+    // Fade out the image
+    image.style.opacity = 0;
+    setTimeout(() => {
+      // Change the src attribute to the next image source
+      image.src = imageSources[currentIndex];
+      // Fade in the image
+      setTimeout(() => {
+        image.style.opacity = 1;
+      }, 100); // Adjust this timing to match your transition duration
+      // Increment the index
+      currentIndex = (currentIndex + 1) % imageSources.length;
+      updateDots();
+    }, 1000); // Adjust this timing to match your transition duration
+  }
+
+  // Function to update the dots
+  function updateDots() {
+    const dots = document.querySelectorAll(".dot");
+    dots.forEach((dot, index) => {
+      if (index === currentIndex) {
+        dot.classList.add("active");
+      } else {
+        dot.classList.remove("active");
+      }
+    });
+  }
+
+  // Initialize the first dot as active
+  updateDots();
+
+  // Call the changeImageWithFade function every 2 seconds
+  setInterval(changeImageWithFade, 5000);
+
+
+  document.addEventListener('DOMContentLoaded', function () {
+    // Check if we are on the specific page by looking for the unique identifier
+    if (document.getElementById('welcome-page')) {
+      console.log('Welcome page detected'); // Debugging line to ensure the script is running
+  
+      // Function to redirect after 3 seconds with a smooth transition
+      function redirectAfterDelay() {
+        setTimeout(function() {
+          // Add fade-out class to the spinner container
+          document.getElementById('spinner-container').classList.add('fade-out');
+  
+          // Wait for the fade-out transition to complete before redirecting
+          setTimeout(function() {
+            window.location.href = '/intro';
+          }, 1000); // Match the transition duration in CSS
+        }, 3000);
+      }
+  
+      // Call the function to start the timeout
+      redirectAfterDelay();
+    }
+  });
+  
+  

@@ -438,157 +438,40 @@ footer {
   color: rgb(255, 255, 255);
 }
 
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background: url("/images/background.jpg") no-repeat center center fixed;
-  background-size: cover;
-  color: #fff;
+#intro-image {
+  transition: opacity 1s ease; /* Adjust the transition duration as needed */
 }
 
-.container {
-  width: 100%;
-  max-width: 400px;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin: 20px auto;
-  text-align: center;
-}
-
+/* Add CSS styles for the content container to ensure proper alignment */
 .content {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start; /* Ensure content is left-aligned */
 }
 
-.image {
-  max-width: 100%;
-  height: auto;
-}
-
-.text {
-  margin-top: 20px;
-}
-
-.button {
-  display: inline-block;
-  padding: 10px 20px;
-  margin-top: 20px;
-  background-color: #0cb19b;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-}
-.button:hover {
-  background-color: #36ffc3;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background: url("/images/background.jpg") no-repeat center center fixed;
-  background-size: cover;
-  color: #fff;
-}
-
-.container {
-  width: 100%;
-  max-width: 400px;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin: 20px auto;
-  text-align: center;
-}
-
-.content {
+/* Add CSS styles for the dots container */
+.dots-container {
   display: flex;
-  flex-direction: column;
+  justify-content: flex-start; /* Align dots to the left */
   align-items: center;
-}
-
-.image {
-  max-width: 100%;
-  height: auto;
-}
-
-.text {
   margin-top: 20px;
+  width: 100%; /* Ensure the container takes the full width */
 }
 
-.button {
+/* Add CSS styles for the dots */
+.dot {
+  height: 12px;
+  width: 12px;
+  margin: 0 5px;
+  background-color: #bbb;
+  border-radius: 50%;
   display: inline-block;
-  padding: 10px 20px;
-  margin-top: 20px;
-  background-color: #0cb19b;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-}
-.button:hover {
-  background-color: #ff5a36;
+  transition: background-color 0.6s ease;
 }
 
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background: url("/images/background.jpg") no-repeat center center fixed;
-  background-size: cover;
-  color: #fff;
-}
-
-.container {
-  width: 100%;
-  max-width: 400px;
-  padding: 20px;
-  background: rgba(41, 50, 81, 0);
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin: 20px auto;
-  text-align: center;
-}
-
-.content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.image {
-  max-width: 100%;
-  height: auto;
-}
-
-.text {
-  margin-top: 20px;
-}
-
-.button {
-  display: inline-block;
-  padding: 10px 20px;
-  margin-top: 20px;
-  background-color: #0cb19b;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-}
-.button:hover {
-  background-color: #036464;
-}
-
-footer {
-  text-align: center;
-}
-
-#intro1-container {
-  color: rgb(255, 255, 255);
+/* Add CSS styles for the active dot */
+.dot.active {
+  background-color: #05b497;
 }
 
 body {
@@ -1129,14 +1012,6 @@ body {
 
 h2 {
   margin-bottom: 20px;
-}
-
-input#verificationCode {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: none;
-  border-radius: 5px;
 }
 
 button {

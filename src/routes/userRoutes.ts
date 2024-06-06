@@ -3,9 +3,8 @@ import * as userController from '../controllers/userController'
 
 const userRouter = Router()
 
-userRouter.get('/', userController.redirectHome)
-userRouter.get('/intro1', userController.getIntro1)
-userRouter.get('/intro2', userController.getIntro2)
+userRouter.get('/', userController.getWelcome)
+userRouter.get('/intro', userController.getIntro)
 userRouter.get('/signup', userController.signupGet1)
 userRouter.get('/register2', userController.signupGet2)
 userRouter.post('/signup', userController.signupPost)
@@ -19,6 +18,9 @@ userRouter.get('/password/reset', userController.resetPasswordGet)
 userRouter.post('/password/reset', userController.resetPasswordPost)
 userRouter.get('/verify', userController.verificationGet)
 userRouter.post('/verify', userController.verificationPost)
+userRouter.get('/resend', userController.resendOtpGet)
+userRouter.post('/resend', userController.resendOtpPost)
+userRouter.get('/test', userController.test)
 
 
 export default userRouter

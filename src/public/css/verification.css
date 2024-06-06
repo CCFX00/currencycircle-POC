@@ -22,14 +22,6 @@ h2 {
   margin-bottom: 20px;
 }
 
-input#verificationCode {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: none;
-  border-radius: 5px;
-}
-
 button {
   padding: 10px 20px;
   background-color: #05b497;

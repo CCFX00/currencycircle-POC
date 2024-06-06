@@ -5,6 +5,11 @@
 
 <body>
   <div id="register2-container" class="container">
+    <div class="back-button">
+      <a href="/signup" class="icon-button">
+          <i class="icon-arrow-left"></i>
+        </a>
+    </div>
     <header>
       <img src="/images/logo.png" alt="Currency Circle Logo" class="logo">
     </header>
@@ -39,14 +44,15 @@
           </div>
         </div>
         <div class="checkbox-group">
-          <input type="checkbox" id="terms">
-          <label for="terms">Accept <a href="#">Terms & Conditions</a></label>
+          <input type="checkbox" id="tcs" name="tcs" value="true" required>
+          <label for="tcs">Accept <a href="#">Terms & Conditions</a></label>
         </div>
         <input type="hidden" id="step1Data" name="step1Data" value="">
-        <button type="submit" class="next-button" onclick="submitFormData()">Next</button>
+        <button type="button" class="next-button" onclick="submitFormData()">Create New Account</button>
       </form>
     </main>
   </div>
 </body>
+
 {% include "partials/footer.njk" %}
 </html>

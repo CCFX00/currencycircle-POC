@@ -4,7 +4,7 @@
 {% include "partials/header.njk" %}
 
 <body>
-    <div class="container">
+    <div id="register2-container" class="container">
         <header>
             <img src="/images/logo.png" alt="Currency Circle Logo" class="logo">
         </header>
@@ -12,8 +12,7 @@
         <main>
             <form id="registrationFormStep1">
                 <div class="form-group">
-                    <label for="title">Title</label>
-                    <select id="title" name="title" required>
+                    <select name="title" required>
                         <option value="" disabled selected>Title</option>
                         <option value="Mr">Mr</option>
                         <option value="Mrs">Mrs</option>
@@ -22,13 +21,13 @@
                         <option value="Prof">Prof</option>
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="input-group">
                     <input type="text" name="name" placeholder="Full Name" required>
                 </div>
-                <div class="form-group">
+                <div class="input-group">
                     <input type="email" name="email" placeholder="Email" required>
                 </div>
-                <div class="form-group">
+                <div class="input-group">
                     <input type="text" name="userName" placeholder="Username" required>
                 </div>
                 <div class="form-group">
@@ -40,19 +39,18 @@
                         <option value="Canada">Canada</option>
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="input-group">
                     <input type="text" name="phoneNumber" placeholder="Phone Number" required>
                 </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Password" required>
+                <div class="input-group">
+                    <input type="password" name="password" placeholder="Password" required>
                 </div>
-                <div class="form-group">
-                    <input type="date" name="dob" required>
+                <div class="input-group">
+                    <input type="date" name="dob" placeholder="Date Of Birth" required>
                 </div>
                 <input type="hidden" id="step1Data" name="step1Data" value="">
-                <button type="button" onclick="nextStep()">Next</button>
-        </form>
+                <button class="next-button" type="button" onclick="nextStep()">Next</button>
+            </form>
         </main>
         <p>Existing Member? <a href="/login" style="color: #05b497;">Sign In</a></p>
     </div>

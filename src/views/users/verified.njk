@@ -1,23 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verified</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
+
+{% include "partials/header.njk" %}
+
 <body>
-    <div class="verified-container">
-        <h2>You are Verified!</h2>
-        <p>Your account has been successfully verified.</p>
-        <button onclick="redirectToLogin()">Login</button>
+    <div class="container">
+        <main>
+            <h2><b>You are Verified!</b></h2>
+            <img src="/images/verified.png" alt="Image" class="image">
+            <p>Your account has been successfully verified.</p>
+            <button class="button" onclick="redirectToEndpoint(this)">Login</button>
+        </main>
     </div>
 
-    <script>
-        function redirectToLogin() {
-            // Redirect to the login page
-            window.location.href = 'login.html'; // Change this to your actual login page URL
-        }
-    </script>
+    {% include "partials/footer.njk" %}
 </body>
 </html>
