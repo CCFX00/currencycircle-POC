@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% include "partials/header.njk" %}
+
+<body>  
+    <div class="container">
+        <h1>Welcome back {{ user.userName }}</h1>
+        {% if endpoint === 'getUser' %}
+            <p>User's title: {{ user.title }}</p>
+            <p>User's name: {{ user.title }}. {{ user.name }}</p>
+            <p>User's date of birth: {{ user.dob }}</p>
+            <p>User's user name: {{ user.userName }}</p>
+            <p>User's profession: {{ user.profession }}</p>
+            <p>User's email: {{ user.email }}</p>
+            <p>User's phone number: {{ user.phoneNumber }}</p>
+            <p>User's country: {{ user.country }}</p>
+            {% if user.addressLine1 %}
+                <p>User's addressline: {{ user.addressline1 }}</p>
+            {% else %}
+                <p>User's addressline: {{ user.addressline2 }}</p>
+            {% endif %}
+            <p>User's city: {{ user.city }}</p>
+            <p>User's zip code: {{ user.code }}</p>
+            <a href="/logout" class="button">Logout</a>
+        {% endif %}
+    </div>
+
+    {% include "partials/footer.njk" %}
+</body>
+</html>

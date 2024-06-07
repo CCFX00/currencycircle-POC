@@ -310,7 +310,7 @@ export const getUsers = catchAsyncErrors(async (req: Request, res: Response, nex
 
         const response: AxiosResponse = await axios.get(`http://localhost:3000/ccfx/api/v1/user/${decoded.id}`)
 
-        res.status(200).render('message', { user: response.data.user, title: `${response.data.user.userName}'s dashboard`, endpoint: 'getUser'})
+        res.status(200).render('users/userDetails', { user: response.data.user, title: `${response.data.user.userName}'s dashboard`, endpoint: 'getUser'})
     }catch(err: any){
         res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
     }
