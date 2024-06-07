@@ -7,7 +7,7 @@
   <div id="register2-container" class="container">
     <div class="back-button">
       <a href="/signup" class="icon-button">
-          <i class="icon-arrow-left"></i>
+          <i class="fas fa-arrow-left"></i>
         </a>
     </div>
     <header>
@@ -18,41 +18,66 @@
       <form id="registrationFormStep2" action="/signup" method="post">
         <div class="input-group">
           <input type="text" name="profession" placeholder="Profession">
-          <button type="button" class="icon-button"><i class="icon-dropdown"></i></button>
+          <div class="icon-button">
+            <i class="fas fa-briefcase"></i>
+          </div>
         </div>
         <div class="input-group">
           <input type="text" name="addressLine1" placeholder="Address 1">
-          <button type="button" class="icon-button"><i class="icon-home"></i></button>
+          <div class="icon-button">
+            <i class="fas fa-home"></i>
+          </div>
         </div>
         <div class="input-group">
           <input type="text" name="addressLine2" placeholder="Address 2">
-          <button type="button" class="icon-button"><i class="icon-home"></i></button>
+          <div class="icon-button">
+            <i class="fas fa-home"></i>
+          </div>
         </div>
         <div class="input-group">
           <input type="text" name="city" placeholder="City">
-          <button type="button" class="icon-button"><i class="icon-city"></i></button>
+          <div class="icon-button">
+            <i class="fas fa-city"></i>
+          </div>
         </div>
         <div class="input-group">
           <input type="text" name="code" placeholder="Zip Code">
-          <button type="button" class="icon-button"><i class="icon-postcode"></i></button>
+          <div class="icon-button">
+            <i class="fas fa-map-pin"></i>
+          </div>
         </div>
         <div class="upload-section">
           <p>Please upload a proof of ID e.g Passport, National ID card or Driver's License.</p>
           <div class="upload-box">
-            <i class="icon-upload"></i>
-            <p>Accepted formats are JPG and PNG.</p>
+            <input type="file" name="files" accept="image/jpeg, image/png" id="proofOfID" onchange="uploadFile()">
+            <label for="proofOfID">
+              <i class="fas fa-image"></i>
+              <p>Accepted formats are JPG and PNG.</p>
+            </label>
           </div>
+          <div id="uploadResponse" class="upload-response"></div>
         </div>
         <div class="checkbox-group">
           <input type="checkbox" id="tcs" name="tcs" value="true" required>
-          <label for="tcs">Accept <a href="#">Terms & Conditions</a></label>
+          <label for="tcs">Accept <a href="#" id="termsLink">Terms & Conditions</a></label>
         </div>
         <input type="hidden" id="step1Data" name="step1Data" value="">
         <button type="button" class="next-button" onclick="submitFormData()">Create New Account</button>
       </form>
     </main>
   </div>
-</body>
+
+  <!-- Terms & Conditions Modal -->
+  <div id="termsModal" class="modal">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <h2></h2></br>
+      <p style="text-align: center;"></p></br>
+      <button id="agreeButton" class="agree-button">I Agree</button>
+    </div>
+  </div>
+
 
 {% include "partials/footer.njk" %}
+</body>
 </html>

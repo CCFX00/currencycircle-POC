@@ -4,7 +4,7 @@
 {% include "partials/header.njk" %} 
 
 <body>
-  <div id="intro1-container" class="container">
+  <div id="intro">
     <div class="content">
       <img id="intro-image" src="/images/image1.png" alt="Image" class="image">
       <div class="text">
@@ -17,8 +17,13 @@
         <span class="dot" data-index="2"></span>
         <span class="dot" data-index="3"></span>
         <span class="dot" data-index="4"></span>
+      </div></br></br>
+      {# <a href="/signup" class="button">Next</a> #}
+      <div class="navigation-buttons">
+        <a href="#" class="back-button">Back</a>
+        <a href="/signup" class="next-button-arrow"><i class="fas fa-arrow-right"></i></a>
+        <a href="/signup" class="skip-button">Skip</a>
       </div>
-      <a href="/signup" class="button">Next</a>
     </div>
   </div>
 </body>

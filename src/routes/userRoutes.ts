@@ -21,6 +21,8 @@ userRouter.post('/verify', userController.verificationPost)
 userRouter.get('/resend', userController.resendOtpGet)
 userRouter.post('/resend', userController.resendOtpPost)
 userRouter.get('/test', userController.test)
-
+userRouter.get('/tcs/latest', userController.getLatestTcs)
+userRouter.post('/upload', userController.uploadFile)
+userRouter.get('/user', userController.getUsers)
 
 export default userRouter

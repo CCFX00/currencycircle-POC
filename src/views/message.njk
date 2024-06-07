@@ -14,6 +14,22 @@
             {% else %}
                 <p style="color: red;">{{ message }}</p>
             {% endif %}
+        {% elif endpoint === 'getUser' %}
+            <p>User's title: {{ user.title }}</p>
+            <p>User's name: {{ user.title }}. {{ user.name }}</p>
+            <p>User's date of birth: {{ user.dob }}</p>
+            <p>User's user name: {{ user.userName }}</p>
+            <p>User's profession: {{ user.profession }}</p>
+            <p>User's email: {{ user.email }}</p>
+            <p>User's phone number: {{ user.phoneNumber }}</p>
+            <p>User's country: {{ user.country }}</p>
+            {% if user.addressLine1 %}
+                <p>User's addressline: {{ user.addressline1 }}</p>
+            {% else %}
+                <p>User's addressline: {{ user.addressline2 }}</p>
+            {% endif %}
+            <p>User's city: {{ user.city }}</p>
+            <p>User's zip code: {{ user.code }}</p>
         {% else %}
             <p>{{ message }}</p>
         {% endif %}

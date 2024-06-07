@@ -20,7 +20,7 @@
             <p>{{ message }}</p>
             <a href="/verify" class="button">Verify User</a>
         {% elif endpoint === 'verificationFailed' %}
-            <p>{{ message }}</p>
+            <p style="color: red;">{{ message }}</p>
             <a href="/verify" class="button">Go Back</a>
         {% elif endpoint === 'userVerified' %}
             <p>{{ message }}</p>

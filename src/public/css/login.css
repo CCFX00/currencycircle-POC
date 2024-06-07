@@ -1,3 +1,154 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: url("/images/background.jpg") no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+}
+
+.container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  background: rgba(41, 50, 81, 0);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image {
+  max-width: 100%;
+  height: auto;
+}
+
+.text {
+  margin-top: 20px;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-top: 20px;
+  background-color: #0cb19b;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+.button:hover {
+  background-color: #36ffc3;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: url("/images/background.jpg") no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+}
+
+.container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  background: rgba(41, 50, 81, 0);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image {
+  max-width: 100%;
+  height: auto;
+}
+
+.text {
+  margin-top: 20px;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-top: 20px;
+  background-color: #0cb19b;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+.button:hover {
+  background-color: #ff5a36;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: url("/images/background.jpg") no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+}
+
+.container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  background: rgba(41, 50, 81, 0);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image {
+  max-width: 100%;
+  height: auto;
+}
+
+.text {
+  margin-top: 20px;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-top: 20px;
+  background-color: #0cb19b;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+.button:hover {
+  background-color: #036464;
+}
+
+footer {
+  text-align: center;
+}
+
 body, html, form, input, button {
   margin: 0;
   padding: 0;
@@ -12,9 +163,11 @@ body, html, form, input, button {
 }
 .container .logo {
   margin-bottom: 30px;
+  margin: 20px auto;
 }
 .container .logo img {
-  max-width: 100px;
+  max-width: 150px;
+  margin: 20px auto;
 }
 .container h1 {
   font-size: 24px;
@@ -61,6 +214,9 @@ body, html, form, input, button {
   cursor: pointer;
   margin-bottom: 20px;
 }
+.container .login-button:hover {
+  background-color: #036464;
+}
 .container .or-divider {
   display: flex;
   align-items: center;
@@ -98,10 +254,18 @@ body, html, form, input, button {
   margin-right: 10px;
 }
 .container .social-buttons .facebook-button {
-  color: #3b5998;
+  color: #01409f;
+}
+.container .social-buttons .facebook-button:hover {
+  color: white;
+  background-color: #01409f;
 }
 .container .social-buttons .google-button {
-  color: #db4a39;
+  color: red;
+}
+.container .social-buttons .google-button:hover {
+  color: white;
+  background-color: red;
 }
 .container .sign-up-text {
   margin-top: 20px;
@@ -109,6 +273,9 @@ body, html, form, input, button {
 .container .sign-up-text .sign-up-link {
   color: #00C58E;
   text-decoration: none;
+}
+.container .sign-up-text .sign-up-link:hover {
+  color: rgb(98, 201, 98);
 }
 
 /*# sourceMappingURL=login.css.map */

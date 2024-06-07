@@ -1,3 +1,6 @@
+@import "variables";
+@import "base";
+
 // Reset some default styles
 body, html, form, input, button {
     margin: 0;
@@ -18,9 +21,11 @@ body, html, form, input, button {
   
     .logo {
       margin-bottom: 30px;
+      margin: 20px auto;
   
       img {
-        max-width: 100px;
+        max-width: 150px;
+        margin: 20px auto;
       }
     }
   
@@ -74,6 +79,10 @@ body, html, form, input, button {
       border-radius: 5px;
       cursor: pointer;
       margin-bottom: 20px;
+
+      &:hover {
+        background-color: $hover-color;
+      }
     }
   
     .or-divider {
@@ -119,11 +128,22 @@ body, html, form, input, button {
       }
   
       .facebook-button {
-        color: #3b5998;
+        color: #01409f;
+
+        &:hover {
+          color: white;
+          background-color: #01409f;
+        }
+        
       }
   
       .google-button {
-        color: #db4a39;
+        color: red;
+
+        &:hover {
+          color: white;
+          background-color: red;
+        }
       }
     }
   
@@ -133,6 +153,10 @@ body, html, form, input, button {
       .sign-up-link {
         color: $accent-color;
         text-decoration: none;
+
+        &:hover {
+          color: rgb(98, 201, 98);
+        }
       }
     }
   }

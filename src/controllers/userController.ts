@@ -2,6 +2,7 @@ import axios, { AxiosResponse, AxiosError } from 'axios'
 import { Request, Response, NextFunction } from 'express'
 import { endpoints } from './endpoints'
 import catchAsyncErrors from '../middleware/catchAsyncErrors'
+import jwt, { sign, verify, decode } from 'jsonwebtoken';
 
 
 export const getWelcome = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
@@ -261,5 +262,56 @@ export const loginPost = catchAsyncErrors(async (req: Request, res: Response, ne
         }else{
             res.status(401).render('messageButton', { message: message, endpoint: 'loginWrongPass', title: 'Message' });
         }        
+    }
+})
+
+export const getLatestTcs = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+    try{
+        const { getLatestTcs } = endpoints
+
+        const response: AxiosResponse = await axios.get(getLatestTcs)
+
+        res.status(200).json({
+            Tcstitle: response.data[0].title,
+            content: response.data[0].content
+        })
+
+    }catch(err: any){
+        res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
+    }
+})
+
+export const uploadFile = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+    try{
+        const { fileUpload } = endpoints
+
+        console.log(req.body)
+
+        const {email, files} = req.body
+
+        const response:AxiosResponse = await axios.post(fileUpload, {
+            email,
+            files
+        })
+
+        res.status(200).json({
+            response: response.data
+        })
+    }catch(err: any){
+        res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
+    }
+})
+
+export const getUsers = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+    try{
+        const { access_token } = req.cookies
+
+        const decoded : any = jwt.verify(access_token, `${process.env._JWT_ACCESS_SECRET_KEY}`)
+
+        const response: AxiosResponse = await axios.get(`http://localhost:3000/ccfx/api/v1/user/${decoded.id}`)
+
+        res.status(200).render('message', { user: response.data.user, title: `${response.data.user.userName}'s dashboard`, endpoint: 'getUser'})
+    }catch(err: any){
+        res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
     }
 })
