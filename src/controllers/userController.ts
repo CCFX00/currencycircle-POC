@@ -2,7 +2,9 @@ import axios, { AxiosResponse, AxiosError } from 'axios'
 import { Request, Response, NextFunction } from 'express'
 import { endpoints } from './endpoints'
 import catchAsyncErrors from '../middleware/catchAsyncErrors'
-import jwt, { sign, verify, decode } from 'jsonwebtoken';
+import jwt, { sign, verify, decode } from 'jsonwebtoken'
+import { extractCookies } from '../utils/etractCookies'
+import { displayError } from '../utils/getError'
 
 
 export const getWelcome = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
@@ -65,9 +67,13 @@ export const logoutGet = catchAsyncErrors(async (req: Request, res: Response, ne
 
         const response: AxiosResponse = await axios.get(logout)
 
-        res.render('message', { message: response.data.message})
+        res.clearCookie("access_token", { expires: new Date(Date.now()), httpOnly: true })
+        res.clearCookie("refresh_token", { expires: new Date(Date.now()), httpOnly: true })
+        res.clearCookie("connect.sid", { httpOnly: true });
+
+        res.render('messageButton', { message: response.data.message, endpoint: 'logoutSuccess'})
     }catch(err: any) {
-        res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' });
+        res.status(401).render('messageButton', { message: err.response.data.message , data: err.response.data.success, title: 'Message', endpoint: 'logoutError' });
     }
 })
 
@@ -79,16 +85,64 @@ export const loginGet = catchAsyncErrors(async (req: Request, res: Response, nex
     }
 })
 
-export const ssoGoogle = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+export const ssoGooglePost = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
     try{
-        const {oauthGoogle} = endpoints
+        const {oauthGooglePost} = endpoints
 
-        const response: AxiosResponse = await axios.get(oauthGoogle)
+        // const response: AxiosResponse = await axios.get(oauthGoogle)
 
-        // res.redirect(oauthGoogle)
-
+        res.redirect(oauthGooglePost)
     }catch(err: any){
         res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
+    }
+})
+
+export const ssoGoogleGet = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+    try{
+        const {oauthGoogleGet} = endpoints
+        const { cookieHeader, access_token }: any = extractCookies(req)
+
+        const response: AxiosResponse = await axios.get(oauthGoogleGet, {
+            headers: {
+                Cookie: cookieHeader
+            }
+        })
+
+        // Get cookies from response headers
+        const cookies: string[] | undefined = response.headers['set-cookie']
+        
+        if (cookies) {
+            let accessToken: string | undefined
+            let refreshToken: string | undefined
+            let sessionToken: string | undefined
+
+            // Extract tokens from cookies
+            cookies.forEach(cookie => {
+                if (cookie.startsWith('access_token=')) {
+                    accessToken = cookie.split('=')[1].split(';')[0]
+                } else if (cookie.startsWith('refresh_token=')) {
+                    refreshToken = cookie.split('=')[1].split(';')[0]
+                } else if (cookie.startsWith('connect.sid=')) {
+                    sessionToken = cookie.split('=')[1].split(';')[0]
+                }
+            });
+
+            // Check if all tokens are present
+            if (!accessToken || !refreshToken ) {
+                throw new Error('One or more tokens not found in response cookies')
+            }
+
+            // Set tokens in your TypeScript app's cookies
+            res.cookie('access_token', accessToken, { httpOnly: true })
+            res.cookie('refresh_token', refreshToken, { httpOnly: true })
+
+            // Respond with a success message or other data if needed
+            res.status(200).render('users/userDetails', { user: response.data.user, title: `${response.data.user.userName}'s dashboard`, endpoint: 'getUser' })
+        } else {
+            throw new Error('Cookies not found in response headers')
+        }
+    }catch(err: any){
+        res.status(401).render('message', { message: err.response.data.message, data: err.response.data.success, title: 'Message' })
     }
 })
 
@@ -191,21 +245,9 @@ export const resendOtpPost = catchAsyncErrors(async (req: Request, res: Response
     }
 })
 
-export const userGet = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-    try{
-        const { getUser } = endpoints
-
-        const response: AxiosResponse = await axios.post(getUser)
-
-        res.status(200).render('users/userDetails', {title: 'User Details'})
-    }catch(err: any){
-        res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
-    }
-})
-
 export const test = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
     try{
-        res.status(200).render('welcome', {title: 'Welcome'})
+        res.status(200).render('users/userDetails', {title: 'User Details'})
     }catch(err: any){
         res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
     }
@@ -303,15 +345,25 @@ export const uploadFile = catchAsyncErrors(async (req: Request, res: Response, n
 })
 
 export const getUsers = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-    try{
-        const { access_token } = req.cookies
+    try {
+        const { cookieHeader, access_token }: any = extractCookies(req)
 
-        const decoded : any = jwt.verify(access_token, `${process.env._JWT_ACCESS_SECRET_KEY}`)
+        if (!access_token) {
+            throw new Error("Please login to access this resource");
+        }
 
-        const response: AxiosResponse = await axios.get(`http://localhost:3000/ccfx/api/v1/user/${decoded.id}`)
+        const decoded: any = jwt.verify(access_token, `${process.env._JWT_ACCESS_SECRET_KEY}`)
 
-        res.status(200).render('users/userDetails', { user: response.data.user, title: `${response.data.user.userName}'s dashboard`, endpoint: 'getUser'})
-    }catch(err: any){
-        res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
+        const response: AxiosResponse = await axios.get(`http://localhost:3000/ccfx/api/v1/user/${decoded.id}`, {
+            headers: {
+                Cookie: cookieHeader
+            }
+        })
+
+        res.status(200).render('users/userDetails', { user: response.data.user, title: `${response.data.user.userName}'s dashboard`, endpoint: 'getUser' })
+    } catch (err: any) {
+        const { errorMessage, status, success } = displayError(err)
+
+        res.status(status).render('messageButton', { message: errorMessage, data: success, title: 'Message', endpoint: 'loginFail' });
     }
-})
+});

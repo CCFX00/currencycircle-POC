@@ -29,11 +29,19 @@
             <p>{{ message | safe }}</p>
             <a href="/verify" class="button">Verify User</a>
         {% elif endpoint === 'login' %}
-            <p  style="color: red;">{{ message }}</p>
+            <p style="color: red;">{{ message }}</p>
             <a href="/verify" class="button">Verify my account</a>
         {% elif endpoint === 'loginWrongPass' %}
-            <p  style="color: red;">{{ message }}</p>
+            <p style="color: red;">{{ message }}</p>
             <a href="/login" class="button">Back to Login</a>
+        {% elif endpoint === 'logoutSuccess' %}
+            <p>{{ message }}</p>
+            <a href="/login" class="button">Login</a>
+            <a href="/signup" class="button">signup</a>
+        {% elif endpoint === 'loginFail' %}
+            <p style="color: red;">{{ message }}</p>
+            <a href="/login" class="button">Login</a>
+            <a href="/signup" class="button">signup</a>
         {% endif %}
 
     </div>

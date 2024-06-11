@@ -266,3 +266,15 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
+
+function redirectToFacebook() {
+  // window.location.href = '/sso/facebook';
+}
+
+function redirectToGoogle() {
+  window.location.href = '/sso/google';
+}
+
+function signout(){
+  window.location.href = '/logout';
+}

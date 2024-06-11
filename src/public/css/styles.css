@@ -1612,4 +1612,156 @@ footer {
   opacity: 0;
 }
 
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: transparent;
+  padding: 10px;
+}
+header .header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+header .header-container .menu-icon {
+  font-size: 24px;
+  margin-right: 10px;
+  cursor: pointer;
+  color: #ffffff;
+}
+header .header-container h1 {
+  margin: 0;
+  font-size: 24px;
+  text-align: center;
+  flex-grow: 1;
+  color: #ffffff;
+}
+
+.trader-card {
+  background-color: rgba(8, 72, 168, 0.0666666667);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-top: 20px;
+}
+.trader-card .profile-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.trader-card .profile-container img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+.trader-card .profile-container h2 {
+  margin: 0;
+  font-size: 20px;
+  flex-grow: 1;
+  margin-top: 40px;
+  margin-bottom: 0px;
+}
+.trader-card .profile-container .rating {
+  color: #FFC107;
+  margin-left: 10px;
+  margin-top: 1px;
+}
+.trader-card .profile-container .edit-profile-icon {
+  font-size: 20px;
+  cursor: pointer;
+  margin-left: 190px;
+}
+.trader-card .trader-info p {
+  margin: 5px 0;
+  text-align: left;
+}
+.trader-card .trader-info p i {
+  color: #00c5b6;
+  margin-right: 5px;
+}
+
+.navigation-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  background-color: #ffffff;
+  border-radius: 35px;
+  padding: 10px;
+}
+.navigation-container button {
+  background-color: #00c5b6;
+  color: #ffffff;
+  border: none;
+  padding: 10px 10px;
+  border-radius: 15px;
+  justify-content: space-evenly;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.no-offers-container {
+  background-color: transparent;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-top: 20px;
+  text-align: center;
+}
+.no-offers-container p {
+  margin-bottom: 10px;
+}
+.no-offers-container img {
+  max-width: 200px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+.no-offers-container .create-offer-btn {
+  background-color: transparent;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  margin-top: 10px;
+}
+.no-offers-container .create-offer-btn .plus-icon {
+  font-size: 20px;
+  font-weight: bold;
+  color: #F5F5F5;
+  background-color: #00c5b6;
+  border-radius: 50%;
+}
+
+.icons-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  background-color: #FFFFFF;
+  border-radius: 8px;
+  padding: 10px;
+}
+.icons-container .wallet-icon {
+  color: #474545;
+}
+.icons-container .add-icon {
+  color: #00c5b6;
+}
+.icons-container .notification-icon {
+  color: #474545;
+}
+.icons-container .settings-icon {
+  color: #474545;
+}
+.icons-container div {
+  font-size: 24px;
+  margin: 0 10px;
+  cursor: pointer;
+  justify-content: space-evenly;
+}
+
 /*# sourceMappingURL=styles.css.map */
