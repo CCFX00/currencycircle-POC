@@ -1,0 +1,321 @@
+@charset "UTF-8";
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: url("/images/background.jpg") no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+}
+
+.container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  background: rgba(41, 50, 81, 0);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image {
+  max-width: 100%;
+  height: auto;
+}
+
+.text {
+  margin-top: 20px;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-top: 20px;
+  background-color: #0cb19b;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+.button:hover {
+  background-color: #36ffc3;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: url("/images/background.jpg") no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+}
+
+.container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  background: rgba(41, 50, 81, 0);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image {
+  max-width: 100%;
+  height: auto;
+}
+
+.text {
+  margin-top: 20px;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-top: 20px;
+  background-color: #0cb19b;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+.button:hover {
+  background-color: #ff5a36;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: url("/images/background.jpg") no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+}
+
+.container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  background: rgba(41, 50, 81, 0);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image {
+  max-width: 100%;
+  height: auto;
+}
+
+.text {
+  margin-top: 20px;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-top: 20px;
+  background-color: #0cb19b;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+.button:hover {
+  background-color: #036464;
+}
+
+footer {
+  text-align: center;
+}
+
+#intro {
+  font-family: "Arial", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  background-image: url("/images/background.jpg");
+  background-size: cover;
+  background-position: center;
+  flex-direction: column;
+  position: relative; /* Position for the navigation buttons */
+  margin: auto;
+  /* Add CSS styles for the dots container */
+  /* Add CSS styles for the dots */
+  /* Add CSS styles for the active dot */
+}
+#intro #intro-image {
+  transition: opacity 1s ease; /* Adjust the transition duration as needed */
+  margin: 20px auto;
+}
+#intro .content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Ensure content is left-aligned */
+}
+#intro .dots-container {
+  display: flex;
+  justify-content: flex-start; /* Align dots to the left */
+  align-items: center;
+  margin-top: 20px;
+  width: 100%; /* Ensure the container takes the full width */
+}
+#intro .dot {
+  height: 12px;
+  width: 12px;
+  margin: 0 5px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+#intro .dot.active {
+  background-color: #05b497;
+}
+#intro .navigation-buttons {
+  display: flex;
+  justify-content: space-between; /* Distribute buttons evenly */
+  align-items: center; /* Align buttons vertically */
+  width: 100%;
+  position: absolute;
+  bottom: 10px; /* Adjust the distance from the bottom as needed */
+  left: 10px; /* Align Back button to bottom left */
+}
+#intro .navigation-buttons .back-button,
+#intro .navigation-buttons .skip-button {
+  color: #aaa;
+  font-size: 1rem;
+  text-decoration: none;
+  margin-right: 20px;
+}
+#intro .navigation-buttons .back-button:hover,
+#intro .navigation-buttons .skip-button:hover {
+  color: #fff;
+}
+#intro .navigation-buttons .next-button-arrow {
+  background-color: #05b497;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  font-size: 1.5rem;
+  transition: background-color 0.3s;
+  position: relative;
+}
+#intro .navigation-buttons .next-button-arrow:before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 1px solid #05b497;
+  animation: pulse 2s infinite;
+}
+#intro .navigation-buttons .next-button-arrow:hover {
+  background-color: #036464;
+}
+#intro .navigation-buttons .next-button-arrow i {
+  margin: 0;
+  content: "⟶"; /* Unicode for right-pointing arrow */
+}
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  #app {
+    max-width: 300px;
+  }
+  #app .text h1 {
+    font-size: 1.2rem;
+  }
+  #app .text p {
+    font-size: 0.9rem;
+  }
+  #app .navigation-buttons .back-button,
+  #app .navigation-buttons .skip-button {
+    font-size: 0.9rem;
+    margin-right: 15px;
+  }
+  #app .navigation-buttons .next-button-arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+  #app .navigation-buttons .next-button-arrow:before {
+    width: 50px;
+    height: 50px;
+    top: -5px;
+    left: -5px;
+  }
+}
+@media (max-width: 480px) {
+  #app {
+    max-width: 250px;
+  }
+  #app .text h1 {
+    font-size: 1rem;
+  }
+  #app .text p {
+    font-size: 0.8rem;
+  }
+  #app .navigation-buttons .back-button,
+  #app .navigation-buttons .skip-button {
+    font-size: 0.8rem;
+    margin-right: 10px;
+  }
+  #app .navigation-buttons .next-button-arrow {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+  #app .navigation-buttons .next-button-arrow:before {
+    width: 45px;
+    height: 45px;
+    top: -5px;
+    left: -5px;
+  }
+}
+
+/*# sourceMappingURL=intro.css.map */

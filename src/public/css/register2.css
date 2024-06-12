@@ -1,0 +1,316 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: url("/images/background.jpg") no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+}
+
+.container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  background: rgba(41, 50, 81, 0);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image {
+  max-width: 100%;
+  height: auto;
+}
+
+.text {
+  margin-top: 20px;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-top: 20px;
+  background-color: #0cb19b;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+.button:hover {
+  background-color: #36ffc3;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: url("/images/background.jpg") no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+}
+
+.container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  background: rgba(41, 50, 81, 0);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image {
+  max-width: 100%;
+  height: auto;
+}
+
+.text {
+  margin-top: 20px;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-top: 20px;
+  background-color: #0cb19b;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+.button:hover {
+  background-color: #ff5a36;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: url("/images/background.jpg") no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+}
+
+.container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  background: rgba(41, 50, 81, 0);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image {
+  max-width: 100%;
+  height: auto;
+}
+
+.text {
+  margin-top: 20px;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-top: 20px;
+  background-color: #0cb19b;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+.button:hover {
+  background-color: #036464;
+}
+
+footer {
+  text-align: center;
+}
+
+#register2-container header .logo {
+  max-width: 150px;
+  margin: 20px auto;
+}
+#register2-container main h1 {
+  margin-bottom: 20px;
+}
+#register2-container main .input-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+#register2-container main .input-group input {
+  flex-grow: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+#register2-container main .input-group .icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+#register2-container main .input-group .icon-button i {
+  font-size: 20px;
+  color: #fff;
+}
+#register2-container main .checkbox-group {
+  display: flex;
+  align-items: center;
+  margin-top: 50px;
+}
+#register2-container main .checkbox-group input {
+  margin-right: 10px;
+}
+#register2-container main .checkbox-group label a {
+  color: #0cb19b;
+}
+#register2-container main .next-button {
+  padding: 10px 20px;
+  background-color: #05b497;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 20px;
+}
+#register2-container main .next-button:hover {
+  background-color: #036464;
+}
+
+.upload-section {
+  margin-top: 40px;
+  text-align: center;
+}
+.upload-section p {
+  margin-bottom: 10px;
+}
+.upload-section .upload-box {
+  padding: 20px;
+  background-color: rgba(92, 178, 221, 0.3176470588);
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  border: 2px dashed #05b497;
+  transition: border-color 0.3s;
+  width: 275px;
+  height: 100px;
+  margin: auto;
+}
+.upload-section .upload-box input[type=file] {
+  display: none;
+}
+.upload-section .upload-box label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+.upload-section .upload-box label i {
+  font-size: 30px;
+  color: #fff;
+  margin-bottom: 10px;
+}
+.upload-section .upload-box label p {
+  margin: 0;
+  color: #fff;
+}
+.upload-section .upload-box:hover i {
+  color: #05b497;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #02485a;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 10px;
+  text-align: center;
+}
+.modal-content h2 {
+  margin-top: 0;
+}
+.modal-content p {
+  text-align: left;
+  margin-bottom: 20px;
+}
+.modal-content .agree-button {
+  padding: 10px 20px;
+  background-color: #05b497;
+  color: #fff;
+  border: none;
+  font-size: large;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.modal-content .agree-button:hover {
+  background-color: #038d6b;
+}
+
+.close-button {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.close-button:hover, .close-button:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.container #registrationFormStep2 .input-group .icon-button {
+  background-color: #00C58E;
+  border: none;
+  color: #fff;
+  padding: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border-radius: 0 5px 5px 0;
+  width: 20px;
+}
+
+/*# sourceMappingURL=register2.css.map */

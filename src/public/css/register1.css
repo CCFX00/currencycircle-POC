@@ -1,0 +1,40 @@
+body, html, form, input, button {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+#registrationFormStep1 header .logo {
+  max-width: 150px;
+  margin: 20px auto;
+}
+#registrationFormStep1 .form-group {
+  margin-bottom: 15px;
+  text-align: start;
+}
+#registrationFormStep1 .form-group input,
+#registrationFormStep1 .form-group select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: none;
+  border-radius: 5px;
+  text-align: justify;
+}
+
+.container #registrationFormStep1 .input-group .icon-button {
+  background-color: #00C58E;
+  border: none;
+  color: #fff;
+  padding: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border-radius: 0 5px 5px 0;
+  width: 20px;
+}
+
+/*# sourceMappingURL=register1.css.map */

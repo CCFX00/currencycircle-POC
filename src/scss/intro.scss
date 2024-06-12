@@ -1,0 +1,194 @@
+@import "variables";
+@import "base";
+
+#intro {
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  background-image: url('/images/background.jpg');
+  background-size: cover;
+  background-position: center;
+  flex-direction: column;
+  position: relative; /* Position for the navigation buttons */
+  margin: auto;
+
+  #intro-image {
+    transition: opacity 1s ease; /* Adjust the transition duration as needed */
+    margin: 20px auto;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Ensure content is left-aligned */
+  }
+
+  /* Add CSS styles for the dots container */
+  .dots-container {
+    display: flex;
+    justify-content: flex-start; /* Align dots to the left */
+    align-items: center;
+    margin-top: 20px;
+    width: 100%; /* Ensure the container takes the full width */
+  }
+
+  
+  /* Add CSS styles for the dots */
+  .dot {
+    height: 12px;
+    width: 12px;
+    margin: 0 5px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+  }
+
+  /* Add CSS styles for the active dot */
+  .dot.active {
+    background-color: #05b497;
+  }
+
+  .navigation-buttons {
+    display: flex;
+    justify-content: space-between; /* Distribute buttons evenly */
+    align-items: center; /* Align buttons vertically */
+    width: 100%;
+    position: absolute;
+    bottom: 10px; /* Adjust the distance from the bottom as needed */
+    left: 10px; /* Align Back button to bottom left */
+
+    .back-button,
+    .skip-button {
+      color: #aaa;
+      font-size: 1rem;
+      text-decoration: none;
+      margin-right: 20px;
+
+      &:hover {
+        color: #fff;
+      }
+    }
+
+    .next-button-arrow {
+      background-color: #05b497;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
+      font-size: 1.5rem;
+      transition: background-color 0.3s;
+      position: relative;
+
+      &:before {
+        content: "";
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        border: 1px solid #05b497;
+        animation: pulse 2s infinite;
+      }
+
+      &:hover {
+        background-color: $hover-color;
+      }
+
+      i {
+        margin: 0;
+        content: "\27F6"; /* Unicode for right-pointing arrow */
+      }
+    }
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1.5);
+      opacity: 0;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  #app {
+    max-width: 300px;
+
+    .text h1 {
+      font-size: 1.2rem;
+    }
+
+    .text p {
+      font-size: 0.9rem;
+    }
+
+    .navigation-buttons .back-button,
+    .navigation-buttons .skip-button {
+      font-size: 0.9rem;
+      margin-right: 15px;
+    }
+
+    .navigation-buttons .next-button-arrow {
+      width: 40px;
+      height: 40px;
+      font-size: 1.2rem;
+
+      &:before {
+        width: 50px;
+        height: 50px;
+        top: -5px;
+        left: -5px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  #app {
+    max-width: 250px;
+
+    .text h1 {
+      font-size: 1rem;
+    }
+
+    .text p {
+      font-size: 0.8rem;
+    }
+
+    .navigation-buttons .back-button,
+    .navigation-buttons .skip-button {
+      font-size: 0.8rem;
+      margin-right: 10px;
+    }
+
+    .navigation-buttons .next-button-arrow {
+      width: 35px;
+      height: 35px;
+      font-size: 1rem;
+
+      &:before {
+        width: 45px;
+        height: 45px;
+        top: -5px;
+        left: -5px;
+      }
+    }
+  }
+}

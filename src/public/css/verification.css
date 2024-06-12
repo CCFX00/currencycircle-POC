@@ -1,0 +1,29 @@
+.container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  background: rgba(41, 50, 81, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  text-align: center;
+}
+.container button {
+  border: none;
+}
+.container .input-group .icon-button {
+  background-color: #00C58E;
+  border: none;
+  color: #fff;
+  padding: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border-radius: 0 5px 5px 0;
+  width: 20px;
+}
+
+/*# sourceMappingURL=verification.css.map */

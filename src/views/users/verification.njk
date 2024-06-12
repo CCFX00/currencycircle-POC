@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% include "partials/header.njk" %}
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Verification Code</h1>
+            <div class="spacer"></div>
+        </header>
+        <main>
+            <p>Verify Your Account</p></br>
+            <h1>Enter 4-digit</br>Verification Code</h1>
+            <p>The code has been sent to your email.</br>This code will expire in <span style="color: #00d1b2; font-weight: bold;">1 hour<span>.</p>
+            <form action="/verify" method="post" id="verifyUser">
+                
+                <div class="input-group">
+                    <input type="text" id="email" name="email" placeholder="Enter your email">
+                    <button type="button" class="icon-button">
+                        <i class="fas fa-envelope"></i>
+                    </button>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="verificationCode" name="otp" placeholder="Enter 4-digit Verification code" maxlength="4">
+                    <button type="button" class="icon-button">
+                        <i class="fas fa-map-pin"></i>
+                    </button>
+                </div>
+                <div class="action-buttons">
+                    <button class="button">Submit</button></br></br>
+                </div>
+            </form>
+            <a href="/resend" style="color: #05b497;">Resend Code</a>
+            </br></br>
+            <div class="or-divider">
+                <span>Or</span>
+            </div>
+            <div>
+                <button class="button" onclick="redirectToEndpoint(this)">Signup</button>
+                <button class="button" onclick="redirectToEndpoint(this)">Login</button>
+            </div>
+        </main>
+    </div>
+
+    {% include "partials/footer.njk" %}
+</body>
+</html>

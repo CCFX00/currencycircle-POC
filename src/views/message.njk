@@ -6,7 +6,18 @@
 <body>
     <div class="container">
         <h1>Message</h1>
-        <p>{{ message }}</p>
+
+        {% if data === false %}
+            {% if endpoint == 'signupFail' %}
+                <p style="color: red;">{{ message }}</p>
+                <a href="/signup" class="button">Back to Signup</a>
+            {% else %}
+                <p style="color: red;">{{ message }}</p>
+            {% endif %}
+        {% else %}
+            <p>{{ message }}</p>
+        {% endif %}
+
     </div>
 
     {% include "partials/footer.njk" %}

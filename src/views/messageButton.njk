@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% include "partials/header.njk" %}
+
+<body>
+    <div class="container">
+        <h1>Message</h1>
+
+        {% if endpoint === 'forgotPassword' %}        
+            <p>{{ message }}</p>
+            <a href="/password/reset" class="button">Reset Password</a>
+        {% elif endpoint === 'updatedPassword' %}
+            <p>{{ message }}</p>
+            <a href="/login" class="button">Login</a>
+        {% elif endpoint === 'loggedIn' %}
+            <p>{{ message }}</p>
+            <a href="/user" class="button">Explore</a>
+        {% elif endpoint === 'resendOtp' %}
+            <p>{{ message }}</p>
+            <a href="/verify" class="button">Verify User</a>
+        {% elif endpoint === 'verificationFailed' %}
+            <p style="color: red;">{{ message }}</p>
+            <a href="/verify" class="button">Go Back</a>
+        {% elif endpoint === 'userVerified' %}
+            <p>{{ message }}</p>
+            <a href="/login" class="button">Login</a>
+        {% elif endpoint === 'signup' %}
+            <p>{{ message | safe }}</p>
+            <a href="/verify" class="button">Verify User</a>
+        {% elif endpoint === 'login' %}
+            <p style="color: red;">{{ message }}</p>
+            <a href="/verify" class="button">Verify my account</a>
+        {% elif endpoint === 'loginWrongPass' %}
+            <p style="color: red;">{{ message }}</p>
+            <a href="/login" class="button">Back to Login</a>
+        {% elif endpoint === 'logoutSuccess' %}
+            <p>{{ message }}</p>
+            <a href="/login" class="button">Login</a>
+            <a href="/signup" class="button">signup</a>
+        {% elif endpoint === 'loginFail' %}
+            <p style="color: red;">{{ message }}</p>
+            <a href="/login" class="button">Login</a>
+            <a href="/signup" class="button">signup</a>
+        {% endif %}
+
+    </div>
+
+    {% include "partials/footer.njk" %}
+</body>
+</html>

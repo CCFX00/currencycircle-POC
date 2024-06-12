@@ -4,58 +4,79 @@
 {% include "partials/header.njk" %}
 
 <body>
-    <div class="container">
-        <h1>Registration - Step 1</h1>
-        <form id="registrationFormStep1">
-            <div class="form-group">
-                <label for="title">Title</label>
-                <select id="title" name="title" required>
-                    <option value="" disabled selected>Title</option>
-                    <option value="Mr">Mr</option>
-                    <option value="Mrs">Mrs</option>
-                    <option value="Ms">Ms</option>
-                    <option value="Dr">Dr</option>
-                    <option value="Prof">Prof</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="name">Full Name</label>
-                <input type="text" id="name" name="name" placeholder="Full Name" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="Email" required>
-            </div>
-            <div class="form-group">
-                <label for="userName">Username</label>
-                <input type="text" id="userName" name="userName" placeholder="Username" required>
-            </div>
-            <div class="form-group">
-                <label for="country">Country</label>
-                <select id="country" name="country" required>
-                    <option value="" disabled selected>Select your country</option>
-                    <option value="Germany">Germany</option>
-                    <option value="USA">USA</option>
-                    <option value="UK">UK</option>
-                    <option value="Canada">Canada</option>
-                    <!-- Add more countries here -->
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="phoneNumber">Phone Number</label>
-                <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Phone Number" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Password" required>
-            </div>
-            <div class="form-group">
-                <label for="dob">Date of Birth</label>
-                <input type="date" id="dob" name="dob" required>
-            </div>
-            <input type="hidden" id="step1Data" name="step1Data" value="">
-            <button type="button" onclick="nextStep()">Next</button>
-        </form>
+    <div id="register2-container" class="container">
+        <header>
+            <img src="/images/logo.png" alt="Currency Circle Logo" class="logo">
+        </header>
+        <h1>Create New Account</h1>
+        <main>
+            <form id="registrationFormStep1">
+                <div class="form-group">
+                    <select name="title" required>
+                        <option value="" disabled selected>Title</option>
+                        <option value="Mr">Mr</option>
+                        <option value="Mrs">Mrs</option>
+                        <option value="Ms">Ms</option>
+                        <option value="Dr">Dr</option>
+                        <option value="Prof">Prof</option>
+                    </select>
+                    {# <div class="icon-button">
+                        <i class="fas fa-user"></i>
+                    </div> #}
+                </div>
+                <div class="input-group">
+                    <input type="text" name="name" placeholder="Full Name" required>
+                    <div class="icon-button">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <input type="email" name="email" placeholder="Email" required>
+                    <div class="icon-button">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <input type="text" name="userName" placeholder="Username" required>
+                    <div class="icon-button">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <select name="country" required>
+                        <option value="" disabled selected>Select your country</option>
+                        <option value="Germany">Germany</option>
+                        <option value="USA">USA</option>
+                        <option value="UK">UK</option>
+                        <option value="Canada">Canada</option>
+                    </select>
+                    {# <div class="icon-button">
+                        <i class="fas fa-globe"></i>
+                    </div> #}
+                </div>
+                <div class="input-group">
+                    <input type="text" name="phoneNumber" placeholder="Phone Number" required>
+                    <div class="icon-button">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <input type="password" name="password" placeholder="Password" required>
+                    <div class="icon-button">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <input type="date" name="dob" placeholder="Date Of Birth" required>
+                    <div class="icon-button">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                </div>
+                <input type="hidden" id="step1Data" name="step1Data" value="">
+                <button class="next-button" type="button" onclick="nextStep()">Next</button>
+            </form>
+        </main>
+        <p>Existing Member? <a href="/login" style="color: #05b497;">Sign In</a></p>
     </div>
 
     {% include "partials/footer.njk" %}
