@@ -56,12 +56,13 @@ function uploadFile() {
       })
       .catch(error => {
           uploadResponseDiv.textContent = "An error occurred during file upload.";
-          console.error("Error:", error);
       });
   } else {
       uploadResponseDiv.textContent = "Please select a file and provide a valid email.";
   }
 }
+
+
 
 
 
