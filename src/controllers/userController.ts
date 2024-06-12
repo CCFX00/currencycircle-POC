@@ -5,6 +5,7 @@ import catchAsyncErrors from '../middleware/catchAsyncErrors'
 import jwt, { sign, verify, decode } from 'jsonwebtoken'
 import { extractCookies } from '../utils/etractCookies'
 import { displayError } from '../utils/getError'
+import FormData from 'form-data';
 
 
 export const getWelcome = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
@@ -324,25 +325,40 @@ export const getLatestTcs = catchAsyncErrors(async (req: Request, res: Response,
 })
 
 export const uploadFile = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-    try{
-        const { fileUpload } = endpoints
+    try {
+        const { fileUpload } = endpoints;
+        const email = req.body.email;
+        const files: any = req.files;
 
-        console.log(req.body)
+        const file = files[0];
 
-        const {email, files} = req.body
+        // Create a FormData object to mimic the multipart/form-data payload
+        const formData = new FormData();
+        formData.append('email', email);
+        formData.append('file', file.buffer, file.originalname);
 
-        const response:AxiosResponse = await axios.post(fileUpload, {
-            email,
-            files
-        })
+         // Ensure axios uses the correct headers for multipart/form-data
+         const response: AxiosResponse = await axios.post(fileUpload, formData, {
+            headers: {
+                ...formData.getHeaders(), // Add multipart/form-data headers
+            },
+        });
+
+        console.log(response)
 
         res.status(200).json({
+            success: true,
+            message: response.data.message,
             response: response.data
-        })
-    }catch(err: any){
-        res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
+        });
+    } catch (err: any) {
+        res.status(500).json({
+            success: false,
+            message: 'An error occurred during file upload.',
+            error: err.message
+        });
     }
-})
+});
 
 export const getUsers = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
     try {

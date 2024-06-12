@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import * as userController from '../controllers/userController'
+import multer from 'multer';
 
 const userRouter = Router()
 
@@ -23,7 +24,7 @@ userRouter.get('/resend', userController.resendOtpGet)
 userRouter.post('/resend', userController.resendOtpPost)
 userRouter.get('/test', userController.test)
 userRouter.get('/tcs/latest', userController.getLatestTcs)
-userRouter.post('/upload', userController.uploadFile)
+userRouter.post('/upload', multer().any(), userController.uploadFile)
 userRouter.get('/user', userController.getUsers)
 
 export default userRouter
