@@ -7,7 +7,16 @@ import { extractCookies } from '../utils/etractCookies'
 import { displayError } from '../utils/getError'
 import FormData from 'form-data';
 
+// TEST CONTROLLER
+export const test = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+    try{
+        res.status(200).render('users/userDetails', {title: 'User Details'})
+    }catch(err: any){
+        res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
+    }
+})
 
+// INTRO CONTROLLERS
 export const getWelcome = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
     try{
         res.status(200).render('welcome', {title: 'Welcome'})
@@ -24,6 +33,8 @@ export const getIntro = catchAsyncErrors(async (req: Request, res: Response, nex
     }
 })
 
+// AUTH CONTROLLERS
+// Signing up
 export const signupGet1 = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
     try{
         res.render('users/register1', {title: 'Signup Step 1'})
@@ -62,195 +73,12 @@ export const signupPost = catchAsyncErrors(async (req: Request, res: Response, n
     }
 });
 
-export const logoutGet = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-    try{
-        const { logout } = endpoints
-
-        const response: AxiosResponse = await axios.get(logout)
-
-        res.clearCookie("access_token", { expires: new Date(Date.now()), httpOnly: true })
-        res.clearCookie("refresh_token", { expires: new Date(Date.now()), httpOnly: true })
-        res.clearCookie("connect.sid", { httpOnly: true });
-
-        res.render('messageButton', { message: response.data.message, endpoint: 'logoutSuccess'})
-    }catch(err: any) {
-        res.status(401).render('messageButton', { message: err.response.data.message , data: err.response.data.success, title: 'Message', endpoint: 'logoutError' });
-    }
-})
-
+// Logging in
 export const loginGet = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
     try{
         res.render('users/login', { title: 'User Login'})
     }catch(err){
         res.render('message', { message: err })
-    }
-})
-
-export const ssoGooglePost = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-    try{
-        const {oauthGooglePost} = endpoints
-
-        // const response: AxiosResponse = await axios.get(oauthGoogle)
-
-        res.redirect(oauthGooglePost)
-    }catch(err: any){
-        res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
-    }
-})
-
-export const ssoGoogleGet = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-    try{
-        const {oauthGoogleGet} = endpoints
-        const { cookieHeader, access_token }: any = extractCookies(req)
-
-        const response: AxiosResponse = await axios.get(oauthGoogleGet, {
-            headers: {
-                Cookie: cookieHeader
-            }
-        })
-
-        // Get cookies from response headers
-        const cookies: string[] | undefined = response.headers['set-cookie']
-        
-        if (cookies) {
-            let accessToken: string | undefined
-            let refreshToken: string | undefined
-            let sessionToken: string | undefined
-
-            // Extract tokens from cookies
-            cookies.forEach(cookie => {
-                if (cookie.startsWith('access_token=')) {
-                    accessToken = cookie.split('=')[1].split(';')[0]
-                } else if (cookie.startsWith('refresh_token=')) {
-                    refreshToken = cookie.split('=')[1].split(';')[0]
-                } else if (cookie.startsWith('connect.sid=')) {
-                    sessionToken = cookie.split('=')[1].split(';')[0]
-                }
-            });
-
-            // Check if all tokens are present
-            if (!accessToken || !refreshToken ) {
-                throw new Error('One or more tokens not found in response cookies')
-            }
-
-            // Set tokens in your TypeScript app's cookies
-            res.cookie('access_token', accessToken, { httpOnly: true })
-            res.cookie('refresh_token', refreshToken, { httpOnly: true })
-
-            // Respond with a success message or other data if needed
-            res.status(200).render('users/userDetails', { user: response.data.user, title: `${response.data.user.userName}'s dashboard`, endpoint: 'getUser' })
-        } else {
-            throw new Error('Cookies not found in response headers')
-        }
-    }catch(err: any){
-        res.status(401).render('message', { message: err.response.data.message, data: err.response.data.success, title: 'Message' })
-    }
-})
-
-export const forgotPasswordGet = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-    try{
-        res.status(200).render('users/forgotPassword', {title: 'Forgot Password'})
-    }catch(err: any){
-        res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
-    }
-})
-
-export const forgotPasswordPost = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-    try{
-        const { forgotPassword } = endpoints
-
-        const { email } = req.body        
-        
-        const response: AxiosResponse = await axios.post(forgotPassword, {
-            email
-        })
-
-        res.status(200).render('messageButton', { message: response.data.message , endpoint: 'forgotPassword', title: 'Forgot Password'})
-    }catch(err: any){
-        res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
-    }
-})
-
-export const resetPasswordGet = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-    try{
-        res.status(200).render('users/resetPassword', {title: 'Reset Password'})
-    }catch(err: any){
-        res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
-    }
-})
-
-export const resetPasswordPost = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-    try{
-        const { resetPassword } = endpoints
-
-        const { otp, password, confirmPassword } = req.body    
-
-        const response: AxiosResponse = await axios.put(resetPassword, {
-            otp,
-            password,
-            confirmPassword
-        })
-
-        res.status(200).render('messageButton', {  endpoint: 'updatedPassword', message: response.data.message, title: 'Message'})
-    }catch(err: any){
-        res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
-    }
-})
-
-export const verificationGet = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-    try{
-        res.status(200).render('users/verification', {title: 'Verification'})
-    }catch(err: any){
-        res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
-    }
-})
-
-export const verificationPost = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-    try{
-        const { verifyUser } = endpoints
-
-        const { otp, email } = req.body
-
-        const response: AxiosResponse  = await axios.post(verifyUser, {
-            email,
-            otp            
-        })
-
-        res.status(200).render('users/verified', { message: response.data.verificationStatus.message, title: 'Message', endpoint: 'userVerified'})
-    }catch(err: any){
-        res.status(401).render('messageButton', { message: err.response.data.message, title: 'Verification Error', endpoint: 'verificationFailed' })
-    }
-})
-
-export const resendOtpGet = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-    try{
-        res.status(200).render('users/resendVerification', {title: 'Verification'})
-    }catch(err: any){
-        res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
-    }
-})
-
-export const resendOtpPost = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-    try{
-        const { resendUserOTP } = endpoints
-
-        const { email } = req.body
-
-        const response: AxiosResponse = await axios.post(resendUserOTP, {
-            email
-        })
-
-        res.status(200).render('messageButton', { message: response.data.verificationStatus.message, endpoint: 'resendOtp', title: 'Resend OTP'})
-    }catch(err: any){
-        res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
-    }
-})
-
-export const test = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-    try{
-        res.status(200).render('users/userDetails', {title: 'User Details'})
-    }catch(err: any){
-        res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
     }
 })
 
@@ -308,58 +136,103 @@ export const loginPost = catchAsyncErrors(async (req: Request, res: Response, ne
     }
 })
 
-export const getLatestTcs = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+// Logging out
+export const logoutGet = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
     try{
-        const { getLatestTcs } = endpoints
+        const { logout } = endpoints
 
-        const response: AxiosResponse = await axios.get(getLatestTcs)
+        const response: AxiosResponse = await axios.get(logout)
 
-        res.status(200).json({
-            Tcstitle: response.data[0].title,
-            content: response.data[0].content
-        })
+        res.clearCookie("access_token", { expires: new Date(Date.now()), httpOnly: true })
+        res.clearCookie("refresh_token", { expires: new Date(Date.now()), httpOnly: true })
+        res.clearCookie("connect.sid", { httpOnly: true });
 
+        res.render('messageButton', { message: response.data.message, endpoint: 'logoutSuccess'})
+    }catch(err: any) {
+        res.status(401).render('messageButton', { message: err.response.data.message , data: err.response.data.success, title: 'Message', endpoint: 'logoutError' });
+    }
+})
+
+// Forgotten password
+export const forgotPasswordGet = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+    try{
+        res.status(200).render('users/forgotPassword', {title: 'Forgot Password'})
     }catch(err: any){
         res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
     }
 })
 
-export const uploadFile = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const { fileUpload } = endpoints;
-        const email = req.body.email;
-        const files: any = req.files;
+export const forgotPasswordPost = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+    try{
+        const { forgotPassword } = endpoints
 
-        const file = files[0];
+        const { email } = req.body        
+        
+        const response: AxiosResponse = await axios.post(forgotPassword, {
+            email
+        })
 
-        // Create a FormData object to mimic the multipart/form-data payload
-        const formData = new FormData();
-        formData.append('email', email);
-        formData.append('file', file.buffer, file.originalname);
-
-         // Ensure axios uses the correct headers for multipart/form-data
-         const response: AxiosResponse = await axios.post(fileUpload, formData, {
-            headers: {
-                ...formData.getHeaders(), // Add multipart/form-data headers
-            },
-        });
-
-        console.log(response)
-
-        res.status(200).json({
-            success: true,
-            message: response.data.message,
-            response: response.data
-        });
-    } catch (err: any) {
-        res.status(500).json({
-            success: false,
-            message: 'An error occurred during file upload.',
-            error: err.message
-        });
+        res.status(200).render('messageButton', { message: response.data.message , endpoint: 'forgotPassword', title: 'Forgot Password'})
+    }catch(err: any){
+        res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
     }
-});
+})
 
+// Resetting password
+export const resetPasswordGet = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+    try{
+        res.status(200).render('users/resetPassword', {title: 'Reset Password'})
+    }catch(err: any){
+        res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
+    }
+})
+
+export const resetPasswordPost = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+    try{
+        const { resetPassword } = endpoints
+
+        const { otp, password, confirmPassword } = req.body    
+
+        const response: AxiosResponse = await axios.put(resetPassword, {
+            otp,
+            password,
+            confirmPassword
+        })
+
+        res.status(200).render('messageButton', {  endpoint: 'updatedPassword', message: response.data.message, title: 'Message'})
+    }catch(err: any){
+        res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
+    }
+})
+
+// VERIFICATION CONTROLLERS
+export const verificationGet = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+    try{
+        res.status(200).render('users/verification', {title: 'Verification'})
+    }catch(err: any){
+        res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
+    }
+})
+
+export const verificationPost = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+    try{
+        const { verifyUser } = endpoints
+
+        const { otp, email } = req.body
+
+        const response: AxiosResponse  = await axios.post(verifyUser, {
+            email,
+            otp            
+        })
+
+        res.status(200).render('users/verified', { message: response.data.verificationStatus.message, title: 'Message', endpoint: 'userVerified'})
+    }catch(err: any){
+        res.status(401).render('messageButton', { message: err.response.data.message, title: 'Verification Error', endpoint: 'verificationFailed' })
+    }
+})
+
+// USER APIs
+// Getting users
 export const getUsers = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { cookieHeader, access_token }: any = extractCookies(req)
@@ -381,5 +254,40 @@ export const getUsers = catchAsyncErrors(async (req: Request, res: Response, nex
         const { errorMessage, status, success } = displayError(err)
 
         res.status(status).render('messageButton', { message: errorMessage, data: success, title: 'Message', endpoint: 'loginFail' });
+    }
+});
+
+// Uploading a file
+export const uploadFile = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { fileUpload } = endpoints;
+        const email = req.body.email;
+        const files: any = req.files;
+
+        const file = files[0];
+
+        // Create a FormData object to mimic the multipart/form-data payload
+        const formData = new FormData();
+        formData.append('email', email);
+        formData.append('file', file.buffer, file.originalname);
+
+         // Ensure axios uses the correct headers for multipart/form-data
+         const response: AxiosResponse = await axios.post(fileUpload, formData, {
+            headers: {
+                ...formData.getHeaders(), // Add multipart/form-data headers
+            },
+        });
+
+        res.status(200).json({
+            success: true,
+            message: response.data.message,
+            response: response.data
+        });
+    } catch (err: any) {
+        res.status(500).json({
+            success: false,
+            message: 'An error occurred during file upload.',
+            error: err.message
+        });
     }
 });

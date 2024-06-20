@@ -23,8 +23,14 @@ app.set('view engine', 'njk')
 
 // importing routes
 import userRoutes from './routes/userRoutes'
+import ssoRoutes from './routes/ssoRoutes'
+import tscsRoutes from './routes/tscsRoutes'
+import otpRoutes from './routes/otpRoutes'
 
 app.use(userRoutes)
+app.use(ssoRoutes)
+app.use(tscsRoutes)
+app.use(otpRoutes)
 
 app.use(ErrorHandler)
 
