@@ -95,6 +95,8 @@ function redirectToEndpoint(button) {
     endpoint = "/signup";
   } else if (buttonText === "login") {
     endpoint = "/login";
+  } else if (buttonText === "explore") {
+    endpoint = "/login";
   }
 
   if (endpoint) {
@@ -278,4 +280,8 @@ function redirectToGoogle() {
 
 function signout(){
   window.location.href = '/logout';
+}
+
+function createOffer(){
+  window.location.href = '/offer/create';
 }

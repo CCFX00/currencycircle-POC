@@ -26,11 +26,13 @@ import userRoutes from './routes/userRoutes'
 import ssoRoutes from './routes/ssoRoutes'
 import tscsRoutes from './routes/tscsRoutes'
 import otpRoutes from './routes/otpRoutes'
+import offerRoutes from './routes/offerRoutes'
 
 app.use(userRoutes)
 app.use(ssoRoutes)
 app.use(tscsRoutes)
 app.use(otpRoutes)
+app.use(offerRoutes)
 
 app.use(ErrorHandler)
 

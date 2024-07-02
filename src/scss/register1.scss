@@ -1,6 +1,3 @@
-// @import "variables";
-// @import "base";
-
 // Variables
 $primary-color: #3D4C5D;
 $accent-color: #00C58E;
@@ -35,21 +32,6 @@ body, html, form, input, button {
     border-radius: 5px;
     text-align: justify;
   }
-
-  // .next-button {
-  //   padding: 10px 20px;
-  //   background-color: #05b497;
-  //   color: #fff;
-  //   border: none;
-  //   border-radius: 5px;
-  //   cursor: pointer;
-  //   transition: background-color 0.3s;
-  //   margin-top: 20px;
-
-  //   &:hover {
-  //     background-color: #25e7d7;
-  //   }
-  // }
 }
 
 .container{
@@ -70,21 +52,5 @@ body, html, form, input, button {
         width: 20px;
       }
     } 
-
-    // .form-group{
-    //   .icon-button {
-    //     background-color: $accent-color;
-    //     border: none;
-    //     color: $text-color;
-    //     padding: 12px;
-    //     border-radius: 50%;
-    //     cursor: pointer;
-    //     display: flex;
-    //     align-items: center;
-    //     justify-content: center;
-    //     text-decoration: none;
-    //     border-radius: 0 5px 5px 0;
-    //   }
-    // } 
   }
 } 
