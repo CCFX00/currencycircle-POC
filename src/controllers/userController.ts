@@ -119,6 +119,7 @@ export const loginPost = catchAsyncErrors(async (req: Request, res: Response, ne
                 res.cookie('access_token', accessToken, { httpOnly: true });
                 res.cookie('refresh_token', refreshToken, { httpOnly: true });
                 res.cookie('connect.sid', sessionToken, { httpOnly: true });
+                res.cookie('user', JSON.stringify(response1.data.user), { httpOnly: true });
 
                 return res.redirect('/user')
             } else {
@@ -279,6 +280,7 @@ export const displayDashboard = catchAsyncErrors(async (req: Request, res: Respo
         const { getOffers } = endpoints;
         const accessToken = req.cookies['access_token'];
         const refreshToken = req.cookies['refresh_token'];
+        const user = JSON.parse(req.cookies['user'])
 
         if (!accessToken || !refreshToken) {
             return res.status(401).json({ message: 'Session expired. Please login' });
@@ -291,7 +293,7 @@ export const displayDashboard = catchAsyncErrors(async (req: Request, res: Respo
             }
         })
 
-        const { user, offers } = response.data
+        const { offers } = response.data
 
         res.status(200).render('users/userDetails', { user, offers, title: `${user.userName}'s dashboard` })
     } catch (err: any) {

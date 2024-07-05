@@ -18,5 +18,6 @@ export const endpoints = {
     getLatestTcs: 'http://localhost:3000/ccfx/api/v1/tcs/latest',
     fileUpload: 'http://localhost:3000/ccfx/api/v1/upload',
     getOffers: 'http://localhost:3000/ccfx/api/v1/offer/details',
-    getRate: 'http://localhost:3000/ccfx/api/v1/latest'
+    getRate: 'http://localhost:3000/ccfx/api/v1/latest',
+    createOffer: 'http://localhost:3000/ccfx/api/v1/offer/new'
 };
