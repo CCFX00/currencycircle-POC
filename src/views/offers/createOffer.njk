@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
+{# {% include "partials/header.njk" %} #}
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Create Offer</title>
   <link rel="stylesheet" href="/css/createoffer.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="/js/scripts.js" defer></script>
 </head>
+
 <body class="background">
   <div class="app">
     <header>
@@ -20,14 +25,14 @@
           <label>I have</label>
           <div class="input-group">
             <div class="flag-container">
-              <img src="/images/us.png" alt="US Flag" class="flag-icon">
+              <img src="/images/flags/us.png" alt="US Flag" class="flag-icon">
             </div>
             <select class="currency-select">
               <option value="USD" data-flag="/images/flags/us.png">USD</option>
               <option value="EUR" data-flag="/images/flags/eu.png">EUR</option>
               <option value="GBP" data-flag="/images/flags/gb.png">GBP</option>
               <option value="JPY" data-flag="/images/flags/jp.png">JPY</option>
-              <option value="XAF" data-flag="/images/flags/xaf.png">XAF</option>
+              <option value="XAF" data-flag="/images/flags/cm.png">XAF</option>
             </select>
             <div class="input-container">
               <span class="material-icons pencil-icon">edit</span>
@@ -46,14 +51,14 @@
           <label>I want</label>
           <div class="input-group">
             <div class="flag-container">
-              <img src="/images/xaf.png" alt="XAF Flag" class="flag-icon">
+              <img src="/images/flags/cm.png" alt="Cameroon flag" class="flag-icon">
             </div>
             <select class="currency-select">
-              <option value="USD" data-flag="/images/us.png">USD</option>
-              <option value="EUR" data-flag="/images/eu.png">EUR</option>
-              <option value="GBP" data-flag="/images/gb.png">GBP</option>
-              <option value="JPY" data-flag="/images/jp.png">JPY</option>
-              <option value="XAF" data-flag="/images/cm.png">XAF</option>
+              <option value="XAF" data-flag="/images/flags/cm.png">XAF</option>
+              <option value="USD" data-flag="/images/flags/us.png">USD</option>
+              <option value="EUR" data-flag="/images/flags/eu.png">EUR</option>
+              <option value="GBP" data-flag="/images/flags/gb.png">GBP</option>
+              <option value="JPY" data-flag="/images/flags/jp.png">JPY</option>              
             </select>
             <input type="text" value="792,200" readonly>
           </div>
@@ -88,26 +93,11 @@
     </main>
   
     <nav>
-      <button class="active"><span class="material-icons">account_balance_wallet</span></button>
+      <button class="active" onclick="displayDashboard()"><span class="material-icons">account_balance_wallet</span></button>
       <button><span class="material-icons">show_chart</span></button>
       <button><span class="material-icons">notifications</span></button>
       <button><span class="material-icons">settings</span></button>
     </nav>
   </div>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const selects = document.querySelectorAll('.currency-select');
-      selects.forEach(select => {
-        select.addEventListener('change', function() {
-          const flagIcon = this.parentElement.querySelector('.flag-icon');
-          const selectedOption = this.options[this.selectedIndex];
-          const flagSrc = selectedOption.getAttribute('data-flag');
-          flagIcon.src = flagSrc;
-          flagIcon.alt = `${this.value} Flag`;
-        });
-      });
-    });
-  </script>
 </body>
 </html>

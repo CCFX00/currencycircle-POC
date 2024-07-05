@@ -1,6 +1,7 @@
 export const endpoints = {
     signup: 'http://localhost:3000/ccfx/api/v1/signup',
     login: 'http://localhost:3000/ccfx/api/v1/login',
+    localLogin: 'http://localhost:5000/login',
     logout: 'http://localhost:3000/ccfx/api/v1/logout',
     oauthGooglePost: 'http://localhost:3000/ccfx/api/v1/auth/google',
     oauthGoogleGet: 'http://localhost:3000/ccfx/api/v1/oauth',
@@ -16,5 +17,6 @@ export const endpoints = {
     acceptTcs: 'http://localhost:3000/ccfx/api/v1/accept/tcs/',
     getLatestTcs: 'http://localhost:3000/ccfx/api/v1/tcs/latest',
     fileUpload: 'http://localhost:3000/ccfx/api/v1/upload',
-    getOffers: 'http://localhost:3000/ccfx/api/v1/offer/details'
+    getOffers: 'http://localhost:3000/ccfx/api/v1/offer/details',
+    getRate: 'http://localhost:3000/ccfx/api/v1/latest'
 };

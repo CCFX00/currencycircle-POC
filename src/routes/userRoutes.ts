@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import * as userController from '../controllers/userController'
 import multer from 'multer';
+import authenticateUser from '../middleware/authenticateUser';
 
 const userRouter = Router()
 
@@ -20,6 +21,7 @@ userRouter.post('/password/reset', userController.resetPasswordPost)
 userRouter.get('/verify', userController.verificationGet)
 userRouter.post('/verify', userController.verificationPost)
 userRouter.post('/upload', multer().any(), userController.uploadFile)
+userRouter.get('/user', authenticateUser, userController.displayDashboard)
 // userRouter.get('/user', userController.getUsers)
 
 export default userRouter
