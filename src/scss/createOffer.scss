@@ -10,306 +10,350 @@ $button-color: #00c5b6;
 $icon-color: #00c5b6;
 
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: url('/images/createoffer.png') no-repeat center center fixed;
-    background-size:cover;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: url('/images/createoffer.png') no-repeat center center fixed;
+  background-size: cover;
 }
 
 .app {
-    max-width: 400px;
-    margin: 0 auto;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
+  max-width: 400px;
+  margin: 0 auto;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 header {
-    background-color: #3b589800;
-    color: white;
-    padding: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center; 
-    position: relative; 
+  background-color: #3b589800;
+  color: white;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
 .menu-button {
-    background: none;
-    border: #e4e6eb;
-    color: white;
-    font-size: 24px;
-    position: absolute; 
-    left: 15px; 
+  background: none;
+  border: #e4e6eb;
+  color: white;
+  font-size: 24px;
+  position: absolute;
+  left: 15px;
 }
 
 h1 {
-    margin: 0;
-    font-size: 20px;
-    text-align: center;
+  margin: 0;
+  font-size: 20px;
+  text-align: center;
 }
 
 main {
-    flex-grow: 1;
-    padding: 20px;
-    overflow-y: auto;
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
 }
 
 .exchange-form {
-    background-color: #283a84;
-    border-radius: 10px;
-    font-size: 18px;
-    font-weight: bold;
-    color: #fcfcfc;
-    padding: 20px;
-    margin-bottom: 20px;
+  background-color: #283a84;
+  border-radius: 10px;
+  font-weight: bold;
+  color: #fcfcfc;
+  padding: 20px;
+  margin-bottom: 20px;
 
 }
 
 .currency-input label {
-    font-size: 18px;
-    font-weight: bold;
-    color: #ffffff;
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffffff;
 }
 
 .input-group {
-    display: flex;
-    align-items: center;
-    border-radius: 5px;
-    overflow: hidden;
-    font-size: medium;
-    color: #e4e6eb;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  overflow: hidden;
+  color: #e4e6eb;
 }
 
 .currency-select {
-    background-color: #283a84;
-    border: none;
-    color:#e4e6eb;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    font-size: large;
-    font-weight: 600px;
+  background-color: #283a84;
+  border: none;
+  color: #e4e6eb;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  font-size: large;
+  font-weight: 600px;
 }
+
 .flag-icon {
-    width: 32px;
-    height: 32px;
-  }
+  width: 32px;
+  height: 32px;
+}
 
 
-  .input-container {
-    display: flex;
-    align-items: center;
-    background-color: #FFF;
-    border-radius: 5px;
-    padding: 5px;
-    width: 120px;
-    margin-left: auto;
-    justify-content: space-between;
-  }
-  
-  .input-container .pencil-icon {
-    cursor: pointer;
-    color: #1615156b;
-    margin-right: 60px;
-    size: 10px;
-  }
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-left: auto;
+  padding: 5px;
+  width: 130px;
+}
 
-  input[type="number"],
+/* Style the pencil icon */
+.pencil-icon {
+  color: #888686;
+  margin-right: 10px;
+  font-size: smaller;
+}
+
+/* Style the input field */
+.base-currency-input {
+  border: none;
+  outline: none;
+  padding: 5px;
+  font-size: 16px;
+  position: center;
+}
+
+.input-container input::placeholder {
+  color: #999;
+}
+
+
+
+// I want Styling//
+input[type="number"],
 input[type="text"] {
   border: none;
   padding: 5px;
-  font-size: 14px;
-  width: 70px;
-  text-align: right;
+  flex-grow: 1;
+  color: #a5a0a0;
+  font-weight: bold;
+  text-align: center;
+  font-size: 18px;
+  outline: none;
+  background-color: transparent;
+  max-width: 100%;
 }
 
-// I want Styling//
-input[type="number"], input[type="text"] {
-    border: none;
-    padding: 5px;
-    flex-grow: 1;
-    color: #adaeb1;
-    font-weight: bold;
-    text-align: center;
-    font-size: 18px;
-    outline: none;
-    background-color: transparent;
-    max-width: 100%; /* Ensure the input doesn't exceed the container's width */
+input[type="number"]::placeholder,
+input[type="text"]::placeholder {
+  color: #161515;
+  font-size: larger;
+  font-weight: bold;
+  border: none;
 }
 
-input[type="number"]::placeholder, input[type="text"]::placeholder {
-    color: #161515;
-    font-size: larger;
-    font-weight: bold;
-    border: none;
-}
 
-.pencil-icon {
-    margin-right: 10px;
-    font-size: 18px;
-    position: absolute;
-    right: 85px;
-    pointer-events: none;  /* This makes sure the icon doesn't interfere with clicking the input */
-}
 
 .divider {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    margin: 20px auto;
-    width: 100%;
-    position: relative;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px auto;
+  width: 100%;
+  position: relative;
 }
 
-.divider::before, .divider::after {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: #fcfcfc;
-    margin: 0; 
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #fcfcfc;
+  margin: 0;
 }
 
 .exchange-icon {
-    font-size: 20px;
-    color: #f8fafa;
-    margin: 0 20px;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #0cdddd;
-    border-radius: 50%;
+  font-size: 20px;
+  color: #f8fafa;
+  margin: 0 20px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0cdddd;
+  border-radius: 50%;
 }
+
 // My exchange rate styling//
 #exchange-rate {
-    display: flex;
-    align-items: center;
-    color: white;
+  display: flex;
+  align-items: center;
+  color: white;
 }
 
 #exchange-rate h2 {
-    margin: 0;
-    font-size: large;
-    padding-right: 15px;
+  margin: 0;
+  font-size: large;
+  padding-right: 15px;
 }
 
 #exchange-rate small {
-    margin: 0;
+  margin: 0;
 }
 
 /* Container styling */
 .custom-rate {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    background-color: #283a84;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Rate inputs container */
-  .custom-rate .rate-inputs {
-    display: flex;
-    gap: 20px; 
-  }
-  
-  /* Input group styling */
-  .custom-rate .input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-  
-  .custom-rate .input-group label {
-    font-size: 16px;
-    font-weight: bold;
-    color: #ffffff;
-  }
-  
-  /* USD input styling */
-  .custom-rate .input-group input[readonly] {
-    background-color: #283a84;
-    border: none;
-    border-radius: 4px;
-    padding: 10px;
-    font-size: 16px;
-    color: #ffffff;
-    text-align: center;
-    width: 100%; /* Ensure full width */
-    box-sizing: border-box;
-  }
-  
-  /* XAF input container */
-  .custom-rate .amount-input {
-    position: relative;
-    display: flex;
-    align-items: center;
-  }
-  
-  .custom-rate .amount-input .material-icons {
-    position: absolute;
-    left: 10px;
-    font-size: 18px;
-    color: #999;
-    cursor: pointer;
-  }
-  
-  .custom-rate .amount-input input {
-    padding: 10px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    color: #333;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #283a84;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Rate inputs container */
+.custom-rate .rate-inputs {
+  display: flex;
+  gap: 20px;
+}
+
+/* Input group styling */
+.custom-rate .input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.custom-rate .input-group label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+/* USD input styling */
+.custom-rate .input-group input[readonly] {
+  background-color: #283a84;
+  border: none;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 16px;
+  color: #ffffff;
+  text-align: center;
+  width: 100%;
+  /* Ensure full width */
+  box-sizing: border-box;
+}
+
+/* XAF input container */
+.custom-rate .amount-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.custom-rate .amount-input .material-icons {
+  position: absolute;
+  left: 10px;
+  font-size: 18px;
+  color: #999;
+  cursor: pointer;
+}
+
+.custom-rate .amount-input input {
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #333;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+
 
 .reference {
-    font-size: 12px;
-    color: #ffffff;
-    margin-top: 10px;
+  font-size: 12px;
+  color: #ffffff;
+  margin-top: 10px;
 }
 
 .fee-info {
-    font-size: 14px;
-    color:#e4e6eb
+  font-size: 14px;
+  color: #e4e6eb
 }
 
 .fee-info h3 {
-    margin-top: 0;
-    color: #e4e6eb;
+  margin-top: 0;
+  color: #e4e6eb;
 }
 
 nav {
-    display: flex;
-    justify-content: space-around;
-    padding: 10px 0;
-    border-top: 1px solid #e4e6eb;
-    background-color: #f8f9fa;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  border-top: 1px solid #e4e6eb;
+  background-color: #f8f9fa;
 }
 
 nav button {
-    background: #e4e6eb;
-    border: none;
-    padding: 5px;
-    color: #3333336b;
-    background-color: #ffffff13;
+  background: none;
+  border: none;
+  padding: 5px;
+  color: #3333336b;
 }
 
 nav button.active {
-    background-color: #00c5b6;
-    border-radius: 100%;
-    border: #00c5b6;
+  background-color: #00c5b6;
+  border-radius: 50%;
+  color: white;
 }
 
-nav button img {
-    width: 24px;
-    height: 24px;
+nav button .material-icons {
+  font-size: 24px;
+}
+
+
+
+// Added by Steve for buttons (Dasboard and Create Offer)
+ // Variables
+ $primary-color: #3D4C5D;
+ $accent-color: #00C58E;
+ $text-color: #fff;
+
+.social-buttons {
+  display: flex;
+  // justify-content: space-between;
+  justify-content: center;
+  margin-bottom: 20px;
+  margin-top: 20px;
+
+  #socialButton {
+    flex: 1;
+    margin: 0 10px;
+    background-color: #0b9290;
+    color: $primary-color;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+
+    i {
+      margin-right: 10px;
+    }
+
+    &:hover {
+      color: white;
+      background-color: #096160;
+    }
+  }
 }

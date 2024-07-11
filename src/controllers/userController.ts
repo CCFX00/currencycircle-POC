@@ -130,7 +130,7 @@ export const loginPost = catchAsyncErrors(async (req: Request, res: Response, ne
         const message = err.response.data.message;
         res.status(401).json({ status: err.response.data.success, message: message });
     }
-});
+})
 
 // Logging out
 export const logoutGet = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
@@ -270,14 +270,14 @@ export const uploadFile = catchAsyncErrors(async (req: Request, res: Response, n
             error: err.message
         });
     }
-});
+})
 
 
 // USER APIs
 // Display user's dashboard
 export const displayDashboard = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { getOffers } = endpoints;
+        const { getMatchedTrades } = endpoints;
         const accessToken = req.cookies['access_token'];
         const refreshToken = req.cookies['refresh_token'];
         const user = JSON.parse(req.cookies['user'])
@@ -286,20 +286,18 @@ export const displayDashboard = catchAsyncErrors(async (req: Request, res: Respo
             return res.status(401).json({ message: 'Session expired. Please login' });
         }
 
-        const response: AxiosResponse = await axios.get(getOffers, {
+        const response: AxiosResponse = await axios.get(getMatchedTrades, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
                 Cookie: `access_token=${accessToken}; refresh_token=${refreshToken}`
             }
         })
 
-        const { offers } = response.data
-
-        res.status(200).render('users/userDetails', { user, offers, title: `${user.userName}'s dashboard` })
+        res.status(200).render('users/userDetails', { user, title: `${user.userName}'s dashboard`, offers: response.data.userOffers })
     } catch (err: any) {
         res.status(401).json({ status: err.response.data.success, message: err.response.data.message });
     }
-});
+})
 
 // Getting users
 // export const getUsers = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {

@@ -16,8 +16,10 @@ export const endpoints = {
     updateUserTcs: 'http://localhost:3000/ccfx/api/v1/update/tcs/users',
     acceptTcs: 'http://localhost:3000/ccfx/api/v1/accept/tcs/',
     getLatestTcs: 'http://localhost:3000/ccfx/api/v1/tcs/latest',
-    fileUpload: 'http://localhost:3000/ccfx/api/v1/upload',
-    getOffers: 'http://localhost:3000/ccfx/api/v1/offer/details',
+    fileUpload: 'http://localhost:3000/ccfx/api/v1/upload',    
     getRate: 'http://localhost:3000/ccfx/api/v1/latest',
-    createOffer: 'http://localhost:3000/ccfx/api/v1/offer/new'
+    createOffer: 'http://localhost:3000/ccfx/api/v1/offer/new',
+    getOffers: 'http://localhost:3000/ccfx/api/v1/offer/details',
+    getMatchedTrades: 'http://localhost:3000/ccfx/api/v1/trade',
+    displayMatchedTrades: 'http://localhost:3000/ccfx/api/v1/trade'
 };

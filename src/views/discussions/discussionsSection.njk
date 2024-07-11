@@ -1,0 +1,39 @@
+{% if matches.length > 0 %}
+    <div class="discussion-container" style="display: none;">
+        <ul class="offers-list">
+            {% for offer in offers %}
+                <li class="offer-card">
+                     <div class="offer-header">
+                        <span class="offer-date">{{ offer.date }}</span>
+                        <span class="exchange-rate">1 {{ offer.from }} = {{ offer.rate }} {{ offer.to }}</span>
+                        <span class="matchesText">Matches</span>
+                    </div>
+                    <div class="offer-content">
+                        <div class="offer-amount">
+                            <div class="currency">{{ offer.from }}</div>
+                            <div class="amount">{{ offer.amount }}</div>
+                        </div>
+                        <div class="exchange-arrow">⇄</div>
+                        <div class="offer-amount">
+                            <div class="currency">{{ offer.to }}</div>
+                             <div class="amount">{{ offer.value }}</div>
+                        </div>
+                        <div class="matches-content">
+                            {% if offer.matches %}
+                                <span class="matches">{{ offer.matches }}</span>
+                            {% else %}
+                                <span class="matches">{{offer.matchCount}}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </li>                                    
+            {% endfor %}
+        </ul>
+    </div>                      
+{% else %}
+    <div class="no-discussions-container" >
+        <p>You have no discussions</p>
+        <img src="images/nooffers.png" alt="No Offers">
+        <button class="create-offer-btn">Click the <span class="plus-icon">+</span> Sign to create an offer</button>
+    </div>
+{% endif %}

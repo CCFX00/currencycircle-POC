@@ -50,7 +50,6 @@ main {
 .exchange-form {
   background-color: #283a84;
   border-radius: 10px;
-  font-size: 18px;
   font-weight: bold;
   color: #fcfcfc;
   padding: 20px;
@@ -68,7 +67,6 @@ main {
   align-items: center;
   border-radius: 5px;
   overflow: hidden;
-  font-size: medium;
   color: #e4e6eb;
 }
 
@@ -89,58 +87,57 @@ main {
 }
 
 .input-container {
+  position: relative;
   display: flex;
   align-items: center;
-  background-color: #FFF;
+  background-color: white;
+  border: 1px solid #ccc;
   border-radius: 5px;
-  padding: 5px;
-  width: 120px;
   margin-left: auto;
-  justify-content: space-between;
+  padding: 5px;
+  width: 130px;
 }
 
-.input-container .pencil-icon {
-  cursor: pointer;
-  color: rgba(22, 21, 21, 0.4196078431);
-  margin-right: 60px;
-  size: 10px;
+/* Style the pencil icon */
+.pencil-icon {
+  color: #888686;
+  margin-right: 10px;
+  font-size: smaller;
+}
+
+/* Style the input field */
+.base-currency-input {
+  border: none;
+  outline: none;
+  padding: 5px;
+  font-size: 16px;
+  position: center;
+}
+
+.input-container input::placeholder {
+  color: #999;
 }
 
 input[type=number],
 input[type=text] {
   border: none;
   padding: 5px;
-  font-size: 14px;
-  width: 70px;
-  text-align: right;
-}
-
-input[type=number], input[type=text] {
-  border: none;
-  padding: 5px;
   flex-grow: 1;
-  color: #adaeb1;
+  color: #a5a0a0;
   font-weight: bold;
   text-align: center;
   font-size: 18px;
   outline: none;
   background-color: transparent;
-  max-width: 100%; /* Ensure the input doesn't exceed the container's width */
+  max-width: 100%;
 }
 
-input[type=number]::placeholder, input[type=text]::placeholder {
+input[type=number]::placeholder,
+input[type=text]::placeholder {
   color: #161515;
   font-size: larger;
   font-weight: bold;
   border: none;
-}
-
-.pencil-icon {
-  margin-right: 10px;
-  font-size: 18px;
-  position: absolute;
-  right: 85px;
-  pointer-events: none; /* This makes sure the icon doesn't interfere with clicking the input */
 }
 
 .divider {
@@ -152,7 +149,8 @@ input[type=number]::placeholder, input[type=text]::placeholder {
   position: relative;
 }
 
-.divider::before, .divider::after {
+.divider::before,
+.divider::after {
   content: "";
   flex: 1;
   height: 1px;
@@ -228,7 +226,8 @@ input[type=number]::placeholder, input[type=text]::placeholder {
   font-size: 16px;
   color: #ffffff;
   text-align: center;
-  width: 100%; /* Ensure full width */
+  width: 100%;
+  /* Ensure full width */
   box-sizing: border-box;
 }
 
@@ -283,22 +282,49 @@ nav {
 }
 
 nav button {
-  background: #e4e6eb;
+  background: none;
   border: none;
   padding: 5px;
   color: rgba(51, 51, 51, 0.4196078431);
-  background-color: rgba(255, 255, 255, 0.0745098039);
 }
 
 nav button.active {
   background-color: #00c5b6;
-  border-radius: 100%;
-  border: #00c5b6;
+  border-radius: 50%;
+  color: white;
 }
 
-nav button img {
-  width: 24px;
-  height: 24px;
+nav button .material-icons {
+  font-size: 24px;
+}
+
+.social-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+.social-buttons #socialButton {
+  flex: 1;
+  margin: 0 10px;
+  background-color: #0b9290;
+  color: #3D4C5D;
+  border: none;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+.social-buttons #socialButton i {
+  margin-right: 10px;
+}
+.social-buttons #socialButton:hover {
+  color: white;
+  background-color: #096160;
 }
 
 /*# sourceMappingURL=createOffer.css.map */
