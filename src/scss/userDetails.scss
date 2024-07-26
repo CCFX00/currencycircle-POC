@@ -200,65 +200,6 @@ header {
   max-height: 450px; // Adjust this value based on your design
   overflow-y: auto;
   margin-top: 20px;
-
-  // Optional: Add a scrollbar style if needed
-  ::-webkit-scrollbar {
-      width: 8px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-      background-color: #00c5b6;
-      border-radius: 10px;
-  }
-
-  ::-webkit-scrollbar-track {
-      background-color: #f5f5f5;
-      border-radius: 10px;
-  }
-}
-
-// Scrollable Trades Container
-.trades-container {
-  max-height: 450px; // Adjust this value based on your design
-  overflow-y: auto;
-  margin-top: 20px;
-
-  // Optional: Add a scrollbar style if needed
-  ::-webkit-scrollbar {
-      width: 8px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-      background-color: #00c5b6;
-      border-radius: 10px;
-  }
-
-  ::-webkit-scrollbar-track {
-      background-color: #f5f5f5;
-      border-radius: 10px;
-  }
-}
-
-// Scrollable Discussions Container
-.discussion-container {
-  max-height: 450px; // Adjust this value based on your design
-  overflow-y: auto;
-  margin-top: 20px;
-
-  // Optional: Add a scrollbar style if needed
-  ::-webkit-scrollbar {
-      width: 8px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-      background-color: #00c5b6;
-      border-radius: 10px;
-  }
-
-  ::-webkit-scrollbar-track {
-      background-color: #f5f5f5;
-      border-radius: 10px;
-  }
 }
 
 .offers-list {
@@ -282,6 +223,7 @@ header {
       .exchange-rate {
           font-size: 16px;
           color: #00c5b6;
+          font-weight: bold;
       }
   }
 
@@ -330,4 +272,107 @@ header {
   a{
     text-decoration: none;
   }
+}
+
+
+// CSS styling for the matched trades // 
+.matched-trades-card {
+  background-color: #0b4183;
+  border-radius: 10px;
+  padding: 20px;
+  color: white;
+  margin-bottom: 20px;
+}
+.matched-trades-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+.matched-trades-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  font-weight: bolder;
+}
+.matched-trades-rate{
+  color: #00c5b6;
+  font-weight: bold;
+}
+.matched-trades-amount {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  gap: 10px;
+}
+.matched-trades-currency {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 300px;
+}
+.matched-trades-currency-code{
+  font-size: 24px;
+  padding-bottom: 5px;
+}
+.matched-trades-currency-figure{
+  font-size: 14px;
+  font-weight: lighter;
+}
+.matched-trades-arrow {
+  font-size: 18px;
+  margin-left: 40px;
+  margin-right: 40px;
+  color: #00c5b6;
+}
+.matched-trades-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.user-picture {
+  border-radius: 50%;
+  max-width: 200px;
+  height: auto;
+  margin-bottom: 5px;
+  margin-left: 50px;
+}
+.user-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.user-name {
+  margin-top: 0px;
+  font-size: 14px;
+  margin-bottom: 2px;
+  margin-left: 50px;
+}
+.user-rating {
+  color: #FFC107;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  margin-left: 60px;
+  padding-top: 5px;
+}
+.matched-trades-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+}
+.matched-trades-info p {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+#location-icon, #completed-trades-icon, #completion-time-icon{
+  color: #00c5b6;
+}
+
+#location, #completed-trades, #completion-time{
+  margin: 6px;
 }

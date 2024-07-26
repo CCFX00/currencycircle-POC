@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     handleWelcomePage();
   }
 
-  // CREATE OFFERS' PAGE
+  // LOAD CREATE OFFERS' PAGE
   const selects = document.querySelectorAll('.currency-select');
   selects.forEach(select => {
     select.addEventListener('change', function() {
@@ -17,64 +17,37 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // // DISPLAY MATCHED TRADES
-  // const myOffersBtn = document.getElementById('my-offers-btn');
-  // const matchedTradesBtn = document.getElementById('matched-trades-btn');
-  // const inDiscussionBtn = document.getElementById('in-discussion-btn');
-  // const offersSection = document.querySelector('.offers-container');
-  // const tradesSection = document.querySelector('.trades-container');
-  // const discussionSection = document.querySelector('.discussion-container');
 
-  // // Map buttons to their corresponding sections
-  // const tabMap = {
-  //     'my-offers-btn': offersSection,
-  //     'matched-trades-btn': tradesSection,
-  //     'in-discussion-btn': discussionSection
-  // };
-
-  // // Handle navigation buttons click
-  // Object.keys(tabMap).forEach(tabId => {
-  //     document.getElementById(tabId).addEventListener('click', () => {
-  //         switchTab(tabId);
-  //     });
-  // });
-
-  // // Handle offer links click
-  // document.querySelectorAll('.offer-link').forEach(link => {
-  //     link.addEventListener('click', (event) => {
-  //         event.preventDefault();
-  //         const offerId = link.getAttribute('data-offer-id');
-  //         switchTab('matched-trades-btn', offerId);
-  //     });
-  // });
-
-  // function switchTab(activeTabId, offerId = null) {
-  //     // Remove active class from all buttons and hide all sections
-  //     Object.keys(tabMap).forEach(tabId => {
-  //         document.getElementById(tabId).classList.remove('active');
-  //         tabMap[tabId].style.display = 'none';
-  //     });
-
-  //     // Add active class to the clicked button and show the corresponding section
-  //     document.getElementById(activeTabId).classList.add('active');
-  //     tabMap[activeTabId].style.display = 'block';
-
-  //     // Load matched trades if needed
-  //     if (activeTabId === 'matched-trades-btn' && offerId) {
-  //         loadMatchedTrades(offerId);
-  //     }
-  // }
-
-  // function loadMatchedTrades(offerId) {
-  //     // Use AJAX or Fetch API to load matched trades
-  //     // For example:
-  //     // fetch(`/matched-trades/${offerId}`)
-  //     //     .then(response => response.json())
-  //     //     .then(data => {
-  //     //         // Update the trades section with the fetched data
-  //     //         // ...
-  //     //     });
-  // }
+  // LOAD OFFERS, MATCHED TRADES, DISCUSSIONS TABS
+  const buttons = document.querySelectorAll('.nav-btn');
+  const offersContainer = document.getElementById('offers-container');
+  const tradesContainer = document.getElementById('trades-container');
+  const discussionsContainer = document.getElementById('discussion-container');
+    
+  buttons.forEach(button => {
+    button.addEventListener('click', function() {
+      // Remove 'active' class from all buttons
+      buttons.forEach(btn => btn.classList.remove('active'));
+            
+      // Add 'active' class to clicked button
+      this.classList.add('active');
+            
+      // Show corresponding content and hide others
+      if (this.id === 'my-offers-btn') {
+          offersContainer.style.display = 'block';
+          tradesContainer.style.display = 'none';
+          discussionsContainer.style.display = 'none';
+      } else if (this.id === 'matched-trades-btn') {
+          offersContainer.style.display = 'none';
+          tradesContainer.style.display = 'block';
+          discussionsContainer.style.display = 'none';
+      } else if (this.id === 'in-discussion-btn') {
+          offersContainer.style.display = 'none';
+          tradesContainer.style.display = 'none';
+          discussionsContainer.style.display = 'block';
+      }
+    });
+  });
   
 });
 

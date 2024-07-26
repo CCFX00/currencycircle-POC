@@ -1,39 +1,58 @@
-{% if matches.length > 0 %}
-    <div class="trades-container" style="display: none;">
-        <ul class="offers-list">
-            {% for offer in offers %}
-                <li class="offer-card">
-                     <div class="offer-header">
-                        <span class="offer-date">{{ offer.date }}</span>
-                        <span class="exchange-rate">1 {{ offer.from }} = {{ offer.rate }} {{ offer.to }}</span>
-                        <span class="matchesText">Matches</span>
-                    </div>
-                    <div class="offer-content">
-                        <div class="offer-amount">
-                            <div class="currency">{{ offer.from }}</div>
-                            <div class="amount">{{ offer.amount }}</div>
+<div id="trades-container" style="display: none;">
+    {% if matches.length > 0 %}
+        <div class="offers-container">
+            <ul class="offers-list">
+                {% for match in matches %}
+                    <div class="offer-card">
+                        <div class="matched-trades-header">
+                            <div class="matched-trades-date">06/04/2023</div>
+                            <div class="matched-trades-rate">1 USD = 660 XAF</div>
+                            <div></div>
                         </div>
-                        <div class="exchange-arrow">⇄</div>
-                        <div class="offer-amount">
-                            <div class="currency">{{ offer.to }}</div>
-                             <div class="amount">{{ offer.value }}</div>
+                        <div class="matched-trades-content">
+                            <div class="matched-trades-amount">
+                                <div class="matched-trades-currency">
+                                    <div class="matched-trades-currency-code">USD</div>
+                                    <div class="matched-trades-currency-figure">1200</div>
+                                </div>
+                                <div class="matched-trades-arrow">
+                                    <i class="fas fa-exchange-alt"></i>
+                                </div>
+                                <div class="matched-trades-currency">
+                                    <div class="matched-trades-currency-code">XAF</div>
+                                    <div class="matched-trades-currency-figure">792,000</div>
+                                </div>
+                                <div class="matched-trades-profile">
+                                    <img src="/images/profiles/ateking.png" alt="Profile Picture" class="user-picture">
+                                    <div class="user-details">
+                                        <h2 class="user-name">Ateking12</h2>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="matches-content">
-                            {% if offer.matches %}
-                                <span class="matches">{{ offer.matches }}</span>
-                            {% else %}
-                                <span class="matches">{{offer.matchCount}}</span>
-                            {% endif %}
+                        <div class="matched-trades-info">
+                            <div>
+                                <p id="location"><i class="fas fa-map-marker-alt" id="location-icon"></i> New York, USA</p>
+                                <p id="completed-trades"><i class="fas fa-check-circle" id="completed-trades-icon"></i> 3 Completed trades</p>
+                            </div>
+                            <div>
+                                <div class="user-rating">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <p id="completion-time"><i class="fas fa-clock" id="completion-time-icon"></i> 08 hrs avg completion time</p>
+                            </div>                            
                         </div>
-                    </div>
-                </li>                                    
-            {% endfor %}
-        </ul>
-    </div>                      
-{% else %}
-    <id="no-matches-message">
-        <p>You have no matched trades</p>
-        <img src="images/nooffers.png" alt="No Offers">
-        <button class="create-offer-btn">Click the <span class="plus-icon">+</span> Sign to create an offer</button>
-    </div>
-{% endif %}
+                    </div>                                    
+                {% endfor %}
+            </ul>
+        </div>                      
+    {% else %}
+        <div class="no-offers-container">
+            <p>No matched trades</p>
+            <img src="images/nooffers.png" alt="No Offers">
+            <button class="create-offer-btn">Click the <span class="plus-icon">+</span> Sign to create an offer</button>
+        </div>
+    {% endif %}
+</div>
