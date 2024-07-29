@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Currency Exchange</title>
+  <style>
+    /* Add some basic styling */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+    input[type="text"], input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Create Offer</h1>
+    <form id="exchangeForm">
+      <label for="from">I have</label>
+      <input type="text" id="from" name="from" value="USD" readonly>
+
+      <label for="amount">Amount</label>
+      <input type="number" id="amount" name="amount" placeholder="Enter amount">
+
+      <label for="to">I want</label>
+      <input type="text" id="to" name="to" value="JPY" readonly>
+
+      <label for="value">Converted Value</label>
+      <input type="text" id="value" name="value" value="" readonly>
+
+      <label for="rate">Exchange Rate</label>
+      <input type="number" id="rate" name="rate" value="161.5076" step="0.0001">
+
+      <label for="matchFee">Match Fee</label>
+      <input type="text" id="matchFee" name="matchFee" value="" readonly>
+    </form>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const amountInput = document.getElementById('amount');
+      const rateInput = document.getElementById('rate');
+      const valueInput = document.getElementById('value');
+      const matchFeeInput = document.getElementById('matchFee');
+
+      const calculateValues = () => {
+        const amount = parseFloat(amountInput.value);
+        const rate = parseFloat(rateInput.value);
+
+        if (!isNaN(amount) && !isNaN(rate)) {
+          const convertedValue = (amount * rate).toFixed(2);
+          valueInput.value = new Intl.NumberFormat().format(convertedValue);
+
+          const matchFee = (0.005 * amount).toFixed(2);
+          matchFeeInput.value = new Intl.NumberFormat().format(matchFee);
+        } else {
+          valueInput.value = '';
+          matchFeeInput.value = '';
+        }
+      };
+
+      amountInput.addEventListener('input', calculateValues);
+      rateInput.addEventListener('input', calculateValues);
+    });
+  </script>
+</body>
+</html>

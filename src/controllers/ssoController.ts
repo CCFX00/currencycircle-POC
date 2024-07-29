@@ -8,7 +8,7 @@ import { extractCookies } from '../utils/etractCookies'
 // SSO with Google
 export const ssoGoogleGet = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
     try{
-        const {oauthGoogleGet} = endpoints
+        const { oauthGoogleGet, getOffers } = endpoints
         const { cookieHeader, access_token }: any = extractCookies(req)
 
         const response: AxiosResponse = await axios.get(oauthGoogleGet, {
@@ -36,17 +36,26 @@ export const ssoGoogleGet = catchAsyncErrors(async (req: Request, res: Response,
                 }
             });
 
-            // Check if all tokens are present
-            if (!accessToken || !refreshToken ) {
-                throw new Error('One or more tokens not found in response cookies')
-            }
+            const response3: AxiosResponse = await axios.get(getOffers, {
+                headers: {
+                    Cookie: cookies 
+                }
+            })
 
-            // Set tokens in your TypeScript app's cookies
-            res.cookie('access_token', accessToken, { httpOnly: true })
-            res.cookie('refresh_token', refreshToken, { httpOnly: true })
+            if(response3){
+                // Check if all tokens are present
+                if (!accessToken || !refreshToken ) {
+                    throw new Error('One or more tokens not found in response cookies')
+                }
 
-            // Respond with a success message or other data if needed
-            res.status(200).render('users/userDetails', { user: response.data.user, title: `${response.data.user.userName}'s dashboard`, endpoint: 'getUser' })
+                // Set tokens in your TypeScript app's cookies
+                res.cookie('access_token', accessToken, { httpOnly: true })
+                res.cookie('refresh_token', refreshToken, { httpOnly: true })
+                res.cookie('connect.sid', sessionToken, { httpOnly: true })
+
+                // Respond with a success message or other data if needed
+                res.status(200).render('users/userDetails', { user: response.data.user, offers: response3.data.offers, title: `${response.data.user.userName}'s dashboard`, endpoint: 'getUser' })
+            }            
         } else {
             throw new Error('Cookies not found in response headers')
         }

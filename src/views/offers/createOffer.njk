@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{# {% include "partials/header.njk" %} #}
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CCFX | {{ title }}</title>
+  <link rel="stylesheet" href="/css/createoffer.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="/js/scripts.js" defer></script>
+</head>
+
+<body class="background">
+  <div class="app">
+    <header>
+      <button class="menu-button"><span class="material-icons">menu</span></button>
+      <h1>Create Offer</h1>
+    </header>
+  
+    <main>
+      <div class="exchange-form">
+        <div class="currency-input">
+          <label>I have</label>
+          <div class="input-group">
+            <div class="flag-container">
+              <img src="/images/flags/us.png" alt="US Flag" class="flag-icon">
+            </div>
+            <select class="currency-select">
+              <option value="USD" data-flag="/images/flags/us.png">USD</option>
+              <option value="EUR" data-flag="/images/flags/eu.png">EUR</option>
+              <option value="GBP" data-flag="/images/flags/gb.png">GBP</option>
+              <option value="JPY" data-flag="/images/flags/jp.png">JPY</option>
+              <option value="XAF" data-flag="/images/flags/cm.png">XAF</option>
+            </select>
+            <div class="input-container">
+              <span class="material-icons pencil-icon">edit</span>
+              <input type="number" placeholder=" 000.00 ">
+            </div>
+          </div>
+        </div>
+      
+        <div class="divider">
+          <div class="exchange-icon">
+            <span>&#10606;</span>
+          </div>
+        </div>
+      
+        <div class="i-want">
+          <label>I want</label>
+          <div class="input-group">
+            <div class="flag-container">
+              <img src="/images/flags/cm.png" alt="Cameroon flag" class="flag-icon">
+            </div>
+            <select class="currency-select">
+              <option value="XAF" data-flag="/images/flags/cm.png">XAF</option>
+              <option value="USD" data-flag="/images/flags/us.png">USD</option>
+              <option value="EUR" data-flag="/images/flags/eu.png">EUR</option>
+              <option value="GBP" data-flag="/images/flags/gb.png">GBP</option>
+              <option value="JPY" data-flag="/images/flags/jp.png">JPY</option>              
+            </select>
+            <input type="text" value="792,200" readonly>
+          </div>
+        </div>
+      </div>
+    
+      <div id="exchange-rate">
+        <h2>My exchange rate</h2> <small>(You can change this rate)</small>
+      </div>
+
+      <div class="custom-rate">
+        <div class="rate-inputs">
+          <div class="input-group">
+            <label>USD</label>
+            <input type="text" value="1" readonly>
+          </div>
+          <div class="input-group">
+            <label>XAF</label>
+            <div class="amount-input">
+              <span class="material-icons">edit</span>
+              <input type="text" value="660.00">
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="reference">Reference rate only, from www.oanda.com</p>
+    
+      <div class="fee-info">
+        <h3>$0 match fee</h3>
+        <p>(0.5% of the value of the transaction) <small>will be required when you match with a buyer. CurrencyCircle will unlock your counterparty's profile and chat function for users to agree on how to complete their transaction.</small></p>
+      </div>
+    </main>
+
+    <div class="social-buttons">
+      <button id="socialButton" class="facebook-button" onclick="displayDashboard()">
+          <i class="fab fa-facebook-f"></i>
+            Dashboard
+      </button>
+      <button id="socialButton" class="google-button" onclick="createOffer()">
+          <i class="fab fa-google"></i>
+            Create Offer
+      </button>
+    </div>
+
+    <nav>
+      <button class="active"><span class="material-icons">account_balance_wallet</span></button>
+      <button><span class="material-icons">show_chart</span></button>
+      <button><span class="material-icons">notifications</span></button>
+      <button><span class="material-icons">settings</span></button>
+    </nav>
+  </div>
+</body>
+</html>

@@ -1,0 +1,69 @@
+{# <div id="trades-container" style="display: none;">
+    {% if matches.length > 0 %}
+        <div class="offers-container">
+            <ul class="offers-list" id="matched-trades-list">
+                {% for match in matches %}
+                    <div class="matched-trades-card">
+                        <div class="matched-trades-header">
+                            <div class="matched-trades-date">{{ match.creationDate }}</div>
+                            <div class="matched-trades-rate">1 {{ match.from }} = {{ match.rate }} {{ match.to }}</div>
+                            <div></div>
+                        </div>
+                        <div class="matched-trades-content">
+                            <div class="matched-trades-amount">
+                                <div class="matched-trades-currency">
+                                    <div class="matched-trades-currency-code">{{ match.from }}</div>
+                                    <div class="matched-trades-currency-figure">{{ match.value }}</div>
+                                </div>
+                                <div class="matched-trades-arrow">
+                                    <i class="fas fa-exchange-alt"></i>
+                                </div>
+                                <div class="matched-trades-currency">
+                                    <div class="matched-trades-currency-code">{{ match.to }}</div>
+                                    <div class="matched-trades-currency-figure">{{ match.amount }}</div>
+                                </div>
+                                <div class="matched-trades-profile">
+                                    <img src="/images/profiles/ateking.png" alt="Profile Picture" class="user-picture">
+                                    <div class="user-details">
+                                        <h2 class="user-name">{{ match.user.userName }}</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="matched-trades-info">
+                            <div>
+                                <p id="location"><i class="fas fa-map-marker-alt" id="location-icon"></i> {{ match.user.city }}, {{ match.user.country }} </p>
+                                <p id="completed-trades"><i class="fas fa-check-circle" id="completed-trades-icon"></i> 0 Completed trades</p>
+                            </div>
+                            <div>
+                                <div class="user-rating">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <p id="completion-time"><i class="fas fa-clock" id="completion-time-icon"></i> 08 hrs avg completion time</p>
+                            </div>                            
+                        </div>
+                    </div>                                    
+                {% endfor %}
+            </ul>
+        </div>                      
+    {% else %}
+        <div class="no-offers-container">
+            <p>No matched trades</p>
+            <img src="images/nooffers.png" alt="No Offers">
+            <button class="create-offer-btn">Click the <span class="plus-icon">+</span> Sign to create an offer</button>
+        </div>
+    {% endif %}
+</div> #}
+
+
+<div id="trades-container" style="display: none;">
+    
+        <div class="offers-container" id="matched-trades-container">
+            <ul class="offers-list" id="matched-trades-list">
+                
+            </ul>
+        </div>                    
+
+</div>

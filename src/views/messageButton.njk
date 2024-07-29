@@ -38,6 +38,10 @@
             <p>{{ message }}</p>
             <a href="/login" class="button">Login</a>
             <a href="/signup" class="button">signup</a>
+        {% elif endpoint === 'logoutError' %}
+            <p>{{ message }}</p>
+            <a href="/login" class="button">Login</a>
+            <a href="/signup" class="button">signup</a>
         {% elif endpoint === 'loginFail' %}
             <p style="color: red;">{{ message }}</p>
             <a href="/login" class="button">Login</a>

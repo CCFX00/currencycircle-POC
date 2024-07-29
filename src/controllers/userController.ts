@@ -10,7 +10,7 @@ import FormData from 'form-data';
 // TEST CONTROLLER
 export const test = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
     try{
-        res.status(200).render('users/userDetails', {title: 'User Details'})
+        res.status(200).render('users/test', {title: 'User Details'})
     }catch(err: any){
         res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
     }
@@ -19,7 +19,7 @@ export const test = catchAsyncErrors(async (req: Request, res: Response, next: N
 // INTRO CONTROLLERS
 export const getWelcome = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
     try{
-        res.status(200).render('welcome', {title: 'Welcome'})
+        res.status(200).render('intro/welcome', {title: 'Welcome'})
     }catch(err){
         res.status(404).render('message', {message: err})
     }
@@ -27,7 +27,7 @@ export const getWelcome = catchAsyncErrors(async (req: Request, res: Response, n
 
 export const getIntro = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
     try{
-        res.render('intro', {title: 'Welcome'})
+        res.render('intro/intro', {title: 'Welcome'})
     }catch(err){
         res.status(404).render('message', {message: err})
     }
@@ -63,11 +63,10 @@ export const signupPost = catchAsyncErrors(async (req: Request, res: Response, n
             ...step1Data,
             tcs: step1Data.tcs === 'true' ? true : step1Data.tcs
         };
+        const response: AxiosResponse = await axios.post(signup, updatedStep1Data)
 
-        const response: AxiosResponse = await axios.post(signup, updatedStep1Data);
-
-        const message = response.data.message;
-        res.render('messageButton', { title: 'Message', message, endpoint: 'signup' });
+        res.cookie('user', JSON.stringify(updatedStep1Data), { httpOnly: true })
+        res.status(200).render('users/verification', {title: 'Verification', userPhone: response.data.user.phoneNumber.slice(0, -4) })
     }catch(err: any) {
         res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message', endpoint: 'signupFail' });
     }
@@ -84,55 +83,53 @@ export const loginGet = catchAsyncErrors(async (req: Request, res: Response, nex
 
 export const loginPost = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { login } = endpoints
-        const { email, password } = req.body
+        const { login } = endpoints;
+        let { email, password } = req.body;
 
-        const response: AxiosResponse = await axios.post(login, {
-            email,
-            password
-        })
+        if (!email || !password) {
+            email = req.query.userEmail as string;
+            password = req.query.userPassword as string;
+        }
 
-        // Get cookies from response headers
-        const cookies: string[] | undefined = response.headers['set-cookie']
+        const response1: AxiosResponse = await axios.post(login, { email, password });
 
-        if (cookies) {
-            let accessToken: string | undefined
-            let refreshToken: string | undefined
-            let sessionToken: string | undefined
+        if (response1) {
+            const cookies: string[] | undefined = response1.headers['set-cookie'];
 
-            // Extract tokens from cookies
-            cookies.forEach(cookie => {
-                if (cookie.startsWith('access_token=')) {
-                    accessToken = cookie.split('=')[1].split(';')[0]
-                } else if (cookie.startsWith('refresh_token=')) {
-                    refreshToken = cookie.split('=')[1].split(';')[0]
-                } else if (cookie.startsWith('connect.sid=')) {
-                    sessionToken = cookie.split('=')[1].split(';')[0]
+            if (cookies) {
+                let accessToken: string | undefined;
+                let refreshToken: string | undefined;
+                let sessionToken: string | undefined;
+
+                cookies.forEach(cookie => {
+                    if (cookie.startsWith('access_token=')) {
+                        accessToken = cookie.split('=')[1].split(';')[0];
+                    } else if (cookie.startsWith('refresh_token=')) {
+                        refreshToken = cookie.split('=')[1].split(';')[0];
+                    } else if (cookie.startsWith('connect.sid=')) {
+                        sessionToken = cookie.split('=')[1].split(';')[0];
+                    }
+                });
+
+                if (!accessToken || !refreshToken || !sessionToken) {
+                    throw new Error('One or more tokens not found in response cookies');
                 }
-            });
 
-            // Check if all tokens are present
-            if (!accessToken || !refreshToken || !sessionToken) {
-                throw new Error('One or more tokens not found in response cookies')
+                // Set tokens in cookies
+                res.cookie('access_token', accessToken, { httpOnly: true });
+                res.cookie('refresh_token', refreshToken, { httpOnly: true });
+                res.cookie('connect.sid', sessionToken, { httpOnly: true });
+                res.cookie('user', JSON.stringify(response1.data.user), { httpOnly: true });
+
+                return res.redirect('/user')
+            } else {
+                throw new Error('Cookies not found in response headers');
             }
-
-            // Set tokens in your TypeScript app's cookies
-            res.cookie('access_token', accessToken, { httpOnly: true })
-            res.cookie('refresh_token', refreshToken, { httpOnly: true })
-            res.cookie('connect.sid', sessionToken, { httpOnly: true })
-
-            // Respond with a success message or other data if needed
-            res.status(200).render('messageButton', { message: response.data.message, endpoint: 'loggedIn'})
-        } else {
-            throw new Error('Cookies not found in response headers')
         }
     } catch (err: any) {
-        const message = err.response.data.message
-        if (message.includes('Please verify your account to login')){
-            res.status(401).render('messageButton', { message: message, endpoint: 'login', title: 'Message' });
-        }else{
-            res.status(401).render('messageButton', { message: message, endpoint: 'loginWrongPass', title: 'Message' });
-        }        
+        const message = err.response.data.message;
+        // res.status(401).json({ status: err.response.data.success, message: message });
+        res.status(401).render('messageButton', { message: message , data: false, title: 'Message', endpoint: 'loginFail' });
     }
 })
 
@@ -143,11 +140,11 @@ export const logoutGet = catchAsyncErrors(async (req: Request, res: Response, ne
 
         const response: AxiosResponse = await axios.get(logout)
 
-        res.clearCookie("access_token", { expires: new Date(Date.now()), httpOnly: true })
-        res.clearCookie("refresh_token", { expires: new Date(Date.now()), httpOnly: true })
-        res.clearCookie("connect.sid", { httpOnly: true });
+        for(let cookie in req.cookies){
+            res.clearCookie(cookie, { expires: new Date(Date.now()), httpOnly: true })
+        }
 
-        res.render('messageButton', { message: response.data.message, endpoint: 'logoutSuccess'})
+        res.render('users/login', { title: 'User Login'})
     }catch(err: any) {
         res.status(401).render('messageButton', { message: err.response.data.message , data: err.response.data.success, title: 'Message', endpoint: 'logoutError' });
     }
@@ -158,7 +155,8 @@ export const forgotPasswordGet = catchAsyncErrors(async (req: Request, res: Resp
     try{
         res.status(200).render('users/forgotPassword', {title: 'Forgot Password'})
     }catch(err: any){
-        res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
+        // res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
+        res.status(401).json({ status: err.response.data.success, message: err.response.data.message })
     }
 })
 
@@ -166,21 +164,24 @@ export const forgotPasswordPost = catchAsyncErrors(async (req: Request, res: Res
     try{
         const { forgotPassword } = endpoints
 
-        const { email } = req.body        
+        const { email } = req.body     
         
         const response: AxiosResponse = await axios.post(forgotPassword, {
             email
         })
 
-        res.status(200).render('messageButton', { message: response.data.message , endpoint: 'forgotPassword', title: 'Forgot Password'})
+        res.status(200).render('users/resetPassword', { title: 'Reset Password', response: response.data.message })
+        // res.status(200).render('messageButton', { message: response.data.message , endpoint: 'forgotPassword', title: 'Forgot Password'})
     }catch(err: any){
-        res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
+        // res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
+        res.status(401).json({ status: err.response.data.success, message: err.response.data.message })
     }
 })
 
 // Resetting password
 export const resetPasswordGet = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
     try{
+        res.cookie('tkn', req.params.tkn, { httpOnly: true })
         res.status(200).render('users/resetPassword', {title: 'Reset Password'})
     }catch(err: any){
         res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
@@ -191,17 +192,21 @@ export const resetPasswordPost = catchAsyncErrors(async (req: Request, res: Resp
     try{
         const { resetPassword } = endpoints
 
-        const { otp, password, confirmPassword } = req.body    
+        const { password, confirmPassword } = req.body
+        const { tkn } = req.cookies  
 
         const response: AxiosResponse = await axios.put(resetPassword, {
-            otp,
+            tkn,
             password,
             confirmPassword
         })
 
-        res.status(200).render('messageButton', {  endpoint: 'updatedPassword', message: response.data.message, title: 'Message'})
+        res.clearCookie('tkn', { expires: new Date(Date.now()), httpOnly: true })
+        // res.status(200).render('messageButton', {  endpoint: 'updatedPassword', message: response.data.message, title: 'Message'})
+        res.render('users/login', { title: 'User Login', message: response.data.message })
     }catch(err: any){
-        res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
+        // res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
+        res.status(401).json({ status: err.response.data.success, message: err.response.data.message })
     }
 })
 
@@ -215,47 +220,23 @@ export const verificationGet = catchAsyncErrors(async (req: Request, res: Respon
 })
 
 export const verificationPost = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-    try{
+    try {
         const { verifyUser } = endpoints
 
-        const { otp, email } = req.body
+        const { otp } = req.body
+        const { email } = JSON.parse(req.cookies.user)
 
-        const response: AxiosResponse  = await axios.post(verifyUser, {
+        const response: AxiosResponse = await axios.post(verifyUser, {
             email,
-            otp            
+            otp
         })
 
-        res.status(200).render('users/verified', { message: response.data.verificationStatus.message, title: 'Message', endpoint: 'userVerified'})
-    }catch(err: any){
+        res.clearCookie('email', { expires: new Date(Date.now()), httpOnly: true })
+        res.status(200).render('users/verified', { message: response.data.verificationStatus.message, title: 'Message', endpoint: 'userVerified' })
+    } catch (err: any) {
         res.status(401).render('messageButton', { message: err.response.data.message, title: 'Verification Error', endpoint: 'verificationFailed' })
     }
 })
-
-// USER APIs
-// Getting users
-export const getUsers = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const { cookieHeader, access_token }: any = extractCookies(req)
-
-        if (!access_token) {
-            throw new Error("Please login to access this resource");
-        }
-
-        const decoded: any = jwt.verify(access_token, `${process.env._JWT_ACCESS_SECRET_KEY}`)
-
-        const response: AxiosResponse = await axios.get(`http://localhost:3000/ccfx/api/v1/user/${decoded.id}`, {
-            headers: {
-                Cookie: cookieHeader
-            }
-        })
-
-        res.status(200).render('users/userDetails', { user: response.data.user, title: `${response.data.user.userName}'s dashboard`, endpoint: 'getUser' })
-    } catch (err: any) {
-        const { errorMessage, status, success } = displayError(err)
-
-        res.status(status).render('messageButton', { message: errorMessage, data: success, title: 'Message', endpoint: 'loginFail' });
-    }
-});
 
 // Uploading a file
 export const uploadFile = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
@@ -290,4 +271,56 @@ export const uploadFile = catchAsyncErrors(async (req: Request, res: Response, n
             error: err.message
         });
     }
-});
+})
+
+
+// USER APIs
+// Display user's dashboard
+export const displayDashboard = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { getMatchedTrades } = endpoints;
+        const accessToken = req.cookies['access_token'];
+        const refreshToken = req.cookies['refresh_token'];
+        const user = JSON.parse(req.cookies['user'])        
+
+        if (!accessToken || !refreshToken) {
+            return res.status(401).json({ message: 'Session expired. Please login' });
+        }
+
+        const response: AxiosResponse = await axios.get(getMatchedTrades, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                Cookie: `access_token=${accessToken}; refresh_token=${refreshToken}`
+            }
+        })
+
+        res.status(200).render('users/userDetails', { user, title: `${user.userName}'s dashboard`, offers: response.data.userOffers })       
+    } catch (err: any) {
+        res.status(401).json({ status: err.response.data.success, message: err.response.data.message });
+    }
+})
+
+// Getting users
+// export const getUsers = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+//     try {
+//         const { cookieHeader, access_token }: any = extractCookies(req)
+
+//         if (!access_token) {
+//             throw new Error("Please login to access this resource");
+//         }
+
+//         const decoded: any = jwt.verify(access_token, `${process.env._JWT_ACCESS_SECRET_KEY}`)
+
+//         const response: AxiosResponse = await axios.get(`http://localhost:3000/ccfx/api/v1/user/${decoded.id}`, {
+//             headers: {
+//                 Cookie: cookieHeader
+//             }
+//         })
+
+//         res.status(200).render('users/userDetails', { user: response.data.user, title: `${response.data.user.userName}'s dashboard`, endpoint: 'getUser' })
+//     } catch (err: any) {
+//         const { errorMessage, status, success } = displayError(err)
+
+//         res.status(status).render('messageButton', { message: errorMessage, data: success, title: 'Message', endpoint: 'loginFail' });
+//     }
+// });

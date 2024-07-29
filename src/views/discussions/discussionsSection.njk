@@ -1,0 +1,13 @@
+<div id="discussion-container" style="display: none;">
+    {% if discussions.length > 0 %}
+        <div class="offers-container">
+           <p>some discussion</p>
+        </div>                      
+    {% else %}
+        <div class="no-offers-container">
+            <p>You have no discussions</p>
+            <img src="images/nooffers.png" alt="No Offers">
+            <button class="create-offer-btn">Click the <span class="plus-icon">+</span> Sign to create an offer</button>
+        </div>
+    {% endif %}
+</div>

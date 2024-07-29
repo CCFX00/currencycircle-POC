@@ -1,8 +1,8 @@
 import { Router } from 'express'
 import * as tscsController from '../controllers/tscsController'
 
-const userRouter = Router()
+const tscsRouter = Router()
 
-userRouter.get('/tcs/latest', tscsController.getLatestTcs)
+tscsRouter.get('/tcs/latest', tscsController.getLatestTcs)
 
-export default userRouter
+export default tscsRouter

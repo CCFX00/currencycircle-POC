@@ -19,11 +19,11 @@ body {
   // color: $text-color;
 }
 
-.container {
-  // max-width: 600px;
-  // margin: 0 auto;
-  // padding: 20px;
-}
+// .container {
+//   max-width: 600px;
+//   margin: 0 auto;
+//   padding: 20px;
+// }
 
 header {
   background-color: transparent;
@@ -110,20 +110,25 @@ header {
   justify-content: center;
   margin-top: 20px;
   background-color: #ffffff;
-  border-radius: 35px;
-  padding: 10px;
+  border-radius: 17px;
+  padding: 5px;
 
   button {
-    background-color: #00c5b6;
-    color: #ffffff;
+    background-color: #ffffff;
+    color: #262222;
     border: none;
-    padding: 10px 10px;
-    border-radius: 15px;
-    justify-content: space-evenly;
+    padding: 13px 20px; /* Adjusted padding for consistency */
+    border-radius: 10px;
     cursor: pointer;
-    margin: 0 5px;
+    margin: 0 5px; /* Added margin to space out buttons */
+
+    &.active {
+      background-color: #00c5b6;
+      color: #ffffff;
+    }
   }
 }
+
 
 .no-offers-container {
   background-color: transparent;
@@ -187,5 +192,231 @@ header {
     margin: 0 10px;
     cursor: pointer;
     justify-content: space-evenly;
+  }
+}
+
+// Scrollable Offers Container
+.offers-container {
+  max-height: 450px; // Adjust this value based on your design
+  overflow-y: auto;
+  margin-top: 20px;
+}
+
+.offers-list {
+  list-style: none;
+  padding: 0;
+}
+
+.offer-card {
+  background-color: #0b4183;
+  border-radius: 10px;
+  padding: 20px;
+  color: white;
+  margin-bottom: 20px;
+
+  .offer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .offer-date,
+      .exchange-rate {
+          font-size: 16px;
+          color: #00c5b6;
+          font-weight: bold;
+      }
+  }
+
+  .offer-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 20px;
+
+      .offer-amount {
+          text-align: center;
+
+          .currency {
+              font-size: 24px;
+              font-weight: bold;
+          }
+
+          .amount {
+              font-size: 16px;
+              font-weight: bold;
+          }
+      }
+
+      .exchange-arrow {
+          font-size: 30px;
+          color: #00c5b6;
+      }
+
+      .matches {
+          background-color: #ddbccb;
+          border-radius: 50%;
+          padding: 10px;
+          width: 40px;
+          height: 40px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: #000000;
+          font-size: 24px;
+          font-weight: bold;
+      }
+  }
+}
+
+#main-card {
+  a{
+    text-decoration: none;
+  }
+}
+
+
+// CSS styling for the matched trades // 
+.matched-trades-card {
+  background-color: #0b4183;
+  border-radius: 10px;
+  padding: 20px;
+  color: white;
+  margin-bottom: 20px;
+}
+.matched-trades-header {
+  display: flex;
+  // justify-content: space-between;
+  margin-bottom: 20px;
+  font-size: 14px;
+
+  .matched-trades-rate{
+    margin-left: 55px;
+  }
+}
+.matched-trades-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  font-weight: bolder;
+}
+.matched-trades-rate{
+  color: #00c5b6;
+  font-weight: bold;
+}
+.matched-trades-amount {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  gap: 10px;
+}
+.matched-trades-currency {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 300px;
+}
+.matched-trades-currency-code{
+  font-size: 24px;
+  padding-bottom: 5px;
+}
+.matched-trades-currency-figure{
+  font-size: 14px;
+  font-weight: lighter;
+}
+.matched-trades-arrow {
+  font-size: 18px;
+  margin-left: 40px;
+  margin-right: 40px;
+  color: #00c5b6;
+}
+.matched-trades-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.user-picture {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+  margin-left: 50px; 
+  margin-bottom: 3px; 
+}
+.user-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.user-name {
+  margin-top: 0px;
+  font-size: 14px;
+  font-weight: lighter;
+  margin-bottom: 2px;
+  margin-left: 39px;
+}
+.user-rating {
+  color: #FFC107;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  margin-left: 60px;
+  padding-top: 5px;
+}
+.matched-trades-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+}
+.matched-trades-info p {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+#location-icon, #completed-trades-icon, #completion-time-icon{
+  color: #00c5b6;
+}
+
+#location, #completed-trades, #completion-time{
+  margin: 6px;
+}
+
+
+.no-offers-container-trades {
+  background-color: transparent;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-top: 20px;
+  text-align: center;
+
+  p {
+    margin-bottom: 10px;
+  }
+
+  img {
+    max-width: 200px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .create-offer-btn {
+    background-color: transparent;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    margin-top: 10px;
+
+    .plus-icon {
+      font-size: 20px;
+      font-weight: bold;
+      color: #F5F5F5;
+      background-color: #00c5b6;
+      border-radius: 50%;
+    }
   }
 }

@@ -1,9 +1,9 @@
 import { Router } from 'express'
 import * as otpController from '../controllers/otpController'
 
-const userRouter = Router()
+const otpRouter = Router()
 
-userRouter.get('/resend', otpController.resendOtpGet)
-userRouter.post('/resend', otpController.resendOtpPost)
+otpRouter.get('/resend', otpController.resendOtpGet)
+otpRouter.post('/resend', otpController.resendOtpPost)
 
-export default userRouter
+export default otpRouter
