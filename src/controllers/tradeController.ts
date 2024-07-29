@@ -8,7 +8,7 @@ export const getMatchedTrades = catchAsyncErrors(async (req: Request, res: Respo
         const { displayMatchedTrades } = endpoints
         const accessToken = req.cookies['access_token']
         const refreshToken = req.cookies['refresh_token']
-        const userOfferId = req.params.id
+        const userOfferId = req.params.id  
 
         if (!accessToken || !refreshToken) {
             return res.status(401).json({ message: 'Session expired. Please login' })
@@ -21,7 +21,7 @@ export const getMatchedTrades = catchAsyncErrors(async (req: Request, res: Respo
             }
         })
 
-        res.status(200).json({ message: 'success', matches: response.data.matches })        
+        res.status(200).json({ message: 'success', matches: response.data.matches }) 
     }catch(err: any){
         res.status(401).json({ status: err.response.data.success, message: err.response.data.message })
     }

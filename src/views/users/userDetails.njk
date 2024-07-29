@@ -14,7 +14,11 @@
         <main id="main-card">
             <div class="trader-card">
                 <div class="profile-container">
-                    <img src="images/profiles/tiksfon.png" alt="Profile Picture">
+                    {% if user.userImage %}
+                        <img src="images/profiles/{{ user.userImage }}" alt="Profile Picture">
+                    {% else %}
+                        <img src="images/profiles/noProfile.png" alt="Profile Picture">
+                    {% endif %}
                     <div>
                         <h2>{{ user.userName }}</h2>
                         {# <p class="rating">&#9733;&#9733;&#9733;&#9733;&#9733;</p> #}
@@ -30,7 +34,7 @@
                     <p><i class="fas fa-check-circle"></i> No Completed trades yet</p>
                     <p><i class="fas fa-money-bill-wave"></i> No favorite currencies yet</p>
                     {% if offers.length > 0 %}
-                        <p><i class="fas fa-briefcase"></i> {{ offers.length }} Offers</p>
+                        <p><i class="fas fa-briefcase"></i> {{ offers.length }} Offer(s)</p>
                     {% else %}
                         <p><i class="fas fa-briefcase"></i> No offers yet</p>
                     {% endif %}

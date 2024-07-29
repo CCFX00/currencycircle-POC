@@ -231,9 +231,11 @@ header .header-container h1 {
 
 .matched-trades-header {
   display: flex;
-  justify-content: space-between;
   margin-bottom: 20px;
   font-size: 14px;
+}
+.matched-trades-header .matched-trades-rate {
+  margin-left: 55px;
 }
 
 .matched-trades-content {
@@ -287,11 +289,13 @@ header .header-container h1 {
 }
 
 .user-picture {
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  max-width: 200px;
-  height: auto;
-  margin-bottom: 5px;
+  object-fit: cover;
+  margin-right: 10px;
   margin-left: 50px;
+  margin-bottom: 3px;
 }
 
 .user-details {
@@ -303,8 +307,9 @@ header .header-container h1 {
 .user-name {
   margin-top: 0px;
   font-size: 14px;
+  font-weight: lighter;
   margin-bottom: 2px;
-  margin-left: 50px;
+  margin-left: 39px;
 }
 
 .user-rating {
@@ -335,6 +340,38 @@ header .header-container h1 {
 
 #location, #completed-trades, #completion-time {
   margin: 6px;
+}
+
+.no-offers-container-trades {
+  background-color: transparent;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-top: 20px;
+  text-align: center;
+}
+.no-offers-container-trades p {
+  margin-bottom: 10px;
+}
+.no-offers-container-trades img {
+  max-width: 200px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+.no-offers-container-trades .create-offer-btn {
+  background-color: transparent;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  margin-top: 10px;
+}
+.no-offers-container-trades .create-offer-btn .plus-icon {
+  font-size: 20px;
+  font-weight: bold;
+  color: #F5F5F5;
+  background-color: #00c5b6;
+  border-radius: 50%;
 }
 
 /*# sourceMappingURL=userDetails.css.map */

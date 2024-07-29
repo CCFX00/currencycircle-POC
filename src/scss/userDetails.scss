@@ -285,9 +285,13 @@ header {
 }
 .matched-trades-header {
   display: flex;
-  justify-content: space-between;
+  // justify-content: space-between;
   margin-bottom: 20px;
   font-size: 14px;
+
+  .matched-trades-rate{
+    margin-left: 55px;
+  }
 }
 .matched-trades-content {
   display: flex;
@@ -332,11 +336,13 @@ header {
   align-items: center;
 }
 .user-picture {
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  max-width: 200px;
-  height: auto;
-  margin-bottom: 5px;
-  margin-left: 50px;
+  object-fit: cover;
+  margin-right: 10px;
+  margin-left: 50px; 
+  margin-bottom: 3px; 
 }
 .user-details {
   display: flex;
@@ -346,8 +352,9 @@ header {
 .user-name {
   margin-top: 0px;
   font-size: 14px;
+  font-weight: lighter;
   margin-bottom: 2px;
-  margin-left: 50px;
+  margin-left: 39px;
 }
 .user-rating {
   color: #FFC107;
@@ -375,4 +382,41 @@ header {
 
 #location, #completed-trades, #completion-time{
   margin: 6px;
+}
+
+
+.no-offers-container-trades {
+  background-color: transparent;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-top: 20px;
+  text-align: center;
+
+  p {
+    margin-bottom: 10px;
+  }
+
+  img {
+    max-width: 200px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .create-offer-btn {
+    background-color: transparent;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    margin-top: 10px;
+
+    .plus-icon {
+      font-size: 20px;
+      font-weight: bold;
+      color: #F5F5F5;
+      background-color: #00c5b6;
+      border-radius: 50%;
+    }
+  }
 }

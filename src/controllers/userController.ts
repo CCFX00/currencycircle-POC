@@ -128,7 +128,8 @@ export const loginPost = catchAsyncErrors(async (req: Request, res: Response, ne
         }
     } catch (err: any) {
         const message = err.response.data.message;
-        res.status(401).json({ status: err.response.data.success, message: message });
+        // res.status(401).json({ status: err.response.data.success, message: message });
+        res.status(401).render('messageButton', { message: message , data: false, title: 'Message', endpoint: 'loginFail' });
     }
 })
 
@@ -280,7 +281,7 @@ export const displayDashboard = catchAsyncErrors(async (req: Request, res: Respo
         const { getMatchedTrades } = endpoints;
         const accessToken = req.cookies['access_token'];
         const refreshToken = req.cookies['refresh_token'];
-        const user = JSON.parse(req.cookies['user'])
+        const user = JSON.parse(req.cookies['user'])        
 
         if (!accessToken || !refreshToken) {
             return res.status(401).json({ message: 'Session expired. Please login' });
@@ -293,7 +294,7 @@ export const displayDashboard = catchAsyncErrors(async (req: Request, res: Respo
             }
         })
 
-        res.status(200).render('users/userDetails', { user, title: `${user.userName}'s dashboard`, offers: response.data.userOffers })
+        res.status(200).render('users/userDetails', { user, title: `${user.userName}'s dashboard`, offers: response.data.userOffers })       
     } catch (err: any) {
         res.status(401).json({ status: err.response.data.success, message: err.response.data.message });
     }
