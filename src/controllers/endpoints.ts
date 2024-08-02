@@ -21,5 +21,6 @@ export const endpoints = {
     createOffer: 'http://localhost:3000/ccfx/api/v1/offer/new',
     getOffers: 'http://localhost:3000/ccfx/api/v1/offer/details',
     getMatchedTrades: 'http://localhost:3000/ccfx/api/v1/trade',
-    displayMatchedTrades: 'http://localhost:3000/ccfx/api/v1/trade'
+    displayMatchedTrades: 'http://localhost:3000/ccfx/api/v1/trade',
+    getSpotRate: 'http://localhost:3000/ccfx/api/v1/latest',
 };

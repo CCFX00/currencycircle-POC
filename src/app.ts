@@ -28,6 +28,7 @@ import tscsRoutes from './routes/tscsRoutes'
 import otpRoutes from './routes/otpRoutes'
 import offerRoutes from './routes/offerRoutes'
 import tradeRoutes from './routes/tradeRoutes'
+import rateRoutes from './routes/rateRoute'
 
 app.use(userRoutes)
 app.use(ssoRoutes)
@@ -35,6 +36,7 @@ app.use(tscsRoutes)
 app.use(otpRoutes)
 app.use(offerRoutes)
 app.use(tradeRoutes)
+app.use(rateRoutes)
 
 app.use(ErrorHandler)
 

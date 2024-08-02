@@ -107,6 +107,7 @@ main {
   margin-left: auto;
   padding: 5px;
   width: 130px;
+  box-sizing: border-box;
 }
 
 /* Style the pencil icon */
@@ -137,18 +138,23 @@ input[type="text"] {
   border: none;
   padding: 5px;
   flex-grow: 1;
-  color: #a5a0a0;
+  color: #000000;
   font-weight: bold;
   text-align: center;
   font-size: 18px;
   outline: none;
   background-color: transparent;
   max-width: 100%;
+  box-sizing: border-box;
+}
+
+#ex-value{
+  color:white;
 }
 
 input[type="number"]::placeholder,
 input[type="text"]::placeholder {
-  color: #161515;
+  color: #333;
   font-size: larger;
   font-weight: bold;
   border: none;
