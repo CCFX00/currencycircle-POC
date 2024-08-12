@@ -8,9 +8,9 @@ export const offersGet = catchAsyncErrors(async (req: Request, res: Response, ne
         const user = JSON.parse(req.cookies['user'])
         const { getSpotRate } = endpoints
        
-        const response: AxiosResponse = await axios.post(getSpotRate, { from: 'USD', to: user.currency })            
+        const response: AxiosResponse = await axios.post(getSpotRate, {  from: 'USD' , to: user.currency })            
         
-        res.status(200).render('offers/createOffer', { title: 'Create Offer', userCurrency: user.currency, rate: response.data.rndRate, currencyTo: user.currency })
+        res.status(200).render('offers/createOffer', { title: 'Create Offer', userCurrency: user.currency, rate: response.data.rndRate, currencyTo: user.currency,  currencyFrom: user.currency})
     }catch(err: any){
         res.status(401).json({ status: err.response.data.success, message: err.response.data.message })
     }

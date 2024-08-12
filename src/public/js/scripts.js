@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
     exValue.value = Math.round(value).toLocaleString("en-US", {
       maximumFractionDigits: 0,
     });
-    matchFee.textContent = `$${(value * 0.005).toFixed(2)} match fee`;
+    matchFee.textContent = `$${(exAmount.value * 0.005).toFixed(2)} match fee`;
   }
 
   async function fetchRate(from, to) {

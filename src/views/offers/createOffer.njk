@@ -28,11 +28,20 @@
               <img src="/images/flags/us.png" alt="US Flag" class="flag-icon">
             </div>
             <select class="currency-select" name="from" id="base">
+              <option value="XAF" data-flag="/images/flags/cm.png" {% if currencyFrom == 'XAF' %}selected{% endif %}>XAF</option>
+              <option value="USD" data-flag="/images/flags/us.png" {% if currencyFrom == 'USD' %}selected{% endif %}>USD</option>
+              <option value="EUR" data-flag="/images/flags/eu.png" {% if currencyFrom == 'EUR' %}selected{% endif %}>EUR</option>
+              <option value="GBP" data-flag="/images/flags/gb.png" {% if currencyFrom == 'GBP' %}selected{% endif %}>GBP</option>
+              <option value="JPY" data-flag="/images/flags/jp.png" {% if currencyFrom == 'JPY' %}selected{% endif %}>JPY</option>
+
+              {# 
               <option value="XAF" data-flag="/images/flags/cm.png" {% if currencyFrom | default('USD') == 'XAF' %}selected{% endif %}>XAF</option>
               <option value="USD" data-flag="/images/flags/us.png" {% if currencyFrom | default('USD') == 'USD' %}selected{% endif %}>USD</option>
               <option value="EUR" data-flag="/images/flags/eu.png" {% if currencyFrom | default('USD') == 'EUR' %}selected{% endif %}>EUR</option>
               <option value="GBP" data-flag="/images/flags/gb.png" {% if currencyFrom | default('USD') == 'GBP' %}selected{% endif %}>GBP</option>
-              <option value="JPY" data-flag="/images/flags/jp.png" {% if currencyFrom | default('USD') == 'JPY' %}selected{% endif %}>JPY</option>
+              <option value="JPY" data-flag="/images/flags/jp.png" {% if currencyFrom | default('USD') == 'JPY' %}selected{% endif %}>JPY</option> 
+              #}
+              
             </select>
             <div class="input-container">
               <span class="material-icons pencil-icon">edit</span>
