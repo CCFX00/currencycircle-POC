@@ -88,7 +88,7 @@
             <label id="my-ex-to">{{ currencyTo | default('USD') }}</label>
             <div class="amount-input">
               <span class="material-icons">edit</span>
-              <input id="ex-rate" type="text" value={{ rate }}>
+              <input id="ex-rate" type="text" value={{ rate | default('1.00') }}>
             </div>
           </div>
         </div>

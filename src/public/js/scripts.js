@@ -12,7 +12,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const exValue = document.getElementById("ex-value");
   const exRate = document.getElementById("ex-rate");
   const matchFee = document.getElementById("match-fee");
+  const myExFrom = document.getElementById("my-ex-from");
+  const myExTo = document.getElementById("my-ex-to");
   const createOfferButton = document.querySelector(".google-button");
+
 
   function updateFlag(select) {
     const flagIcon = select.parentElement.querySelector(".flag-icon");
@@ -58,6 +61,8 @@ document.addEventListener("DOMContentLoaded", function () {
     updateFlag(this);
     const base = document.getElementById("base").value;
     const quote = document.getElementById("quote").value;
+    myExFrom.textContent = base
+    myExTo.textContent = quote
     fetchRate(base, quote);
   }
 
@@ -119,6 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (this.id === "my-offers-btn") {
         switchTab("my-offers-btn", offersContainer);
       } else if (this.id === "matched-trades-btn") {
+        fetchMatchedTrades(`http://localhost:5000/trades`)
         // switchTab('matched-trades-btn', tradesContainer);
       } else if (this.id === "in-discussion-btn") {
         switchTab("in-discussion-btn", discussionsContainer);
@@ -131,14 +137,14 @@ document.addEventListener("DOMContentLoaded", function () {
   offerLinks.forEach((link) => {
     link.addEventListener("click", function (event) {
       const offerId = this.getAttribute("data-offer-id");
-      fetchMatchedTrades(offerId);
+      fetchMatchedTrades(`http://localhost:5000/trade/${offerId}`);
     });
   });
 
   // Function to fetch matched trades
-  async function fetchMatchedTrades(offerId) {
+  async function fetchMatchedTrades(endpoint) {
     try {
-      const response = await fetch(`http://localhost:5000/trade/${offerId}`);
+      const response = await fetch(endpoint);
       const data = await response.json();
       const matches = data.matches;
 
@@ -182,15 +188,15 @@ document.addEventListener("DOMContentLoaded", function () {
           <div class="matched-trades-content">
             <div class="matched-trades-amount">
               <div class="matched-trades-currency">
-                <div class="matched-trades-currency-code">${match.to}</div>
-                <div class="matched-trades-currency-figure">${match.value}</div>
+                <div class="matched-trades-currency-code">${match.from}</div>
+                <div class="matched-trades-currency-figure">${match.amount}</div>
               </div>
               <div class="matched-trades-arrow">
                 <i class="fas fa-exchange-alt"></i>
               </div>
               <div class="matched-trades-currency">
-                <div class="matched-trades-currency-code">${match.from}</div>
-                <div class="matched-trades-currency-figure">${match.amount}</div>
+                <div class="matched-trades-currency-code">${match.to}</div>
+                <div class="matched-trades-currency-figure">${match.value}</div>
               </div>
               <div class="matched-trades-profile">
                 ${userProfile}
