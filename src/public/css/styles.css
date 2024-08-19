@@ -1811,7 +1811,7 @@ header .header-container h1 {
 }
 .offer-card .offer-content .offer-amount .amount {
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 100;
 }
 .offer-card .offer-content .exchange-arrow {
   font-size: 30px;
@@ -1886,7 +1886,7 @@ header .header-container h1 {
 
 .matched-trades-currency-figure {
   font-size: 14px;
-  font-weight: lighter;
+  font-weight: 100;
 }
 
 .matched-trades-arrow {

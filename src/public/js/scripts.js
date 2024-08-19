@@ -5,18 +5,103 @@ document.addEventListener("DOMContentLoaded", function () {
     handleWelcomePage();
   }
 
+
   // LOAD CREATE OFFERS' PAGE
   const selects = document.querySelectorAll(".currency-select");
-  selects.forEach((select) => {
-    select.addEventListener("change", function () {
-      const flagIcon = this.parentElement.querySelector(".flag-icon");
-      const selectedOption = this.options[this.selectedIndex];
-      const flagSrc = selectedOption.getAttribute("data-flag");
-      flagIcon.src = flagSrc;
-      flagIcon.alt = `${this.value} Flag`;
-    });
-  });
+  const exAmount = document.getElementById("ex-amount");
+  const exValue = document.getElementById("ex-value");
+  const exRate = document.getElementById("ex-rate");
+  const matchFee = document.getElementById("match-fee");
+  const myExFrom = document.getElementById("my-ex-from");
+  const myExTo = document.getElementById("my-ex-to");
+  const createOfferButton = document.querySelector(".google-button");
 
+
+  function updateFlag(select) {
+    const flagIcon = select.parentElement.querySelector(".flag-icon");
+    const selectedOption = select.options[select.selectedIndex];
+    const flagSrc = selectedOption.getAttribute("data-flag");
+    flagIcon.src = flagSrc;
+    flagIcon.alt = `${selectedOption.text} Flag`; // Update alt attribute to the country's name
+  }
+
+  function calculateValues() {
+    const amount = parseFloat(exAmount.value) || 0;
+    const rate = parseFloat(exRate.value) || 1;
+    const value = amount * rate;
+    exValue.value = Math.round(value).toLocaleString("en-US", {
+      maximumFractionDigits: 0,
+    });
+    matchFee.textContent = `$${(exAmount.value * 0.005).toFixed(2)} match fee`;
+  }
+
+  async function fetchRate(from, to) {
+    try {
+      const response = await fetch("http://localhost:5000/rate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ from, to }),
+      });
+      const data = await response.json();
+
+      if (response.ok) {
+        exRate.value = data.rate;
+        calculateValues();
+      } else {
+        console.error("Error fetching rate:", data.message);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+  function handleSelectChange() {
+    updateFlag(this);
+    const base = document.getElementById("base").value;
+    const quote = document.getElementById("quote").value;
+    myExFrom.textContent = base
+    myExTo.textContent = quote
+    fetchRate(base, quote);
+  }
+
+  async function submitOffer() {
+    const base = document.getElementById("base").value;
+    const quote = document.getElementById("quote").value;
+
+    const offerData = { from: base, to: quote, amount: exAmount.value, value: exValue.value, rate: exRate.value };
+
+    try {
+      const response = await fetch("http://localhost:5000/offer/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(offerData),
+      });
+
+      await response.json();
+      window.location.href = "/user";
+      
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+  if (exAmount && exRate && createOfferButton) {
+    exAmount.addEventListener("input", calculateValues);
+    exRate.addEventListener("input", calculateValues);
+    createOfferButton.addEventListener("click", submitOffer);
+  }
+
+  selects.forEach((select) => {
+    updateFlag(select); // Update the flag when the page loads
+
+    select.addEventListener("change", handleSelectChange);
+  });
+  
+  
   // LOAD OFFERS, MATCHED TRADES, DISCUSSIONS TABS
   const buttons = document.querySelectorAll(".nav-btn");
   const offersContainer = document.getElementById("offers-container");
@@ -39,6 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (this.id === "my-offers-btn") {
         switchTab("my-offers-btn", offersContainer);
       } else if (this.id === "matched-trades-btn") {
+        fetchMatchedTrades(`http://localhost:5000/trades`)
         // switchTab('matched-trades-btn', tradesContainer);
       } else if (this.id === "in-discussion-btn") {
         switchTab("in-discussion-btn", discussionsContainer);
@@ -51,14 +137,14 @@ document.addEventListener("DOMContentLoaded", function () {
   offerLinks.forEach((link) => {
     link.addEventListener("click", function (event) {
       const offerId = this.getAttribute("data-offer-id");
-      fetchMatchedTrades(offerId);
+      fetchMatchedTrades(`http://localhost:5000/trade/${offerId}`);
     });
   });
 
   // Function to fetch matched trades
-  async function fetchMatchedTrades(offerId) {
+  async function fetchMatchedTrades(endpoint) {
     try {
-      const response = await fetch(`http://localhost:5000/trade/${offerId}`);
+      const response = await fetch(endpoint);
       const data = await response.json();
       const matches = data.matches;
 
@@ -94,8 +180,6 @@ document.addEventListener("DOMContentLoaded", function () {
           ? `<img src="/images/profiles/${match.user.userImage}" alt="Profile Picture" class="user-picture">`
           : `<img src="/images/profiles/noProfile.png" alt="Profile Picture" class="user-picture">`;
 
-        
-
         offerCard.innerHTML = `
           <div class="matched-trades-header">
             <div class="matched-trades-date">${match.creationDate}</div>
@@ -105,14 +189,14 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="matched-trades-amount">
               <div class="matched-trades-currency">
                 <div class="matched-trades-currency-code">${match.from}</div>
-                <div class="matched-trades-currency-figure">${match.value}</div>
+                <div class="matched-trades-currency-figure">${match.amount}</div>
               </div>
               <div class="matched-trades-arrow">
                 <i class="fas fa-exchange-alt"></i>
               </div>
               <div class="matched-trades-currency">
                 <div class="matched-trades-currency-code">${match.to}</div>
-                <div class="matched-trades-currency-figure">${match.amount}</div>
+                <div class="matched-trades-currency-figure">${match.value}</div>
               </div>
               <div class="matched-trades-profile">
                 ${userProfile}
@@ -157,7 +241,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // Display the trades container
     tradesContainer.style.display = "block";
   }
+
 });
+
 
 // IMAGE SPLASH AND WELCOME SCREENS
 // Array of image sources

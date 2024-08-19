@@ -27,16 +27,25 @@
             <div class="flag-container">
               <img src="/images/flags/us.png" alt="US Flag" class="flag-icon">
             </div>
-            <select class="currency-select">
-              <option value="USD" data-flag="/images/flags/us.png">USD</option>
-              <option value="EUR" data-flag="/images/flags/eu.png">EUR</option>
-              <option value="GBP" data-flag="/images/flags/gb.png">GBP</option>
-              <option value="JPY" data-flag="/images/flags/jp.png">JPY</option>
-              <option value="XAF" data-flag="/images/flags/cm.png">XAF</option>
+            <select class="currency-select" name="from" id="base">
+              <option value="XAF" data-flag="/images/flags/cm.png" {% if currencyFrom == 'XAF' %}selected{% endif %}>XAF</option>
+              <option value="USD" data-flag="/images/flags/us.png" {% if currencyFrom == 'USD' %}selected{% endif %}>USD</option>
+              <option value="EUR" data-flag="/images/flags/eu.png" {% if currencyFrom == 'EUR' %}selected{% endif %}>EUR</option>
+              <option value="GBP" data-flag="/images/flags/gb.png" {% if currencyFrom == 'GBP' %}selected{% endif %}>GBP</option>
+              <option value="JPY" data-flag="/images/flags/jp.png" {% if currencyFrom == 'JPY' %}selected{% endif %}>JPY</option>
+
+              {# 
+              <option value="XAF" data-flag="/images/flags/cm.png" {% if currencyFrom | default('USD') == 'XAF' %}selected{% endif %}>XAF</option>
+              <option value="USD" data-flag="/images/flags/us.png" {% if currencyFrom | default('USD') == 'USD' %}selected{% endif %}>USD</option>
+              <option value="EUR" data-flag="/images/flags/eu.png" {% if currencyFrom | default('USD') == 'EUR' %}selected{% endif %}>EUR</option>
+              <option value="GBP" data-flag="/images/flags/gb.png" {% if currencyFrom | default('USD') == 'GBP' %}selected{% endif %}>GBP</option>
+              <option value="JPY" data-flag="/images/flags/jp.png" {% if currencyFrom | default('USD') == 'JPY' %}selected{% endif %}>JPY</option> 
+              #}
+              
             </select>
             <div class="input-container">
               <span class="material-icons pencil-icon">edit</span>
-              <input type="number" placeholder=" 000.00 ">
+              <input type="number" placeholder="0,00" value="0,00" name="amount" id="ex-amount">
             </div>
           </div>
         </div>
@@ -53,14 +62,14 @@
             <div class="flag-container">
               <img src="/images/flags/cm.png" alt="Cameroon flag" class="flag-icon">
             </div>
-            <select class="currency-select">
-              <option value="XAF" data-flag="/images/flags/cm.png">XAF</option>
-              <option value="USD" data-flag="/images/flags/us.png">USD</option>
-              <option value="EUR" data-flag="/images/flags/eu.png">EUR</option>
-              <option value="GBP" data-flag="/images/flags/gb.png">GBP</option>
-              <option value="JPY" data-flag="/images/flags/jp.png">JPY</option>              
+            <select class="currency-select" name="to" id="quote">
+              <option value="XAF" data-flag="/images/flags/cm.png" {% if currencyTo == 'XAF' %}selected{% endif %}>XAF</option>
+              <option value="USD" data-flag="/images/flags/us.png" {% if currencyTo == 'USD' %}selected{% endif %}>USD</option>
+              <option value="EUR" data-flag="/images/flags/eu.png" {% if currencyTo == 'EUR' %}selected{% endif %}>EUR</option>
+              <option value="GBP" data-flag="/images/flags/gb.png" {% if currencyTo == 'GBP' %}selected{% endif %}>GBP</option>
+              <option value="JPY" data-flag="/images/flags/jp.png" {% if currencyTo == 'JPY' %}selected{% endif %}>JPY</option>              
             </select>
-            <input type="text" value="792,200" readonly>
+            <input type="text" value="0,00" name="value" id="ex-value" readonly>
           </div>
         </div>
       </div>
@@ -72,14 +81,14 @@
       <div class="custom-rate">
         <div class="rate-inputs">
           <div class="input-group">
-            <label>USD</label>
+            <label id="my-ex-from">{{ currencyFrom | default('USD') }}</label>
             <input type="text" value="1" readonly>
           </div>
           <div class="input-group">
-            <label>XAF</label>
+            <label id="my-ex-to">{{ currencyTo | default('USD') }}</label>
             <div class="amount-input">
               <span class="material-icons">edit</span>
-              <input type="text" value="660.00">
+              <input id="ex-rate" type="text" value={{ rate | default('1.00') }}>
             </div>
           </div>
         </div>
@@ -87,7 +96,7 @@
       <p class="reference">Reference rate only, from www.oanda.com</p>
     
       <div class="fee-info">
-        <h3>$0 match fee</h3>
+        <h3 id="match-fee">$0 match fee</h3>
         <p>(0.5% of the value of the transaction) <small>will be required when you match with a buyer. CurrencyCircle will unlock your counterparty's profile and chat function for users to agree on how to complete their transaction.</small></p>
       </div>
     </main>
@@ -97,7 +106,7 @@
           <i class="fab fa-facebook-f"></i>
             Dashboard
       </button>
-      <button id="socialButton" class="google-button" onclick="createOffer()">
+      <button id="socialButton" class="google-button">
           <i class="fab fa-google"></i>
             Create Offer
       </button>
@@ -110,5 +119,6 @@
       <button><span class="material-icons">settings</span></button>
     </nav>
   </div>
+
 </body>
 </html>
