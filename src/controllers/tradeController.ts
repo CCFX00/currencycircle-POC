@@ -2,7 +2,6 @@ import axios, { AxiosResponse, AxiosError } from 'axios'
 import { Request, Response, NextFunction } from 'express'
 import { endpoints } from './endpoints'
 import catchAsyncErrors from '../middleware/catchAsyncErrors'
-import { access } from 'fs'
 
 export const getMatchedTrades = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
     try{
@@ -22,7 +21,7 @@ export const getMatchedTrades = catchAsyncErrors(async (req: Request, res: Respo
             }
         })
 
-        res.status(200).json({ message: 'success', matches: response.data.matches }) 
+        res.status(200).json({ message: 'success', matches: response.data.matches, userOffer: response.data.userOffer }) 
     }catch(err: any){
         res.status(401).json({ status: err.response.data.success, message: err.response.data.message })
     }
@@ -45,7 +44,7 @@ export const getAllMatchedTrades = catchAsyncErrors(async (req: Request, res: Re
             }
         })
 
-        res.status(200).json({ message: 'success', matches: response.data.allMatchedOffers }) 
+        res.status(200).json({ message: 'success', matches: response.data.allMatchedOffers, userOffer: response.data }) 
     }catch(err: any){
         res.status(401).json({ status: err.response.data.success, message: err.response.data.message })
     }

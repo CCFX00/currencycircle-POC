@@ -12,7 +12,7 @@
             </div>
         </header>
         <main id="main-card">
-            <div class="trader-card">
+            <div class="trader-card" data-user-id="{{ user._id }}">
                 <div class="profile-container">
                     {% if user.userImage %}
                         <img src="images/profiles/{{ user.userImage }}" alt="Profile Picture">

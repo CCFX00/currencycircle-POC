@@ -227,6 +227,7 @@ header .header-container h1 {
   padding: 20px;
   color: white;
   margin-bottom: 20px;
+  position: relative;
 }
 
 .matched-trades-header {
@@ -340,6 +341,76 @@ header .header-container h1 {
 
 #location, #completed-trades, #completion-time {
   margin: 6px;
+}
+
+.trade-actions {
+  justify-content: center;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.trade-state {
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.accept-btn,
+.decline-btn,
+.confirm-btn,
+.locked-btn {
+  display: flex;
+  gap: 10px;
+  padding: 10px 50px;
+  margin-bottom: 0px;
+  align-items: center;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.accept-btn {
+  background-color: #b0e2c4;
+  color: #3eaa3e;
+  border: none;
+}
+
+.accept-btn:hover {
+  background-color: #c1e4d0;
+}
+
+.decline-btn {
+  background-color: #dd9797;
+  color: #be0707;
+  border: none;
+}
+
+.decline-btn:hover {
+  background-color: #eed2d2;
+}
+
+.locked-btn {
+  background-color: #f7d2d2;
+  color: #ee3737;
+  border: none;
+  cursor: not-allowed;
+  padding: 10px;
+  font-size: 16px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.accept-btn i,
+.decline-btn i,
+.confirm-btn i,
+.locked-btn i {
+  font-size: 20px;
 }
 
 .no-offers-container-trades {

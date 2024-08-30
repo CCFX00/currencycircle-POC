@@ -1,5 +1,27 @@
 // AFTER PAGE IS COMPLETEY LOADED
 document.addEventListener("DOMContentLoaded", function () {
+  // Connect to server Socket IO
+  const traderCard = document.querySelector(".trader-card");
+
+    if (traderCard) {
+        const UID = traderCard.dataset.userId;
+
+        // Check if the user is already connected
+        if (!window.userSocket) {
+            const socket = io('ws://localhost:3000', {
+                query: { userId: UID }
+            });
+
+            window.userSocket = socket;
+
+            socket.on("receiveNotification", (notification) => {
+                console.log("Notification received:", notification);
+            });
+        }
+    } else {
+        console.log("No trader card found.");
+    }
+
   // Check if we are on the specific page by looking for the unique identifier
   if (document.getElementById("welcome-page")) {
     handleWelcomePage();
@@ -121,7 +143,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   buttons.forEach((button) => {
     button.addEventListener("click", function () {
-      if (this.id === "my-offers-btn") {
+      if (this.id === "my-offers-btn") {  
+        
+        // localStorage.removeItem('matchedDetails');
+
         switchTab("my-offers-btn", offersContainer);
       } else if (this.id === "matched-trades-btn") {
         fetchMatchedTrades(`http://localhost:5000/trades`)
@@ -147,18 +172,19 @@ document.addEventListener("DOMContentLoaded", function () {
       const response = await fetch(endpoint);
       const data = await response.json();
       const matches = data.matches;
+      const userOffer = data.userOffer;
 
       // Switch to Matched Trades tab
       switchTab("matched-trades-btn", tradesContainer);
 
       // Update the trades container with the new matches
-      updateTradesContainer(matches);
+      updateTradesContainer(matches, userOffer);
     } catch (error) {
       console.error("Error fetching matched trades:", error);
     }
   }
 
-  function updateTradesContainer(matches) {
+  function updateTradesContainer(matches, userOffer) {
     // Clear existing offers
     matchedTradesList.innerHTML = "";
 
@@ -175,6 +201,12 @@ document.addEventListener("DOMContentLoaded", function () {
       matches.forEach((match) => {
         const offerCard = document.createElement("div");
         offerCard.classList.add("matched-trades-card");
+
+        // Add the data attribute
+        offerCard.setAttribute("data-match-id", match._id); 
+        offerCard.setAttribute("data-match-user", match.user._id); 
+        offerCard.setAttribute("data-user-id", userOffer.user); 
+        offerCard.setAttribute("data-offer-id", userOffer._id); 
 
         const userProfile = match.user.userImage
           ? `<img src="/images/profiles/${match.user.userImage}" alt="Profile Picture" class="user-picture">`
@@ -220,9 +252,34 @@ document.addEventListener("DOMContentLoaded", function () {
               <p id="completion-time"><i class="fas fa-clock" id="completion-time-icon"></i> 08 hrs avg completion time</p>
             </div>
           </div>
+          <!-- Notifications block with accept or decline offer. Initially hidden. -->
+          <div class="trade-actions" style="display:flex"> 
+            <button class="accept-btn">
+              <i class="fas fa-check"></i>
+              Accept
+            </button>
+            <button class="decline-btn">
+              <i class="fas fa-times"></i>
+              Decline
+            </button>  
+          </div>
+          <div class="trade-state" style="display:none">
+            <button class="locked-btn">
+              <i class="fas fa-lock"></i>
+              Locked
+            </button>
+          </div>
         `;
 
         matchedTradesList.appendChild(offerCard);
+
+        // Add click event listener
+        offerCard.addEventListener("click", () => {
+          let details = getMatchedTradeInfo(offerCard)
+
+        });
+              
+        
       });
     } else {
       const noOffersContainer = document.createElement("div");
@@ -317,6 +374,7 @@ function redirectToGoogle() {
 }
 
 function signout() {
+  localStorage.clear();
   window.location.href = "/logout";
 }
 
@@ -495,3 +553,24 @@ window.onclick = function (event) {
     modal.style.display = "none";
   }
 };
+
+
+
+// Gatting Matched Trade info
+function getMatchedTradeInfo(mathedItem){
+  const matchedOfferId = mathedItem.dataset.matchId 
+  const matchedOfferOwnerId = mathedItem.dataset.matchUser
+  const userId = mathedItem.dataset.userId
+  const userOfferId = mathedItem.dataset.offerId
+
+  let matchedDetails ={
+    matchedOfferId,
+    matchedOfferOwnerId,
+    userId,
+    userOfferId
+  }
+
+  return matchedDetails
+
+  // localStorage.setItem('matchedDetails', JSON.stringify(matchedDetails))
+}
