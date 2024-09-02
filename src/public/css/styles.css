@@ -1613,7 +1613,6 @@ footer {
 }
 
 body {
-  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -1756,6 +1755,21 @@ header .header-container h1 {
 }
 .icons-container .notification-icon {
   color: #474545;
+  position: relative;
+}
+.icons-container .notification-badge {
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: none;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  text-align: center;
+  line-height: 20px;
+  font-size: 12px;
 }
 .icons-container .settings-icon {
   color: #474545;
@@ -2057,6 +2071,200 @@ header .header-container h1 {
   color: #F5F5F5;
   background-color: #00c5b6;
   border-radius: 50%;
+}
+
+.notification-container {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 27%;
+  border-top-right-radius: 40px;
+  border-top-left-radius: 40px;
+  font-size: 18px;
+  background-color: rgba(255, 255, 255, 0.9);
+  z-index: 1;
+}
+
+.notification-container p {
+  padding: 40px 40px 20px;
+  color: black;
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.yes-button {
+  background-color: #00c5b6;
+  color: white;
+  border: none;
+  padding: 20px 60px;
+  font-size: 18px;
+  border-radius: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.yes-button:hover {
+  background-color: #16a085;
+}
+
+.cancel-button {
+  background-color: transparent;
+  color: #e74c3c;
+  border: 1px solid #e74c3c;
+  padding: 20px 60px;
+  border-radius: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.cancel-button:hover {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.currency-container {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+.currency-card {
+  background-color: #283a84;
+  border-radius: 15px;
+  margin-top: 20px;
+  padding: 20px;
+  width: 1000px;
+  color: white;
+  position: relative;
+}
+
+.currency-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.currency-date {
+  font-size: 0.8em;
+}
+
+.currency-rate {
+  font-size: 0.9em;
+  color: #0bd4d4;
+  padding-right: 120px;
+}
+
+.currency-email-icon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 1.2em;
+  color: #00c5c5;
+}
+
+.currency-user {
+  display: flex;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.currency-user-left {
+  display: flex;
+  align-items: flex-start;
+  margin-right: 20px;
+}
+
+.currency-avatar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 10px;
+  width: 60px;
+}
+
+.currency-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-bottom: 5px;
+}
+
+.currency-username {
+  font-size: 0.9em;
+  text-align: center;
+}
+
+.currency-user-right {
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+.currency-info-left, .currency-info-right {
+  display: flex;
+  flex-direction: column;
+}
+
+.currency-info-left {
+  margin-right: 5px;
+  align-content: right;
+}
+
+.currency-rating {
+  color: gold;
+  font-size: 1.2em;
+  margin-bottom: 5px;
+}
+
+.currency-stats {
+  font-size: 0.85em;
+  color: #ccc;
+}
+
+.currency-stat-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.currency-location {
+  font-size: 0.85em;
+  color: #ccc;
+  display: flex;
+  align-items: center;
+}
+
+.currency-location-icon, .currency-icon {
+  margin-right: 5px;
+  font-size: 1.2em;
+  color: #00c5b6;
+}
+
+.currency-exchange {
+  background-color: rgba(228, 228, 250, 0.062745098);
+  border-radius: 10px;
+  padding: 20px;
+  margin-left: 50px;
+  margin-right: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.currency-name {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.currency-amount {
+  font-size: 0.9em;
 }
 
 /*# sourceMappingURL=styles.css.map */

@@ -1,26 +1,15 @@
+const userStatus = localStorage.getItem('isLoggedIn')
+const UID = document.querySelector(".trader-card").dataset.userId;
+
 // AFTER PAGE IS COMPLETEY LOADED
 document.addEventListener("DOMContentLoaded", function () {
-  // Connect to server Socket IO
-  const traderCard = document.querySelector(".trader-card");
+  localStorage.setItem('isLoggingOut', 'false');
+  if (!userStatus && UID) {
+    // Check if the trader card exists and connect if not already connected
+    connectSocketIO(UID);
+    localStorage.setItem('isLoggedIn', 'true');
+  }
 
-    if (traderCard) {
-        const UID = traderCard.dataset.userId;
-
-        // Check if the user is already connected
-        if (!window.userSocket) {
-            const socket = io('ws://localhost:3000', {
-                query: { userId: UID }
-            });
-
-            window.userSocket = socket;
-
-            socket.on("receiveNotification", (notification) => {
-                console.log("Notification received:", notification);
-            });
-        }
-    } else {
-        console.log("No trader card found.");
-    }
 
   // Check if we are on the specific page by looking for the unique identifier
   if (document.getElementById("welcome-page")) {
@@ -37,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const myExFrom = document.getElementById("my-ex-from");
   const myExTo = document.getElementById("my-ex-to");
   const createOfferButton = document.querySelector(".google-button");
-
+  
 
   function updateFlag(select) {
     const flagIcon = select.parentElement.querySelector(".flag-icon");
@@ -130,6 +119,24 @@ document.addEventListener("DOMContentLoaded", function () {
   const tradesContainer = document.getElementById("trades-container");
   const discussionsContainer = document.getElementById("discussion-container");
   const matchedTradesList = document.getElementById("matched-trades-list");
+  const notificationCountElement = document.getElementById("notification-count");
+  let newNotifications = []
+
+  // Fetching notifications
+  window.userSocket.emit('fetchNotifications');
+
+  // Listening for the notifications from the server
+  window.userSocket.on('notifications', (notifications) => {
+     const unreadNotifications = notifications.filter(notification => !notification.isRead);
+
+    newNotifications = notifications
+    if(unreadNotifications.length > 0){
+      notificationCountElement.textContent = unreadNotifications.length;
+      notificationCountElement.style.display = "block";
+    }else {
+      notificationCountElement.style.display = "none";
+    }  
+  })
 
   // Function to handle tab switching
   function switchTab(activeButtonId, activeContainer) {
@@ -144,15 +151,95 @@ document.addEventListener("DOMContentLoaded", function () {
   buttons.forEach((button) => {
     button.addEventListener("click", function () {
       if (this.id === "my-offers-btn") {  
-        
-        // localStorage.removeItem('matchedDetails');
-
         switchTab("my-offers-btn", offersContainer);
       } else if (this.id === "matched-trades-btn") {
         fetchMatchedTrades(`http://localhost:5000/trades`)
         // switchTab('matched-trades-btn', tradesContainer);
       } else if (this.id === "in-discussion-btn") {
         switchTab("in-discussion-btn", discussionsContainer);
+          // HTML for In Discussion Screen
+          const discussionContent = `
+          <div class="currency-container">
+              <div class="currency-card">
+                  <div class="currency-header">
+                      <span class="currency-date">06/04/2023</span>
+                      <span class="currency-rate">1 USD = 660 XAF</span>
+                  </div>
+                  <div class="currency-email-icon"><i class="fas fa-envelope"></i></div>
+                  <div class="currency-user">
+                      <div class="currency-user-left">
+                          <div class="currency-avatar-container">
+                              <img src="/images/profiles/tiksfon.png" alt="Tiksfon Avatar" class="currency-avatar">
+                              <div class="currency-username">Tikefon</div>
+                          </div>
+                          <div class="currency-info-left">
+                              <div class="currency-rating">★★★★★</div>
+                              <div class="currency-location">
+                                  <i class="fas fa-map-marker-alt currency-location-icon"></i>
+                                  <span>New York, USA</span>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="currency-user-right">
+                          <div class="currency-info-right">
+                              <div class="currency-stats">
+                                  <div class="currency-stat-item">
+                                      <i class="fas fa-lock currency-icon"></i>
+                                      <span>3 Completed trades</span>
+                                  </div>
+                                  <div class="currency-stat-item">
+                                      <i class="fas fa-clock currency-icon"></i>
+                                      <span>08 hrs avg completion time</span>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="currency-exchange">
+                      <div>
+                          <div class="currency-name">USD</div>
+                          <div class="currency-amount">1200</div>
+                      </div>
+                      <div class="matched-trades-arrow">
+                        <i class="fas fa-exchange-alt"></i>
+                      </div>
+                      <div>
+                          <div class="currency-name">XAF</div>
+                          <div class="currency-amount">792,000</div>
+                      </div>
+                  </div>
+                  <div class="currency-user" style="margin-top: 15px;">
+                      <div class="currency-user-left">
+                          <div class="currency-avatar-container">
+                              <img src="/images/profiles/ateking.png" alt="Ateking Avatar" class="currency-avatar">
+                              <div class="currency-username">Ateking12</div>
+                          </div>
+                          <div class="currency-info-left">
+                              <div class="currency-rating">★★★★★</div>
+                              <div class="currency-location">
+                                  <i class="fas fa-map-marker-alt currency-location-icon"></i>
+                                  <span>New York, USA</span>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="currency-user-right">
+                          <div class="currency-info-right">
+                              <div class="currency-stats">
+                                  <div class="currency-stat-item">
+                                      <i class="fas fa-lock currency-icon"></i>
+                                      <span>3 Completed trades</span>
+                                  </div>
+                                  <div class="currency-stat-item">
+                                      <i class="fas fa-clock currency-icon"></i>
+                                      <span>08 hrs avg completion time</span>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>`;
+        discussionsContainer.innerHTML = discussionContent; 
       }
     });
   });
@@ -177,14 +264,14 @@ document.addEventListener("DOMContentLoaded", function () {
       // Switch to Matched Trades tab
       switchTab("matched-trades-btn", tradesContainer);
 
-      // Update the trades container with the new matches
-      updateTradesContainer(matches, userOffer);
+      updateTradesContainer(matches, userOffer, newNotifications);
     } catch (error) {
       console.error("Error fetching matched trades:", error);
     }
   }
 
-  function updateTradesContainer(matches, userOffer) {
+  // Function to update the trades container with new matches
+  function updateTradesContainer(matches, userOffer, notifications) {
     // Clear existing offers
     matchedTradesList.innerHTML = "";
 
@@ -207,6 +294,12 @@ document.addEventListener("DOMContentLoaded", function () {
         offerCard.setAttribute("data-match-user", match.user._id); 
         offerCard.setAttribute("data-user-id", userOffer.user); 
         offerCard.setAttribute("data-offer-id", userOffer._id); 
+
+        // Ensure the matchFee is set to 0,5% of the match value in case it is not provided
+        // Using the Nullish Coalescing Assignment (??=):
+        match.matchFee ??= parseInt(match.value) * 0.005;
+
+        offerCard.setAttribute("data-match-fee", match.matchFee); 
 
         const userProfile = match.user.userImage
           ? `<img src="/images/profiles/${match.user.userImage}" alt="Profile Picture" class="user-picture">`
@@ -253,7 +346,7 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
           </div>
           <!-- Notifications block with accept or decline offer. Initially hidden. -->
-          <div class="trade-actions" style="display:flex"> 
+          <div class="trade-actions" style="display:none"> 
             <button class="accept-btn">
               <i class="fas fa-check"></i>
               Accept
@@ -269,17 +362,109 @@ document.addEventListener("DOMContentLoaded", function () {
               Locked
             </button>
           </div>
+          <div id="notificationPopup" class="notification-container" style="display:none">
+              <p id="notificationMessage">${match.user.userName} will now be notified of your interest. If ${match.user.userName} accepts, your match fee will be ${match.matchFee}$.</p>
+              <div class="modal-buttons">
+                <button id="yesButton" class="yes-button">Yes</button>
+                <button id="cancelButton" class="cancel-button">Cancel</button>
+              </div>
+          </div>
         `;
+
+        if (notifications && notifications.length > 0) {
+          const details = getMatchedTradeInfo(offerCard);
+          // Check if there is a related notification
+          const notification = notifications.find(
+            (notif) => notif.senderId === details.matchedOfferOwnerId && notif.recieverId === details.userId && notif.offerId === details.matchedOfferId
+          );
+
+          if (notification) {
+            if (!notification.isRead) {
+              offerCard.querySelector('.trade-actions').style.display = 'flex';
+            } else if (notification.isRead && notification.isAccepted) {
+              offerCard.querySelector('.trade-state').style.display = 'block';
+            }
+          }
+        }else{
+          const details = getMatchedTradeInfo(offerCard);
+          userSocket.emit('checkNotification', { offerId: details.userOfferId})
+          userSocket.on('receiveNotification', (notifications) => {
+            const notification = notifications.find(
+              (notif) => notif.senderId === details.userId && notif.recieverId === details.matchedOfferOwnerId && notif.offerId === details.userOfferId
+            )
+
+            if (notification) {
+              if (notification.isRead && notification.isAccepted) {
+                offerCard.querySelector('.trade-state').style.display = 'block';
+              }
+            }
+          })
+        }       
 
         matchedTradesList.appendChild(offerCard);
 
-        // Add click event listener
-        offerCard.addEventListener("click", () => {
+        const acceptBtn = offerCard.querySelector('.accept-btn');
+        const declineBtn = offerCard.querySelector('.decline-btn');
+        const yesBtn = offerCard.querySelector('.yes-button');
+        const cancelBtn = offerCard.querySelector('.cancel-button');
+        const notificationPopup = offerCard.querySelector('.notification-container')
+        const notificationMessage = offerCard.querySelector('#notificationMessage')
+
+
+        // Adding click event listener to the offer card to trigger the notification popup
+        offerCard.addEventListener("click", (event) => {
+          const tradeActions = offerCard.querySelector('.trade-actions');
+          const tradeState = offerCard.querySelector('.trade-state');
+          const notificationPopup = offerCard.querySelector('.notification-container');
+
+          // Check if trade-actions and trade-state are hidden
+          const areTradeActionsHidden = window.getComputedStyle(tradeActions).display === 'none';
+          const areTradeStateHidden = window.getComputedStyle(tradeState).display === 'none';
+
+          if (areTradeActionsHidden && areTradeStateHidden) {
+            notificationPopup.style.display = 'block';
+          }
+
+          event.stopPropagation();
+        });
+
+        yesBtn.addEventListener("click", (event) => {
           let details = getMatchedTradeInfo(offerCard)
 
+          window.userSocket.emit('sendNotification', { 
+            senderId: details.userId, 
+            recieverId: details.matchedOfferOwnerId, 
+            offerId: details.userOfferId,
+            message: notificationMessage.textContent,
+            matchFee: details.matchFee
+          })
+
+          notificationPopup.style.display = 'none';
+          event.stopPropagation();
+        })
+
+        cancelBtn.addEventListener("click", (event) => {
+          notificationPopup.style.display = 'none';
+          event.stopPropagation();
+        })
+
+        // Accepting a notification
+        acceptBtn.addEventListener('click', () => {
+            let details = getMatchedTradeInfo(offerCard)
+
+            window.userSocket.emit('acceptOffer', { ...details, action: 'accept' });
+            offerCard.querySelector('.trade-actions').style.display = 'none';
+            offerCard.querySelector('.trade-state').style.display = 'block';
         });
-              
-        
+
+        // Declining a notification
+        declineBtn.addEventListener('click', () => {
+            let details = getMatchedTradeInfo(offerCard)
+
+            window.userSocket.emit('declineOffer', { ...details, action: 'decline' });
+            offerCard.remove();
+        }); 
+
       });
     } else {
       const noOffersContainer = document.createElement("div");
@@ -374,6 +559,13 @@ function redirectToGoogle() {
 }
 
 function signout() {
+  localStorage.setItem('isLoggingOut', 'true');
+  if (window.userSocket) {
+      // Emit a logout event before disconnecting
+      window.userSocket.emit('userLogout', () => {
+        window.userSocket.disconnect();
+      });
+  }
   localStorage.clear();
   window.location.href = "/logout";
 }
@@ -420,9 +612,6 @@ function resendVerification() {
   document.getElementById("resendVerification").submit();
 }
 
-function submitLoginFormData() {
-  document.getElementById("userLogin").submit();
-}
 
 // COLLECT USER DATA AT SIGN UP
 // step one
@@ -497,6 +686,7 @@ function uploadFile() {
   }
 }
 
+
 // TERMS AND CONDITIONS MODAL
 // Get the modal
 var modal = document.getElementById("termsModal");
@@ -513,10 +703,12 @@ var agreeButton = document.getElementById("agreeButton");
 // Function to fetch and display T&Cs
 async function fetchAndDisplayTcs() {
   try {
-    const response = await fetch("/tcs/latest");
+    // const response = await fetch("/tcs/latest");
+    const response = await fetch("http://localhost:5000/tcs/latest");
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
+
     const data = await response.json();
 
     // Populate the modal with fetched data
@@ -554,23 +746,36 @@ window.onclick = function (event) {
   }
 };
 
-
-
-// Gatting Matched Trade info
+// Getting Matched Trade info
 function getMatchedTradeInfo(mathedItem){
   const matchedOfferId = mathedItem.dataset.matchId 
   const matchedOfferOwnerId = mathedItem.dataset.matchUser
   const userId = mathedItem.dataset.userId
   const userOfferId = mathedItem.dataset.offerId
+  const matchFee = mathedItem.dataset.matchFee
 
   let matchedDetails ={
     matchedOfferId,
     matchedOfferOwnerId,
     userId,
-    userOfferId
+    userOfferId,
+    matchFee
   }
 
   return matchedDetails
+}
 
-  // localStorage.setItem('matchedDetails', JSON.stringify(matchedDetails))
+// This function will establish the Socket.IO connection
+function connectSocketIO(UID) {
+  if (UID) { 
+      // Check if the user is already connected
+      if (!window.userSocket) {
+          const socket = io('ws://localhost:3000', {
+              query: { userId: UID }
+          });
+          window.userSocket = socket;
+      }
+  } else {
+      console.log("No trader card found.");
+  }
 }
