@@ -11,18 +11,7 @@ $light-black: #333333;
 body {
   margin: 0;
   padding: 0;
-  // background-image: $background-image;
-  // background-size: cover;
-  // background-position: center;
-  // background-repeat: no-repeat;
-  // color: $text-color;
 }
-
-// .container {
-//   max-width: 600px;
-//   margin: 0 auto;
-//   padding: 20px;
-// }
 
 header {
   background-color: transparent;
@@ -128,7 +117,7 @@ header {
   }
 }
 
-
+// Styling empty offer container
 .no-offers-container {
   background-color: transparent;
   border-radius: 8px;
@@ -215,19 +204,17 @@ header {
   overflow-y: auto;
   margin-top: 20px;
 }
-
 .offers-list {
   list-style: none;
   padding: 0;
 }
-
 .offer-card {
   background-color: #0b4183;
   border-radius: 10px;
   padding: 20px;
   color: white;
   margin-bottom: 20px;
-
+  
   .offer-header {
       display: flex;
       justify-content: space-between;
@@ -315,7 +302,7 @@ header {
   margin-bottom: 20px;
   font-weight: bolder;
 }
-.matched-trades-rate{
+.matched-trades-rate {
   color: #00c5b6;
   font-weight: bold;
 }
@@ -406,12 +393,10 @@ header {
   gap: 16px;
   margin-top: 16px;
 }
-
 .trade-state {
   justify-content: center;
   margin-top: 16px;
 }
-
 .accept-btn,
 .decline-btn,
 .confirm-btn,
@@ -428,27 +413,22 @@ header {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
 .accept-btn {
   background-color: #b0e2c4;
   color: #3eaa3e;
   border: none;
 }
-
 .accept-btn:hover {
   background-color: #c1e4d0;
 }
-
 .decline-btn {
   background-color: #dd9797;
   color: #be0707;
   border: none;
 }
-
 .decline-btn:hover {
   background-color: #eed2d2;
 }
-
 .locked-btn {
   background-color: #f7d2d2;
   color: #ee3737;
@@ -463,7 +443,6 @@ header {
   align-items: center;
   text-align: center;
 }
-
 .accept-btn i,
 .decline-btn i,
 .confirm-btn i,
@@ -471,43 +450,6 @@ header {
   font-size: 20px;
 }
 
-
-// No offers container
-.no-offers-container-trades {
-  background-color: transparent;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin-top: 20px;
-  text-align: center;
-
-  p {
-    margin-bottom: 10px;
-  }
-
-  img {
-    max-width: 200px;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-  }
-
-  .create-offer-btn {
-    background-color: transparent;
-    border: none;
-    color: #ffffff;
-    cursor: pointer;
-    margin-top: 10px;
-
-    .plus-icon {
-      font-size: 20px;
-      font-weight: bold;
-      color: #F5F5F5;
-      background-color: #00c5b6;
-      border-radius: 50%;
-    }
-  }
-}
 
 // Send notification modal popup 
 .notification-container {
@@ -520,16 +462,7 @@ header {
   border-top-left-radius: 40px;
   font-size: 18px;
   background-color: rgba(255, 255, 255, 0.9); 
-  z-index: 1;
-  // overflow: auto;
-  // display: flex;
-  // flex-direction: column;
-  // justify-content: center; 
-  // align-items: center; 
-  // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-  // // z-index: 1000; 
-  // transition: opacity 0.3s ease; 
-  // opacity: 1; 
+  z-index: 1; 
 }
 .notification-container p {
   padding: 40px 40px 20px;
@@ -567,23 +500,15 @@ header {
   }
 }
 
-// Styling for in discussion tab
-.currency-container {
-  font-family: Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
-}
 
+// Styling for in discussion tab
 .currency-card {
   background-color: #283a84;
   border-radius: 15px;
-  margin-top: 20px;
+  margin-top: 15px;
   padding: 20px;
-  width: 1000px;
+  width: 347px;
   color: white;
-  position: relative;
 }
 
 .currency-header {
@@ -600,11 +525,11 @@ header {
 .currency-rate {
   font-size: 0.9em;
   color: #0bd4d4;
-  padding-right: 120px;
+  padding-right: 25px;
 }
 
 .currency-email-icon {
-  position: absolute;
+  // position: absolute;
   top: 20px;
   right: 20px;
   font-size: 1.2em;
@@ -678,7 +603,7 @@ header {
 }
 
 .currency-location {
-  font-size: 0.85em;
+  font-size: 12px;
   color: #ccc;
   display: flex;
   align-items: center;

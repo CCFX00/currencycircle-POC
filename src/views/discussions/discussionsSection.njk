@@ -1,8 +1,87 @@
-<div id="discussion-container" style="display: none;">
+{# <div id="discussion-container" style="display: none;">
     {% if discussions.length > 0 %}
-        <div class="offers-container">
-           <p>some discussion</p>
-        </div>                      
+        {% for discussion in discussions %}
+            <div class="currency-container">
+                <div class="currency-card">
+                    <div class="currency-header">
+                        <span class="currency-date">{{ discussion.creationDate }}</span>
+                        <span class="currency-rate">1 {{ discussion.matchedOfferId.from }} = {{ discussion.matchedOfferId.rate }} {{ discussion.matchedOfferId.to }}</span>
+                    </div>
+                    <div class="currency-email-icon"><i class="fas fa-envelope"></i></div>
+                    <div class="currency-user">
+                        <div class="currency-user-left">
+                            <div class="currency-avatar-container">
+                                <img src="/images/profiles/{{ discussion.loggedInUserId.userImage }}" alt="{{ discussion.loggedInUserId.name }} Avatar" class="currency-avatar">
+                                <div class="currency-username">{{ discussion.loggedInUserId.name }}</div>
+                            </div>
+                            <div class="currency-info-left">
+                                <div class="currency-rating">★★★★★</div>
+                                <div class="currency-location">
+                                    <i class="fas fa-map-marker-alt currency-location-icon"></i>
+                                    <span>{{ discussion.loggedInUserId.city }}, {{ discussion.loggedInUserId.currency }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="currency-user-right">
+                            <div class="currency-info-right">
+                                <div class="currency-stats">
+                                    <div class="currency-stat-item">
+                                        <i class="fas fa-lock currency-icon"></i>
+                                        <span>{{ discussion.y | default('Unknown') }} Completed trades</span>
+                                    </div>
+                                    <div class="currency-stat-item">
+                                        <i class="fas fa-clock currency-icon"></i>
+                                        <span>{{ discussion.y | default('Unknown') }} avg completion time</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="currency-exchange">
+                        <div>
+                            <div class="currency-name">{{ discussion.matchedOfferId.from }}</div>
+                            <div class="currency-amount">{{ discussion.matchedOfferId.amount }}</div>
+                        </div>
+                        <div class="matched-trades-arrow">
+                        <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <div>
+                            <div class="currency-name">{{ discussion.matchedOfferId.to }}</div>
+                            <div class="currency-amount">{{ discussion.matchedOfferId.value }}</div>
+                        </div>
+                    </div>
+                    <div class="currency-user" style="margin-top: 15px;">
+                        <div class="currency-user-left">
+                            <div class="currency-avatar-container">
+                                <img src="/images/profiles/{{ discussion.matchedOfferOwnerId.userImage }}" alt="{{ discussion.matchedOfferOwnerId.name }} Avatar" class="currency-avatar">
+                                <div class="currency-username">{{ discussion.matchedOfferOwnerId.name }}</div>
+                            </div>
+                            <div class="currency-info-left">
+                                <div class="currency-rating">★★★★★</div>
+                                <div class="currency-location">
+                                    <i class="fas fa-map-marker-alt currency-location-icon"></i>
+                                    <span>{{ discussion.matchedOfferOwnerId.city }}, {{ discussion.matchedOfferOwnerId.currency }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="currency-user-right">
+                            <div class="currency-info-right">
+                                <div class="currency-stats">
+                                    <div class="currency-stat-item">
+                                        <i class="fas fa-lock currency-icon"></i>
+                                        <span>{{ discussion.y | default('Unknown') }} Completed trades</span>
+                                    </div>
+                                    <div class="currency-stat-item">
+                                        <i class="fas fa-clock currency-icon"></i>
+                                        <span>{{ discussion.y | default('Unknown') }} avg completion time</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}                     
     {% else %}
         <div class="no-offers-container">
             <p>You have no discussions</p>
@@ -10,4 +89,15 @@
             <button class="create-offer-btn">Click the <span class="plus-icon">+</span> Sign to create an offer</button>
         </div>
     {% endif %}
+</div> #}
+
+
+<div id="discussion-container" style="display: none;">
+    
+        <div class="offers-container">
+            <ul class="offers-list" id="trades-in-discussion-list">
+                
+            </ul>
+        </div>                    
+
 </div>

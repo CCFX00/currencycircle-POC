@@ -10,12 +10,10 @@ document.addEventListener("DOMContentLoaded", function () {
     localStorage.setItem('isLoggedIn', 'true');
   }
 
-
   // Check if we are on the specific page by looking for the unique identifier
   if (document.getElementById("welcome-page")) {
     handleWelcomePage();
   }
-
 
   // LOAD CREATE OFFERS' PAGE
   const selects = document.querySelectorAll(".currency-select");
@@ -119,6 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const tradesContainer = document.getElementById("trades-container");
   const discussionsContainer = document.getElementById("discussion-container");
   const matchedTradesList = document.getElementById("matched-trades-list");
+  const tradesInDiscussionList = document.getElementById("trades-in-discussion-list");
   const notificationCountElement = document.getElementById("notification-count");
   let newNotifications = []
 
@@ -154,92 +153,8 @@ document.addEventListener("DOMContentLoaded", function () {
         switchTab("my-offers-btn", offersContainer);
       } else if (this.id === "matched-trades-btn") {
         fetchMatchedTrades(`http://localhost:5000/trades`)
-        // switchTab('matched-trades-btn', tradesContainer);
       } else if (this.id === "in-discussion-btn") {
-        switchTab("in-discussion-btn", discussionsContainer);
-          // HTML for In Discussion Screen
-          const discussionContent = `
-          <div class="currency-container">
-              <div class="currency-card">
-                  <div class="currency-header">
-                      <span class="currency-date">06/04/2023</span>
-                      <span class="currency-rate">1 USD = 660 XAF</span>
-                  </div>
-                  <div class="currency-email-icon"><i class="fas fa-envelope"></i></div>
-                  <div class="currency-user">
-                      <div class="currency-user-left">
-                          <div class="currency-avatar-container">
-                              <img src="/images/profiles/tiksfon.png" alt="Tiksfon Avatar" class="currency-avatar">
-                              <div class="currency-username">Tikefon</div>
-                          </div>
-                          <div class="currency-info-left">
-                              <div class="currency-rating">★★★★★</div>
-                              <div class="currency-location">
-                                  <i class="fas fa-map-marker-alt currency-location-icon"></i>
-                                  <span>New York, USA</span>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="currency-user-right">
-                          <div class="currency-info-right">
-                              <div class="currency-stats">
-                                  <div class="currency-stat-item">
-                                      <i class="fas fa-lock currency-icon"></i>
-                                      <span>3 Completed trades</span>
-                                  </div>
-                                  <div class="currency-stat-item">
-                                      <i class="fas fa-clock currency-icon"></i>
-                                      <span>08 hrs avg completion time</span>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="currency-exchange">
-                      <div>
-                          <div class="currency-name">USD</div>
-                          <div class="currency-amount">1200</div>
-                      </div>
-                      <div class="matched-trades-arrow">
-                        <i class="fas fa-exchange-alt"></i>
-                      </div>
-                      <div>
-                          <div class="currency-name">XAF</div>
-                          <div class="currency-amount">792,000</div>
-                      </div>
-                  </div>
-                  <div class="currency-user" style="margin-top: 15px;">
-                      <div class="currency-user-left">
-                          <div class="currency-avatar-container">
-                              <img src="/images/profiles/ateking.png" alt="Ateking Avatar" class="currency-avatar">
-                              <div class="currency-username">Ateking12</div>
-                          </div>
-                          <div class="currency-info-left">
-                              <div class="currency-rating">★★★★★</div>
-                              <div class="currency-location">
-                                  <i class="fas fa-map-marker-alt currency-location-icon"></i>
-                                  <span>New York, USA</span>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="currency-user-right">
-                          <div class="currency-info-right">
-                              <div class="currency-stats">
-                                  <div class="currency-stat-item">
-                                      <i class="fas fa-lock currency-icon"></i>
-                                      <span>3 Completed trades</span>
-                                  </div>
-                                  <div class="currency-stat-item">
-                                      <i class="fas fa-clock currency-icon"></i>
-                                      <span>08 hrs avg completion time</span>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>`;
-        discussionsContainer.innerHTML = discussionContent; 
+        fetchInDiscussionTrades(`http://localhost:5000/discussions/all`)
       }
     });
   });
@@ -266,7 +181,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
       updateTradesContainer(matches, userOffer, newNotifications);
     } catch (error) {
-      console.error("Error fetching matched trades:", error);
+      console.error("Error fetching matched trades: ", error);
+    }
+  }
+
+  // Function to fetch matched trades
+  async function fetchInDiscussionTrades(endpoint) {
+    try {
+      const response = await fetch(endpoint);
+      const result = (await response.json()).inDiscussionTrades;
+
+      // Switch to Matched Trades tab
+      switchTab("in-discussion-btn", discussionsContainer);
+
+      updateDiscussionsContainer(result);
+    } catch (error) {
+      console.error("Error fetching trades in discussion: ", error);
     }
   }
 
@@ -277,7 +207,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Remove existing no-offers-container if it exists
     const existingNoOffersContainer = document.querySelector(
-      ".no-offers-container-trades"
+      ".no-offers-container"
     );
     if (existingNoOffersContainer) {
       existingNoOffersContainer.remove();
@@ -421,13 +351,18 @@ document.addEventListener("DOMContentLoaded", function () {
           const areTradeActionsHidden = window.getComputedStyle(tradeActions).display === 'none';
           const areTradeStateHidden = window.getComputedStyle(tradeState).display === 'none';
 
-          if (areTradeActionsHidden && areTradeStateHidden) {
+          // Reinforce the check by ensuring no other offerCard has tradeState visible
+          const anyOtherTradeStateVisible = Array.from(document.querySelectorAll('.trade-state'))
+          .some(state => window.getComputedStyle(state).display === 'block');
+
+          if (!anyOtherTradeStateVisible && areTradeActionsHidden && areTradeStateHidden) {
             notificationPopup.style.display = 'block';
           }
 
           event.stopPropagation();
         });
-
+        
+        // Confirm notification emission and close popup
         yesBtn.addEventListener("click", (event) => {
           let details = getMatchedTradeInfo(offerCard)
 
@@ -443,6 +378,7 @@ document.addEventListener("DOMContentLoaded", function () {
           event.stopPropagation();
         })
 
+        // Cancel notification emission and close popup
         cancelBtn.addEventListener("click", (event) => {
           notificationPopup.style.display = 'none';
           event.stopPropagation();
@@ -468,7 +404,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     } else {
       const noOffersContainer = document.createElement("div");
-      noOffersContainer.classList.add("no-offers-container-trades");
+      noOffersContainer.classList.add("no-offers-container");
 
       noOffersContainer.innerHTML = `
         <p>No matched trades</p>
@@ -482,6 +418,132 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Display the trades container
     tradesContainer.style.display = "block";
+  }
+
+  // Function to update the discussions container with locked trades
+  function updateDiscussionsContainer(result){
+     // Clear existing offers
+     tradesInDiscussionList.innerHTML = "";
+
+     // Remove existing no discussions container if it exists
+     const existingDiscussionsContainer = document.querySelector(
+       ".no-offers-container"
+     );
+
+     if (existingDiscussionsContainer) {
+       existingDiscussionsContainer.remove();
+     }
+
+    if (result && Array.isArray(result) && result.length > 0) {
+      result.forEach((data) => {
+        const discussionCard = document.createElement("div");
+        discussionCard.classList.add("currency-card");
+
+        const loggedInUserProfile = data.loggedInUserId.userImage
+          ? `<img src="/images/profiles/${ data.loggedInUserId.userImage }" alt="${ data.loggedInUserId.name } Avatar" class="currency-avatar">`
+          : `<img src="/images/profiles/noProfile.png" alt="No Profile Avatar" class="currency-avatar">`;
+        
+        const matchedOfferOwnerProfile = data.matchedOfferOwnerId.userImage
+          ? `<img src="/images/profiles/${ data.matchedOfferOwnerId.userImage }" alt="${ data.matchedOfferOwnerId.name } Avatar" class="currency-avatar">`
+          : `<img src="/images/profiles/noProfile.png" alt="No Profile Avatar" class="currency-avatar">`;
+
+        discussionCard.innerHTML = `            
+          <div class="currency-header">
+              <span class="currency-date">${ data.creationDate }</span>
+              <span class="currency-rate">1 ${ data.matchedOfferId.from } = ${ data.matchedOfferId.rate } ${ data.matchedOfferId.to }</span>
+              <div class="currency-email-icon"><i class="fas fa-envelope"></i></div>
+          </div>          
+          <div class="currency-user">
+              <div class="currency-user-left">
+                  <div class="currency-avatar-container">
+                      ${loggedInUserProfile}
+                      <div class="currency-username">${ data.loggedInUserId.name }</div>
+                  </div>
+                  <div class="currency-info-left">
+                      <div class="currency-rating">★★★★★</div>
+                      <div class="currency-location">
+                          <i class="fas fa-map-marker-alt currency-location-icon"></i>
+                          <span>${ data.loggedInUserId.city }, ${ data.loggedInUserId.currency }</span>
+                      </div>
+                  </div>
+              </div>
+              <div class="currency-user-right">
+                  <div class="currency-info-right">
+                      <div class="currency-stats">
+                          <div class="currency-stat-item">
+                              <i class="fas fa-lock currency-icon"></i>
+                              <span>Unknown Completed trades</span>
+                          </div>
+                          <div class="currency-stat-item">
+                              <i class="fas fa-clock currency-icon"></i>
+                              <span>Unknown avg completion time</span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="currency-exchange">
+              <div>
+                  <div class="currency-name">${ data.matchedOfferId.from }</div>
+                  <div class="currency-amount">${ data.matchedOfferId.amount }</div>
+              </div>
+              <div class="matched-trades-arrow">
+              <i class="fas fa-exchange-alt"></i>
+              </div>
+              <div>
+                  <div class="currency-name">${ data.matchedOfferId.to }</div>
+                  <div class="currency-amount">${ data.matchedOfferId.value }</div>
+              </div>
+          </div>
+          <div class="currency-user" style="margin-top: 15px;">
+              <div class="currency-user-left">
+                  <div class="currency-avatar-container">
+                      ${matchedOfferOwnerProfile}
+                      <div class="currency-username">${ data.matchedOfferOwnerId.name }</div>
+                        </div>
+                  <div class="currency-info-left">
+                      <div class="currency-rating">★★★★★</div>
+                      <div class="currency-location">
+                          <i class="fas fa-map-marker-alt currency-location-icon"></i>
+                          <span>${ data.matchedOfferOwnerId.city }, ${ data.matchedOfferOwnerId.currency }</span>
+                      </div>
+                  </div>
+              </div>
+              <div class="currency-user-right">
+                  <div class="currency-info-right">
+                      <div class="currency-stats">
+                          <div class="currency-stat-item">
+                              <i class="fas fa-lock currency-icon"></i>
+                              <span>Unknown Completed trades</span>
+                          </div>
+                          <div class="currency-stat-item">
+                              <i class="fas fa-clock currency-icon"></i>
+                              <span>Unknown avg completion time</span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>    
+        `; 
+
+        // Display in discussion container
+        tradesInDiscussionList.appendChild(discussionCard)
+      })
+    }else {
+      const noDiscussionsContainer = document.createElement("div");
+      noDiscussionsContainer.classList.add("no-offers-container");
+
+      noDiscussionsContainer.innerHTML = `
+        <p>You have no discussions</p>
+        <img src="images/nooffers.png" alt="No Offers">
+        <button class="create-offer-btn">Click the <span class="plus-icon">+</span> Sign to create an offer</button>
+      `;
+
+      // Append the no discussions container directly to the tradesContainer
+      discussionsContainer.appendChild(noDiscussionsContainer);
+    }
+
+    discussionsContainer.display = 'block';
   }
 
 });
