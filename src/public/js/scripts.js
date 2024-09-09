@@ -1,9 +1,13 @@
-const userStatus = localStorage.getItem('isLoggedIn')
-const UID = document.querySelector(".trader-card").dataset.userId;
+const notificationCountElement = document.getElementById("notification-count");
+let Notifications = []
 
-// AFTER PAGE IS COMPLETEY LOADED
+// // AFTER PAGE IS COMPLETEY LOADED
 document.addEventListener("DOMContentLoaded", function () {
+  const UID = document.querySelector(".trader-card")?.dataset.userId;
+
   localStorage.setItem('isLoggingOut', 'false');
+  const userStatus = localStorage.getItem('isLoggedIn');
+
   if (!userStatus && UID) {
     // Check if the trader card exists and connect if not already connected
     connectSocketIO(UID);
@@ -118,24 +122,36 @@ document.addEventListener("DOMContentLoaded", function () {
   const discussionsContainer = document.getElementById("discussion-container");
   const matchedTradesList = document.getElementById("matched-trades-list");
   const tradesInDiscussionList = document.getElementById("trades-in-discussion-list");
-  const notificationCountElement = document.getElementById("notification-count");
-  let newNotifications = []
 
-  // Fetching notifications
-  window.userSocket.emit('fetchNotifications');
+  if(window.userSocket){
+    // Fetching notifications
+    window.userSocket.emit('fetchNotifications');
 
-  // Listening for the notifications from the server
-  window.userSocket.on('notifications', (notifications) => {
-     const unreadNotifications = notifications.filter(notification => !notification.isRead);
+    // Listening for the notifications from the server
+    window.userSocket.on('notifications', (notifications) => {
+      const unreadNotifications = notifications.filter(notification => !notification.isRead);
 
-    newNotifications = notifications
-    if(unreadNotifications.length > 0){
-      notificationCountElement.textContent = unreadNotifications.length;
-      notificationCountElement.style.display = "block";
-    }else {
-      notificationCountElement.style.display = "none";
-    }  
-  })
+      Notifications = unreadNotifications
+      if(unreadNotifications.length > 0){
+        notificationCountElement.textContent = unreadNotifications.length;
+        notificationCountElement.style.display = "block";
+      }else {
+        notificationCountElement.style.display = "none";
+      }  
+    })
+
+    // Listening for the notifications from the server
+    window.userSocket.on('newNotification', (notification) => {
+      Notifications.push(notification)
+      if(Notifications.length > 0){
+        notificationCountElement.textContent = Notifications.length;
+        notificationCountElement.style.display = "block";
+      }else {
+        notificationCountElement.style.display = "none";
+      }  
+    })
+  }
+  
 
   // Function to handle tab switching
   function switchTab(activeButtonId, activeContainer) {
@@ -179,7 +195,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Switch to Matched Trades tab
       switchTab("matched-trades-btn", tradesContainer);
 
-      updateTradesContainer(matches, userOffer, newNotifications);
+      updateTradesContainer(matches, userOffer, Notifications);
     } catch (error) {
       console.error("Error fetching matched trades: ", error);
     }
@@ -318,7 +334,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }else{
           const details = getMatchedTradeInfo(offerCard);
           userSocket.emit('checkNotification', { offerId: details.userOfferId})
-          userSocket.on('receiveNotification', (notifications) => {
+          userSocket.on('recieveNotification', (notifications) => {
             const notification = notifications.find(
               (notif) => notif.senderId === details.userId && notif.recieverId === details.matchedOfferOwnerId && notif.offerId === details.userOfferId
             )
@@ -387,7 +403,6 @@ document.addEventListener("DOMContentLoaded", function () {
         // Accepting a notification
         acceptBtn.addEventListener('click', () => {
             let details = getMatchedTradeInfo(offerCard)
-
             window.userSocket.emit('acceptOffer', { ...details, action: 'accept' });
             offerCard.querySelector('.trade-actions').style.display = 'none';
             offerCard.querySelector('.trade-state').style.display = 'block';
@@ -830,14 +845,23 @@ function getMatchedTradeInfo(mathedItem){
 // This function will establish the Socket.IO connection
 function connectSocketIO(UID) {
   if (UID) { 
-      // Check if the user is already connected
-      if (!window.userSocket) {
-          const socket = io('ws://localhost:3000', {
-              query: { userId: UID }
-          });
-          window.userSocket = socket;
-      }
+    if (!window.userSocket) {
+      const socket = io('ws://localhost:3000', {
+        query: { userId: UID }
+      });
+
+      // Add error handling
+      socket.on('connect_error', (err) => {
+        console.error("Socket connection error: ", err);
+      });
+
+      socket.on('connect_timeout', () => {
+        console.warn("Socket connection timed out.");
+      });
+
+      window.userSocket = socket;
+    }
   } else {
-      console.log("No trader card found.");
+    console.log("No trader card found.");
   }
 }
