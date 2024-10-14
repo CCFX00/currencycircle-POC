@@ -152,7 +152,6 @@ document.addEventListener("DOMContentLoaded", function () {
     })
   }
   
-
   // Function to handle tab switching
   function switchTab(activeButtonId, activeContainer) {
     buttons.forEach((btn) => btn.classList.remove("active"));
@@ -309,7 +308,7 @@ document.addEventListener("DOMContentLoaded", function () {
             </button>
           </div>
           <div id="notificationPopup" class="notification-container" style="display:none">
-              <p id="notificationMessage">${match.user.userName} will now be notified of your interest. If ${match.user.userName} accepts, your match fee will be ${match.matchFee}$.</p>
+              <p id="notificationMessage">${match.user.userName} will now be notified of your interest. If ${match.user.userName} accepts, your match fee will be ${match.matchFee}${match.to}.</p>
               <div class="modal-buttons">
                 <button id="yesButton" class="yes-button">Yes</button>
                 <button id="cancelButton" class="cancel-button">Cancel</button>
@@ -466,7 +465,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <div class="currency-header">
               <span class="currency-date">${ data.creationDate }</span>
               <span class="currency-rate">1 ${ data.matchedOfferId.from } = ${ data.matchedOfferId.rate } ${ data.matchedOfferId.to }</span>
-              <div class="currency-email-icon"><i class="fas fa-envelope"></i></div>
+              <div class="currency-email-icon" id="chatButton"><i class="fas fa-envelope"></i></div>
           </div>          
           <div class="currency-user">
               <div class="currency-user-left">
@@ -558,7 +557,24 @@ document.addEventListener("DOMContentLoaded", function () {
       discussionsContainer.appendChild(noDiscussionsContainer);
     }
 
-    discussionsContainer.display = 'block';
+    discussionsContainer.display = 'block'
+
+    // Shorten name field if too long.
+    const maxChars = 11
+    const divs = document.querySelectorAll('.currency-username');
+    divs.forEach(div => {
+      if (div.textContent.length > maxChars) {
+        div.textContent = div.textContent.slice(0, maxChars) + ".";
+      }
+    });
+
+    // Open chat
+    const chatBtn = document.getElementById('chatButton')
+    chatBtn.addEventListener('click', (event) =>{
+      console.log('clicked chat button')
+      window.location.href = '/chat'
+      event.stopPropagation()
+    })
   }
 
 });

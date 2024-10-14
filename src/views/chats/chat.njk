@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    {% include "partials/header.njk" %}
+
+    <body>
+        <div class="container">
+            <div class="logo">
+                <img src="/images/logo2.png" alt="Currency Circle">
+            </div>
+            <h1>Hey, Welcome Back!</h1>
+            <p>Here's your chat app</p>
+
+            <form class="form-join">
+                <input type="text" id="name" maxlength="8" placeholder="Your name" size="5" required>
+                <input type="text" id="room" placeholder="Chat room" size="5" required>
+                <button type="submit">Join</button>
+            </form>
+
+            <ul class="chat-display"></ul>
+            <p class="user-list"></p>
+            <p class="room-list"></p>
+            <p class="activity"></p>
+
+            <form class="form-msg">
+                <input type="text" id="message" placeholder="Your message" required>
+                <button type="submit">Send</button>
+            </form>
+
+
+            <div class="social-buttons">
+                <button class="facebook-button" onclick="displayDashboard()">
+                        User Dashboard
+                </button>
+                <button class="google-button" onclick="signout()">
+                        Sign out
+                </button>
+            </div> 
+        </div>          
+        {% include "partials/footer.njk" %}
+    </body>
+
+</html>
