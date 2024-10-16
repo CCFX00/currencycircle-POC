@@ -1,0 +1,85 @@
+<head>
+{% include "partials/header.njk" %}
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/chat.css">
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-box">
+      <div class="header">
+        <div class="back-arrow">←</div>
+        <div class="user-info">
+          <div class="profile-pic" style="background-image: url('/images/profiles/tiksfon.png');"></div>
+          <div class="username">Tiksfon</div>
+        </div>
+        <div class="icons">
+          <i class="icon bank">🏦</i>
+          <i class="icon exchange">💱</i>
+        </div>
+      </div>
+
+      <div class="messages">
+        <div class="date-indicator">Today</div>
+
+        <div class="message received">
+          <div class="profile-pic" style="background-image: url('/images/profiles/tiksfon.png');"></div>
+          <div class="message-content">
+            <div class="message-bubble">
+              Hi Tiksfon,<br>Nice to meet you virtually. I take it you are after 650
+            </div>
+            <div class="message-time">10:45 AM</div>
+          </div>
+        </div>
+
+        <div class="message sent">
+          <div class="message-content">
+            <div class="message-bubble">
+              Hello - yes I have $1250 and wanted $1200. Can we agree on the rate of 660 and $1200?
+            </div>
+            <div class="message-time">10:46 AM</div>
+          </div>
+          <div class="profile-pic" style="background-image: url('/images/profiles/ateking.png');"></div>
+        </div>
+
+        <div class="message received">
+          <div class="profile-pic" style="background-image: url('/images/profiles/tiksfon.png');"></div>
+          <div class="message-content">
+            <div class="message-bubble">
+              Sure, we can. If you have a momo number in Cameroon please give it to me. Here is my USD bank account. Let's swap today latest 4pm please
+            </div>
+            <div class="message-time">10:48 AM</div>
+          </div>
+        </div>
+
+        <div class="message sent">
+          <div class="message-content">
+            <div class="message-bubble">
+              Great!! all done now.
+            </div>
+            <div class="message-time">10:50 AM</div>
+          </div>
+          <div class="profile-pic" style="background-image: url('/images/profiles/tiksfon.png');"></div>
+        </div>
+
+        <div class="message received">
+          <div class="profile-pic" style="background-image: url('/images/profiles/ateking.png');"></div>
+          <div class="message-content">
+            <div class="message-bubble">
+              Done on my side too. Great doing
+            </div>
+            <div class="message-time">10:52 AM</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="input-box">
+        <input type="text" placeholder="Type a message">
+        <button class="send-button">▶</button>
+      </div>
+    </div>
+  </div>
+      {% include "partials/footer.njk" %}
+
+</body>
+</html>

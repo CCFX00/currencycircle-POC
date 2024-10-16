@@ -1,0 +1,73 @@
+{% raw %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade History</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app">
+        <header>
+            <button class="menu-button">☰</button>
+            <h1>Trade History</h1>
+        </header>
+        
+        <div class="toggle-container">
+            <button class="toggle-button active">Completed</button>
+            <button class="toggle-button">Cancelled</button>
+        </div>
+        
+        <div class="trade-list">
+            {% for trade in trades %}
+            <div class="trade-item">
+                <div class="trade-date">{{ trade.date }}</div>
+                <div class="trade-info">
+                    <div class="user-info">
+                        <img src="{{ trade.userImage }}" alt="{{ trade.userName }}" class="user-image">
+                        <div class="user-details">
+                            <div class="user-name">{{ trade.userName }}</div>
+                            <div class="user-rating">
+                                {% for i in range(5) %}
+                                <span class="star {% if i < trade.rating %}filled{% endif %}">★</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="trade-location">
+                        <i class="location-icon">📍</i> {{ trade.location }}
+                    </div>
+                    <div class="trade-completion">
+                        <i class="completion-icon">🔒</i> {{ trade.completedTrades }} Completed trades
+                    </div>
+                    <div class="trade-time">
+                        <i class="time-icon">⏱️</i> {{ trade.avgCompletionTime }} hrs avg completion time
+                    </div>
+                </div>
+                <div class="trade-amounts">
+                    <div class="amount usd">
+                        <span class="currency">USD</span>
+                        <span class="value">{{ trade.usdAmount }}</span>
+                    </div>
+                    <div class="amount xaf">
+                        <span class="currency">XAF</span>
+                        <span class="value">{{ trade.xafAmount }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <button class="review-button">Leave review</button>
+        
+        <nav class="bottom-nav">
+            <button class="nav-button active">💼</button>
+            <button class="nav-button">📊</button>
+            <button class="nav-button">🔔</button>
+            <button class="nav-button">⚙️</button>
+        </nav>
+    </div>
+</body>
+</html>
+{% endraw %}

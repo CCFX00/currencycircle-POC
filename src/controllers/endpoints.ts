@@ -24,4 +24,5 @@ export const endpoints = {
     displayMatchedTrades: 'http://localhost:3000/ccfx/api/v1/trade',
     displayAllMatchedTrades: 'http://localhost:3000/ccfx/api/v1/trade/all',
     getSpotRate: 'http://localhost:3000/ccfx/api/v1/latest',
+    getInDiscussionTrades: 'http://localhost:3000/ccfx/api/v1/discussions/all',
 };
