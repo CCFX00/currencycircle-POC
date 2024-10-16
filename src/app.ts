@@ -31,6 +31,7 @@ import tradeRoutes from './routes/tradeRoutes'
 import rateRoutes from './routes/rateRoute'
 import discussionRoutes from './routes/discussionRoutes'
 import chatRoutes from './routes/chatRoutes'
+import tradeHistoryRoute from './routes/tradeshistoryRoutes'
 
 app.use(userRoutes)
 app.use(ssoRoutes)
@@ -41,6 +42,7 @@ app.use(tradeRoutes)
 app.use(rateRoutes)
 app.use(discussionRoutes)
 app.use(chatRoutes)
+app.use(tradeHistoryRoute)
 
 app.use(ErrorHandler)
 

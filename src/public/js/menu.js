@@ -43,4 +43,16 @@ document.addEventListener("DOMContentLoaded", function() {
         e.preventDefault();
         document.querySelector("#in-discussion-btn").scrollIntoView({ behavior: "smooth" });
     });
+
+    // Handle Chats link
+    document.querySelector('a[href="/chats/chat.njk"]').addEventListener("click", function(e) {
+        e.preventDefault();
+        window.location.href = "/chats/chat.njk";
+    });
+
+    // Handle Trade History link
+    document.querySelector('a[href="/tradehistory/tradehistory.njk"]').addEventListener("click", function(e) {
+        e.preventDefault();
+        window.location.href = "/tradehistory/tradehistory.njk";
+    });
 });
