@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Disable rating if the user cannot rate themselves
     if (!canRate) {
         alert("You cannot rate yourself!");
-        // Optionally hide or disable the rating form
         stars.forEach(star => star.style.pointerEvents = 'none');
         confirmButton.disabled = true;
         return;
@@ -74,10 +73,8 @@ document.addEventListener('DOMContentLoaded', function() {
             userId: userId, 
             tradeId: "507f191e810c19729de860ea",  
             rating: currentRating, 
-            comment: selectedIssues.length > 0 ? selectedIssues.join(', ') : commentBox.value || "Excellent trade!" // Static comment as fallback
+            comment: selectedIssues.length > 0 ? selectedIssues.join(', ') : commentBox.value || "Excellent trade!" 
         };
-
-        console.log('Sending rating data:', ratingData);  
 
         fetch('http://localhost:3000/ccfx/api/v1/ratings', {
             method: 'POST',
@@ -108,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
         thankYouMessage.className = 'thank-you-message';
         thankYouMessage.innerHTML = `
             <h2>Thanks for rating!</h2>
-            <p>Your feedback is valuable to me.</p>
+            <p>Your feedback is valuable to us.</p>
             <button id="backButton">Go Back</button>
         `;
         document.body.appendChild(thankYouMessage);
