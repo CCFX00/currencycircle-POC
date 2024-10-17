@@ -8,9 +8,10 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentRating = 0;
     let selectedIssues = [];
 
-    // Get the current logged-in user ID and the user being rated
+    // Get the current logged-in user ID, the user being rated, and the trade ID
     const currentUserId = document.querySelector('[data-current-user-id]')?.dataset.currentUserId;
     const userId = document.querySelector('[data-user-id]')?.dataset.userId;
+    const tradeId = document.querySelector('[data-trade-id]')?.dataset.tradeId;  // Get trade ID for this rating
 
     // Check if the current user is the same as the user being rated
     const canRate = currentUserId !== userId;
@@ -69,11 +70,12 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        // Create the rating data to be sent to the backend
         const ratingData = {
             userId: userId, 
-            tradeId: "507f191e810c19729de860ea",  
+            tradeId: tradeId,  // Include the trade ID in the payload
             rating: currentRating, 
-            comment: selectedIssues.length > 0 ? selectedIssues.join(', ') : commentBox.value || "Excellent trade!" 
+            comment: selectedIssues.length > 0 ? selectedIssues.join(', ') : commentBox.value || "Excellent trade!"
         };
 
         fetch('http://localhost:3000/ccfx/api/v1/ratings', {
@@ -85,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Failed to submit rating');
+                return response.json().then(err => { throw new Error(err.message) });
             }
             return response.json();
         })
@@ -95,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Failed to submit rating. Please try again.');
+            alert('Failed to submit rating: ' + error.message); // Display the actual error message from the backend
         });
     });
 
