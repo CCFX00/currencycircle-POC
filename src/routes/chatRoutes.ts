@@ -4,6 +4,7 @@ import authenticateUser from '../middleware/authenticateUser';
 
 const chatRouter = Router()
 
-chatRouter.get('/chat', authenticateUser, chatController.displayChat)
+chatRouter.get('/chat', authenticateUser, chatController.displayChatGet)
+// chatRouter.post('/chat', chatController.displayChatPost)
 
 export default chatRouter

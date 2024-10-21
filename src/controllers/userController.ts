@@ -53,6 +53,7 @@ export const signupGet2 = catchAsyncErrors(async (req: Request, res: Response, n
 
 export const signupPost = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
     try {
+        console.log('signupPost')
         const { signup } = endpoints;
 
         // Extract data from step 1
