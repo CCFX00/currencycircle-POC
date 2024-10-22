@@ -2,12 +2,28 @@
 <html lang="en">
 
 {% include "partials/header.njk" %}
+<script src="/js/menu.js" defer></script>
+<link rel="stylesheet" href="/css/menu.css">
 
 <body>  
     <div class="container">
         <header>
             <div class="header-container">
-                <div class="menu-icon"><i class="fas fa-bars"></i></div>
+                <div class="menu-container">
+                    <div class="menu-icon"><i class="fas fa-bars"></i></div>
+                    <div class="sidebar">
+                        <ul>
+                            <li><a href="#" id="dashboard-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                            <li><a href="#" id="my-offers-link"><i class="fas fa-tags"></i> My Offers</a></li>
+                            <li><a href="#" id="matched-trades-link"><i class="fas fa-exchange-alt"></i> Matched Trades</a></li>
+                            <li><a href="#" id="in-discussion-link"><i class="fas fa-comments"></i> In Discussion</a></li>
+                            <li><a href="/chat.njk"><i class="fas fa-comments"></i> Chats</a></li>
+                            <li><a href="/tradeHistory.njk"><i class="fas fa-history"></i> Trade History</a></li>
+                            <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                        </ul>
+                        <div class="app-version">Version 1.0</div>
+                    </div>
+                </div>
                 <h1>My Trades</h1>
             </div>
         </header>

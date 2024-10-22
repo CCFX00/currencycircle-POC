@@ -5,13 +5,18 @@ let Notifications = []
 document.addEventListener("DOMContentLoaded", function () {
   const UID = document.querySelector(".trader-card")?.dataset.userId;
 
-  localStorage.setItem('isLoggingOut', 'false');
-  const userStatus = localStorage.getItem('isLoggedIn');
+  // Get the value of isLoggingOut from localStorage
+  const isLoggingOut = localStorage.getItem('isLoggingOut');
 
-  if (!userStatus && UID) {
-    // Check if the trader card exists and connect if not already connected
-    connectSocketIO(UID);
-    localStorage.setItem('isLoggedIn', 'true');
+  // Proceed only if isLoggingOut is not true
+  if (isLoggingOut !== 'true') {
+    const userStatus = localStorage.getItem('isLoggedIn');
+
+    if (!userStatus && UID) {
+      // Check if the trader card exists and connect if not already connected
+      connectSocketIO(UID);
+      localStorage.setItem('isLoggedIn', 'true');
+    }
   }
 
   // Check if we are on the specific page by looking for the unique identifier
@@ -453,6 +458,16 @@ document.addEventListener("DOMContentLoaded", function () {
         const discussionCard = document.createElement("div");
         discussionCard.classList.add("currency-card");
 
+        // Setting data attributes
+        discussionCard.setAttribute("data-discussion-id", data._id); 
+        discussionCard.setAttribute("data-sender-id", data.matchedOfferOwnerId._id); 
+        discussionCard.setAttribute("data-sender-name", data.matchedOfferOwnerId.userName); 
+        discussionCard.setAttribute("data-sender-image", data.matchedOfferOwnerId.userImage); 
+        discussionCard.setAttribute("data-reciever-id", data.loggedInUserId._id); 
+        discussionCard.setAttribute("data-reciever-name", data.loggedInUserId.userName); 
+        discussionCard.setAttribute("data-reciever-image", data.loggedInUserId.userImage); 
+
+        
         const loggedInUserProfile = data.loggedInUserId.userImage
           ? `<img src="/images/profiles/${ data.loggedInUserId.userImage }" alt="${ data.loggedInUserId.name } Avatar" class="currency-avatar">`
           : `<img src="/images/profiles/noProfile.png" alt="No Profile Avatar" class="currency-avatar">`;
@@ -465,13 +480,13 @@ document.addEventListener("DOMContentLoaded", function () {
           <div class="currency-header">
               <span class="currency-date">${ data.creationDate }</span>
               <span class="currency-rate">1 ${ data.matchedOfferId.from } = ${ data.matchedOfferId.rate } ${ data.matchedOfferId.to }</span>
-              <div class="currency-email-icon" id="chatButton"><i class="fas fa-envelope"></i></div>
+              <div class="currency-email-icon"><i class="fas fa-envelope"></i></div>
           </div>          
           <div class="currency-user">
               <div class="currency-user-left">
                   <div class="currency-avatar-container">
                       ${loggedInUserProfile}
-                      <div class="currency-username">${ data.loggedInUserId.name }</div>
+                      <div class="currency-username">${ data.loggedInUserId.userName }</div>
                   </div>
                   <div class="currency-info-left">
                       <div class="currency-rating">★★★★★</div>
@@ -513,7 +528,7 @@ document.addEventListener("DOMContentLoaded", function () {
               <div class="currency-user-left">
                   <div class="currency-avatar-container">
                       ${matchedOfferOwnerProfile}
-                      <div class="currency-username">${ data.matchedOfferOwnerId.name }</div>
+                      <div class="currency-username">${ data.matchedOfferOwnerId.userName }</div>
                         </div>
                   <div class="currency-info-left">
                       <div class="currency-rating">★★★★★</div>
@@ -568,13 +583,148 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
-    // Open chat
-    const chatBtn = document.getElementById('chatButton')
-    chatBtn.addEventListener('click', (event) =>{
-      console.log('clicked chat button')
-      window.location.href = '/chat'
-      event.stopPropagation()
-    })
+    // Open Chat when clicking the email icon
+    document.querySelectorAll('.currency-email-icon').forEach(icon => {
+      icon.addEventListener('click', (event) => {
+        // Find the closest discussion card to get the associated data
+        const discussionCard = event.target.closest('.currency-card');
+
+        if (discussionCard) {
+          const roomId = discussionCard.getAttribute('data-discussion-id');
+          const senderId = discussionCard.getAttribute('data-sender-id');
+          const senderName = discussionCard.getAttribute('data-sender-name');
+          const senderImage = discussionCard.getAttribute('data-sender-image');
+          const receiverId = discussionCard.getAttribute('data-reciever-id');
+          const receiverName = discussionCard.getAttribute('data-reciever-name');
+          const receiverImage = discussionCard.getAttribute('data-reciever-image');
+          
+          handleChat(roomId, senderId, senderName, senderImage, receiverId, receiverName, receiverImage)
+        }
+      });
+    });
+
+  }
+
+  //=========
+  // Chat Handler
+  //================
+  function handleChat(roomId, senderId, senderName, senderImage, receiverId, receiverName, receiverImage) {
+    const messageInput = document.getElementById("message-input");
+    const sendButton = document.getElementById("send-button");
+    const messagesDiv = document.getElementById("messages");
+    const typingIndicator = document.getElementById("typing-indicator");
+    const typingUserSpan = document.getElementById("typing-user");
+
+    console.log(messageInput, sendButton, messagesDiv, typingIndicator, typingUserSpan);
+  
+    let typingTimeout;
+  
+    // Join the chat room
+    window.userSocket.emit("joinRoom", { roomId, senderName });
+  
+    // Receive chat history and display it
+    window.userSocket.on("chatHistory", (chatHistory) => {
+      renderChatHistory(chatHistory);
+    });
+  
+    // Listen for new messages
+    window.userSocket.on("newMessage", (newMessage) => {
+      appendMessage(newMessage);
+    });
+  
+    // Typing event
+    messageInput.addEventListener("input", () => {
+      window.userSocket.emit("typing", { roomId, senderName });
+    });
+  
+    // Typing event listener (when another user is typing)
+    window.userSocket.on("typing", ({ senderName }) => {
+      typingUserSpan.textContent = `${senderName} is typing...`;
+      typingIndicator.style.display = "block";
+  
+      clearTimeout(typingTimeout);
+      typingTimeout = setTimeout(() => {
+        typingIndicator.style.display = "none";
+      }, 2000); // Hide typing indicator after 2 seconds of inactivity
+    });
+  
+    // Send message logic
+    sendButton.addEventListener("click", () => {
+      const message = messageInput.value.trim();
+      if (message !== "") {
+        window.userSocket.emit("saveMessage", {
+          roomId,
+          message,
+          senderId,
+          senderName,
+          senderImage,
+        });
+        messageInput.value = ""; // Clear input field
+      }
+    });
+  
+    // Function to render chat history and separate messages by date
+    function renderChatHistory(chatHistory) {
+      let lastDate = null;
+      messagesDiv.innerHTML = ""; // Clear previous messages
+  
+      chatHistory.forEach((message) => {
+        const messageDate = new Date(message.createdAt).toDateString();
+        if (messageDate !== lastDate) {
+          appendDateIndicator(messageDate);
+          lastDate = messageDate;
+        }
+        appendMessage(message);
+      });
+    }
+  
+    // Function to append individual messages
+    function appendMessage(message) {
+      const isSender = message.senderId === senderId; // Check if the user is the sender
+      const messageElement = document.createElement("div");
+      messageElement.classList.add("message", isSender ? "sent" : "received");
+  
+      const profilePicElement = document.createElement("div");
+      profilePicElement.classList.add("profile-pic");
+      profilePicElement.style.backgroundImage = `url(${message.senderImage})`;
+  
+      const messageContentElement = document.createElement("div");
+      messageContentElement.classList.add("message-content");
+  
+      const messageBubbleElement = document.createElement("div");
+      messageBubbleElement.classList.add("message-bubble");
+      messageBubbleElement.textContent = message.message; // Use the decrypted message
+  
+      const messageTimeElement = document.createElement("div");
+      messageTimeElement.classList.add("message-time");
+      const messageTime = new Date(message.createdAt);
+      messageTimeElement.textContent = messageTime.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+  
+      messageContentElement.appendChild(messageBubbleElement);
+      messageContentElement.appendChild(messageTimeElement);
+  
+      if (isSender) {
+        messageElement.appendChild(messageContentElement);
+        messageElement.appendChild(profilePicElement);
+      } else {
+        messageElement.appendChild(profilePicElement);
+        messageElement.appendChild(messageContentElement);
+      }
+  
+      messagesDiv.appendChild(messageElement);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to the latest message
+    }
+  
+    // Function to append date indicator
+    function appendDateIndicator(date) {
+      const dateElement = document.createElement("div");
+      dateElement.classList.add("date-indicator");
+      dateElement.textContent = date;
+      messagesDiv.appendChild(dateElement);
+    }
   }
 
 });
@@ -686,6 +836,10 @@ function redirectToEndpoint(button) {
   if (endpoint) {
     window.location.href = endpoint;
   }
+}
+
+function goBack(){
+  window.history.back();
 }
 
 // DATA SUBMISSION
