@@ -460,12 +460,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Setting data attributes
         discussionCard.setAttribute("data-discussion-id", data._id); 
-        discussionCard.setAttribute("data-sender-id", data.matchedOfferOwnerId._id); 
-        discussionCard.setAttribute("data-sender-name", data.matchedOfferOwnerId.userName); 
-        discussionCard.setAttribute("data-sender-image", data.matchedOfferOwnerId.userImage); 
-        discussionCard.setAttribute("data-reciever-id", data.loggedInUserId._id); 
-        discussionCard.setAttribute("data-reciever-name", data.loggedInUserId.userName); 
-        discussionCard.setAttribute("data-reciever-image", data.loggedInUserId.userImage); 
+        discussionCard.setAttribute("data-sender-id", data.loggedInUserId._id); 
+        discussionCard.setAttribute("data-sender-name", data.loggedInUserId.userName); 
+        discussionCard.setAttribute("data-sender-image", data.loggedInUserId.userImage); 
+        discussionCard.setAttribute("data-reciever-id", data.matchedOfferOwnerId._id); 
+        discussionCard.setAttribute("data-reciever-name", data.matchedOfferOwnerId.userName); 
+        discussionCard.setAttribute("data-reciever-image", data.matchedOfferOwnerId.userImage); 
 
         
         const loggedInUserProfile = data.loggedInUserId.userImage
@@ -609,121 +609,326 @@ document.addEventListener("DOMContentLoaded", function () {
   // Chat Handler
   //================
   function handleChat(roomId, senderId, senderName, senderImage, receiverId, receiverName, receiverImage) {
+
+    // Save the current body content to sessionStorage
+    sessionStorage.setItem('previousPageContent', document.body.innerHTML);
+
+    // Clear the body content
+    document.body.innerHTML = "";
+
+    // Create a new div to serve as the chat container
+    const chatContainer = document.createElement("div");
+    chatContainer.classList.add("chat-container");
+
+    // Populate the chat container with the chat box HTML structure
+    chatContainer.innerHTML = `
+        <div class="chat-box">
+            <div class="header">
+                <div class="back-arrow" onclick="goBack()">←</div>
+                <div class="user-info">
+                    <div class="profile-pic" id="userImage" style="background-image: url('images/profiles/${senderImage}');"></div>
+                    <div class="username" id="userName">${senderName}</div>
+                </div>
+                <div class="icons">
+                    <i class="icon material-icons" id="withdraw-btn">account_balance</i>
+                    <i class="icon material-icons" id="swap-btn">currency_exchange</i>
+                </div>
+            </div>
+
+            <div class="messages" id="messages">
+                <!-- Messages will be appended here dynamically -->
+            </div>
+
+            <!-- Typing Indicator -->
+            <div class="activity" id="typing-indicator" style="display: none; font-weight: bold;">
+                <span id="typing-user"></span> 
+            </div>
+
+            <!-- Error Indicator -->
+            <div class="activity" id="error-indicator" style="display: none; color: red; font-weight: bold;">
+                <span id="error-span"></span>
+            </div>
+
+            <div class="input-box">
+                <input type="text" id="message-input" placeholder="Type a message">
+                <button class="send-button" id="send-button">▶</button>
+            </div>
+
+            <!-- Popup Modal complete swap -->
+            <div id="swap-popup" class="popup" style="display:none;">
+                <div class="popup-content">
+                    <p>Are you sure this swap is </br>completed?</p>
+                    <div class="popup-actions">
+                        <button class="popup-button" id="swap-popup-yes">Yes</button>
+                        <button class="popup-button" id="swap-popup-no">No</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Popup Modal withdraw from swap -->
+            <div id="withdraw-popup" class="popup" style="display:none;">
+                <div class="popup-content">
+                    <p>Are you sure you want to</br>withdraw from this swap?</br>Your counter party will be notified</p>
+                    <div class="popup-actions">
+                        <button class="popup-button" id="withdraw-popup-yes">Yes</button>
+                        <button class="popup-button" id="withdraw-popup-no">No</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Popup Modal withdrawal notification -->
+            <div id="withdraw-notif-popup" class="popup" style="display:none;">
+                <div class="popup-content">
+                    <p>Your counter party wants to</b>withdraw from this swap</p>
+                    <div class="popup-actions">
+                        <button class="popup-button" id="notif-popup-yes">Yes</button>
+                        <button class="popup-button" id="notif-popup-no">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Append the chat container to the body
+    document.body.appendChild(chatContainer);
+
+    // Dynamically load the CSS for the chat
+    loadChatCss();
+
+    // Set up the event listeners and Socket.IO logic
     const messageInput = document.getElementById("message-input");
     const sendButton = document.getElementById("send-button");
     const messagesDiv = document.getElementById("messages");
-    const typingIndicator = document.getElementById("typing-indicator");
+    const typingIndicator = document.getElementById("typing-indicator");    
     const typingUserSpan = document.getElementById("typing-user");
+    const errorIndicator = document.getElementById("error-indicator");
+    const errorSpan = document.getElementById("error-span");
 
-    console.log(messageInput, sendButton, messagesDiv, typingIndicator, typingUserSpan);
-  
     let typingTimeout;
-  
+
     // Join the chat room
     window.userSocket.emit("joinRoom", { roomId, senderName });
-  
+
     // Receive chat history and display it
     window.userSocket.on("chatHistory", (chatHistory) => {
-      renderChatHistory(chatHistory);
+        renderChatHistory(chatHistory);
     });
-  
+
     // Listen for new messages
     window.userSocket.on("newMessage", (newMessage) => {
-      appendMessage(newMessage);
+        appendMessage(newMessage);
     });
-  
+
     // Typing event
     messageInput.addEventListener("input", () => {
-      window.userSocket.emit("typing", { roomId, senderName });
+        window.userSocket.emit("typing", { roomId, senderName });
     });
-  
+
     // Typing event listener (when another user is typing)
     window.userSocket.on("typing", ({ senderName }) => {
-      typingUserSpan.textContent = `${senderName} is typing...`;
-      typingIndicator.style.display = "block";
-  
-      clearTimeout(typingTimeout);
-      typingTimeout = setTimeout(() => {
-        typingIndicator.style.display = "none";
-      }, 2000); // Hide typing indicator after 2 seconds of inactivity
+        typingUserSpan.textContent = `${senderName} is typing...`;
+        typingIndicator.style.display = "block";
+
+        clearTimeout(typingTimeout);
+        typingTimeout = setTimeout(() => {
+            typingIndicator.style.display = "none";
+        }, 2000); // Hide typing indicator after 2 seconds of inactivity
     });
-  
+
+    // Typing event listener (when another user is typing)
+    window.userSocket.on("error", ({ message }) => {
+        errorSpan.textContent = `${message}`;
+        errorIndicator.style.display = "block";
+
+        clearTimeout(typingTimeout);
+        typingTimeout = setTimeout(() => {
+          errorIndicator.style.display = "none";
+        }, 5000); // Hide typing indicator after 2 seconds of inactivity
+    });
+
+    // Popup logic
+    // Popup elements
+    const swapButton = document.getElementById("swap-btn");
+    const withdrawButton = document.getElementById("withdraw-btn");
+
+    // Confirm swap elements
+    const swapPopup = document.getElementById('swap-popup');
+    const swapYesBtn = document.getElementById('swap-popup-yes');
+    const swapNoBtn = document.getElementById('swap-popup-no');
+
+    // Withdraw from swap elements
+    const withdrawPopup = document.getElementById('withdraw-popup');
+    const withdrawYesBtn = document.getElementById('withdraw-popup-yes');
+    const withdrawNoBtn = document.getElementById('withdraw-popup-no');
+
+    // Withdrawal notification elements
+    const withdrawNotifPopup = document.getElementById('withdraw-notif-popup');
+    const withdrawNotifYes = document.getElementById('notif-popup-yes');
+    const withdrawNotifNo = document.getElementById('notif-popup-no');
+
+    // Check if any popup is open
+    function isAnyPopupOpen() {
+      return swapPopup.style.display === 'block' || 
+            withdrawPopup.style.display === 'block' || 
+            withdrawNotifPopup.style.display === 'block';
+    }
+
+    // Disable buttons function
+    function disableButtons() {
+      swapButton.disabled = true;
+      withdrawButton.disabled = true;
+    }
+
+    // Enable buttons function
+    function enableButtons() {
+      swapButton.disabled = false;
+      withdrawButton.disabled = false;
+    }
+
+    // Confirm swap
+    swapButton.addEventListener("click", () => {
+      if (!isAnyPopupOpen()) { // Ensure no other popup is active
+        disableButtons();  // Disable buttons when popup is opened
+        swapPopup.style.display = 'block';
+      }
+    });
+
+    swapNoBtn.addEventListener("click", () => {
+      swapPopup.style.display = 'none';
+      enableButtons();  // Enable buttons when popup is closed
+    });
+
+    swapYesBtn.addEventListener("click", () => {
+      window.userSocket.emit('markTradeComplete', {});
+      swapPopup.style.display = 'none';
+      enableButtons();  // Enable buttons after action is completed
+    });
+
+    // Withdraw notification
+    withdrawButton.addEventListener('click', () => {
+      if (!isAnyPopupOpen()) { // Ensure no other popup is active
+        disableButtons();  // Disable buttons when popup is opened
+        withdrawPopup.style.display = 'block';
+      }
+    });
+
+    withdrawNoBtn.addEventListener('click', () => {
+      withdrawPopup.style.display = 'none';
+      enableButtons();  // Enable buttons when popup is closed
+    });
+
+    withdrawYesBtn.addEventListener('click', () => {
+      window.userSocket.emit('withdrawTrade', {});
+      withdrawPopup.style.display = 'none';
+      enableButtons();  // Enable buttons after action is completed
+    });
+
+    // Withdraw from swap notification
+    window.userSocket.on('withdrawTradeNotification', () => {
+      if (!isAnyPopupOpen()) { // Ensure no other popup is active
+        disableButtons();  // Disable buttons when notification popup is opened
+        withdrawNotifPopup.style.display = 'block';
+      }
+    });
+
+    withdrawNotifNo.addEventListener('click', () => {
+      withdrawNotifPopup.style.display = 'none';
+      enableButtons();  // Enable buttons when popup is closed
+    });
+
+    withdrawNotifYes.addEventListener('click', () => {
+      // window.userSocket.emit('withdrawTrade', {  });
+      withdrawNotifPopup.style.display = 'none';
+      enableButtons();  // Enable buttons after action is completed
+    });
+
+
+
     // Send message logic
     sendButton.addEventListener("click", () => {
-      const message = messageInput.value.trim();
-      if (message !== "") {
-        window.userSocket.emit("saveMessage", {
-          roomId,
-          message,
-          senderId,
-          senderName,
-          senderImage,
-        });
-        messageInput.value = ""; // Clear input field
-      }
-    });
-  
-    // Function to render chat history and separate messages by date
-    function renderChatHistory(chatHistory) {
-      let lastDate = null;
-      messagesDiv.innerHTML = ""; // Clear previous messages
-  
-      chatHistory.forEach((message) => {
-        const messageDate = new Date(message.createdAt).toDateString();
-        if (messageDate !== lastDate) {
-          appendDateIndicator(messageDate);
-          lastDate = messageDate;
+        const message = messageInput.value.trim();
+        if (message !== "") {
+            window.userSocket.emit("saveMessage", {
+                roomId,
+                message,
+                senderId,
+                senderName,
+                senderImage,
+                receiverId,
+                receiverName,
+                receiverImage
+            });
+            messageInput.value = ""; // Clear input field
         }
-        appendMessage(message);
-      });
+    });
+
+    function renderChatHistory(chatHistory) {
+        let lastDate = null;
+        messagesDiv.innerHTML = ""; // Clear previous messages
+
+        chatHistory.forEach((message) => {
+            const messageDate = new Date(message.createdAt).toDateString();
+            if (messageDate !== lastDate) {
+                appendDateIndicator(messageDate);
+                lastDate = messageDate;
+            }
+            appendMessage(message);
+        });
     }
-  
-    // Function to append individual messages
+
     function appendMessage(message) {
-      const isSender = message.senderId === senderId; // Check if the user is the sender
-      const messageElement = document.createElement("div");
-      messageElement.classList.add("message", isSender ? "sent" : "received");
-  
-      const profilePicElement = document.createElement("div");
-      profilePicElement.classList.add("profile-pic");
-      profilePicElement.style.backgroundImage = `url(${message.senderImage})`;
-  
-      const messageContentElement = document.createElement("div");
-      messageContentElement.classList.add("message-content");
-  
-      const messageBubbleElement = document.createElement("div");
-      messageBubbleElement.classList.add("message-bubble");
-      messageBubbleElement.textContent = message.message; // Use the decrypted message
-  
-      const messageTimeElement = document.createElement("div");
-      messageTimeElement.classList.add("message-time");
-      const messageTime = new Date(message.createdAt);
-      messageTimeElement.textContent = messageTime.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-  
-      messageContentElement.appendChild(messageBubbleElement);
-      messageContentElement.appendChild(messageTimeElement);
-  
-      if (isSender) {
-        messageElement.appendChild(messageContentElement);
-        messageElement.appendChild(profilePicElement);
-      } else {
-        messageElement.appendChild(profilePicElement);
-        messageElement.appendChild(messageContentElement);
-      }
-  
-      messagesDiv.appendChild(messageElement);
-      messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to the latest message
+        const isSender = message.senderId === senderId; // Check if the user is the sender 
+        const messageElement = document.createElement("div");
+        messageElement.classList.add("message", isSender ? "sent" : "received");
+
+        const profilePicElement = document.createElement("div");
+        profilePicElement.classList.add("profile-pic");
+        profilePicElement.style.backgroundImage = `url(images/profiles/${ message.senderImage })`;
+
+        const messageContentElement = document.createElement("div");
+        messageContentElement.classList.add("message-content");
+
+        const messageBubbleElement = document.createElement("div");
+        messageBubbleElement.classList.add("message-bubble");
+        messageBubbleElement.textContent = message.message; // Use the decrypted message
+
+        const messageTimeElement = document.createElement("div");
+        messageTimeElement.classList.add("message-time");
+        const messageTime = new Date(message.createdAt);
+        messageTimeElement.textContent = messageTime.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+        });
+
+        messageContentElement.appendChild(messageBubbleElement);
+        messageContentElement.appendChild(messageTimeElement);
+
+        if (isSender) {
+            messageElement.appendChild(messageContentElement);
+            messageElement.appendChild(profilePicElement);
+        } else {
+            messageElement.appendChild(profilePicElement);
+            messageElement.appendChild(messageContentElement);
+        }
+
+        messagesDiv.appendChild(messageElement);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to the latest message
     }
-  
-    // Function to append date indicator
+
     function appendDateIndicator(date) {
-      const dateElement = document.createElement("div");
-      dateElement.classList.add("date-indicator");
-      dateElement.textContent = date;
-      messagesDiv.appendChild(dateElement);
+        const dateElement = document.createElement("div");
+        dateElement.classList.add("date-indicator");
+        dateElement.textContent = date;
+        messagesDiv.appendChild(dateElement);
+    }
+
+    // Function to dynamically load CSS file
+    function loadChatCss() {
+      const head = document.head;
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = "/css/chat.css";
+      head.appendChild(link);
     }
   }
 
@@ -809,7 +1014,11 @@ function signout() {
         window.userSocket.disconnect();
       });
   }
+  
+  // Clear both localStorage and sessionStorage
   localStorage.clear();
+  sessionStorage.clear();
+  
   window.location.href = "/logout";
 }
 
@@ -838,8 +1047,30 @@ function redirectToEndpoint(button) {
   }
 }
 
-function goBack(){
-  window.history.back();
+// Function to go back to the previous page
+function goBack() {
+  // Remove the chat.css stylesheet
+  const chatStylesheet = document.querySelector('link[href="/css/chat.css"]');
+  if (chatStylesheet) {
+    chatStylesheet.parentNode.removeChild(chatStylesheet);
+  }
+
+  // Retrieve the previous page content from sessionStorage
+  const previousContent = sessionStorage.getItem('previousPageContent');
+  
+  // Restore the previous content if it exists
+  if (previousContent) {
+      // Load the original style.css again
+      const head = document.querySelector('head');
+      const styleLink = document.createElement('link');
+      styleLink.rel = 'stylesheet';
+      styleLink.href = '/css/style.css';
+      head.appendChild(styleLink);
+
+      document.body.innerHTML = previousContent;
+  } else {
+      window.history.back(); // Fallback if there's no previous content
+  }
 }
 
 // DATA SUBMISSION
@@ -1035,3 +1266,4 @@ function connectSocketIO(UID) {
     console.log("No trader card found.");
   }
 }
+

@@ -173,4 +173,60 @@ body {
   }
 }
 
+/* Popup Modal Styling */
+.popup {
+  position: fixed;
+  left: 0;
+  right: 0; 
+  bottom: 0; 
+  height: 27%;
+  border-top-right-radius: 40px;
+  border-top-left-radius: 40px;
+  font-size: 18px;
+  background-color: rgba(255, 255, 255, 0.9); 
+  z-index: 1; 
+}
 
+.popup-content {
+  padding: 40px 40px 20px;
+  color: black; 
+  text-align: center; 
+  font-size: 18px; 
+  margin-bottom: 20px; 
+}
+
+.popup-actions {
+  margin-top: 20px;
+}
+
+.popup-button {
+  background-color: #00c5b6; 
+  color: white; 
+  border: none; 
+  padding: 20px 60px;
+  font-size: 18px; 
+  border-radius: 10px; 
+  font-size: 18px;
+  cursor: pointer; 
+  transition: background-color 0.3s ease; 
+  &:hover {
+    background-color: #16a085;
+  }
+}
+
+.popup-button#swap-popup-no,
+.popup-button#withdraw-popup-no,
+.popup-button#withdraw-notif-popup-no {
+  background-color: transparent; 
+  color: #e74c3c; 
+  border: 1px solid #e74c3c; 
+  padding: 20px 60px; 
+  border-radius: 10px; 
+  font-size: 18px;
+  cursor: pointer; 
+  transition: background-color 0.3s ease; 
+  &:hover {
+    background-color: #e74c3c; 
+  color: white; 
+  }
+}
