@@ -8,29 +8,30 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const ratingElement = document.getElementById('user-rating');
     const reviewsContainer = document.getElementById('user-reviews');
+    const reportCountElement = document.querySelector('[data-user-reported]');
     let selectedRating = 0;
 
     // Fetch user ratings using the dynamically obtained user ID
     fetch(`http://localhost:3000/ccfx/api/v1/ratings/user/${userId}`)
         .then(response => {
-            console.log('Response status:', response.status);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             return response.json();
         })
         .then(data => {
-            console.log('Fetched data:', data);
             if (data) {
                 const averageRating = data.averageRating || 0;
                 const ratingCount = data.ratingCount || 0;
                 const ratings = data.ratings || [];
+                const userData = data.userData || {};
 
-                updateStarsDisplay(averageRating, true);
+                updateStarsDisplay(averageRating);
                 updateRatingCount(ratingCount);
                 displayReviews(ratings);
+                updateUserInfo(userData);
             } else {
-                updateStarsDisplay(0, true);
+                updateStarsDisplay(0);
                 updateRatingCount(0);
                 displayReviews([]);
             }
@@ -42,10 +43,33 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-    function updateStarsDisplay(rating, clickable = true) {
-        const starRating = Math.round(rating * 2) / 2;
-        ratingElement.innerHTML = '';
+    // Fetch the times reported count
+    fetch(`http://localhost:3000/ccfx/api/v1/check-report/${userId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Failed to fetch report count: ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            const timesReported = data.reportCount || 0; // Adjust to access the reportCount
 
+            // Inject the reported times into the template
+            if (reportCountElement) {
+                reportCountElement.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${timesReported} Time(s) Reported`;
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching times reported:', error);
+            if (reportCountElement) {
+                reportCountElement.innerHTML = `<i class="fas fa-exclamation-triangle"></i> Unable to load report count`;
+            }
+        });
+
+    function updateStarsDisplay(rating) {
+        const starRating = Math.round(rating * 2) / 2; // Rounding to nearest 0.5
+        ratingElement.innerHTML = '';
+        
         for (let i = 1; i <= 5; i++) {
             const starSpan = document.createElement('span');
             starSpan.innerHTML = i <= starRating ? '★' : '☆';
@@ -56,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateRatingCount(count) {
         const countElement = document.querySelector('.rating-count');
         if (countElement) {
-            countElement.textContent = `(${count} rating${count !== 1 ? 's' : ''})`;
+            countElement.textContent = `(${count} review${count !== 1 ? 's' : ''})`;
         }
     }
 
@@ -77,6 +101,13 @@ document.addEventListener('DOMContentLoaded', function () {
             reviewsContainer.appendChild(reviewsList);
         } else {
             reviewsContainer.innerHTML = '<p>No reviews available.</p>';
+        }
+    }
+
+    function updateUserInfo(userData) {
+        const userNameElement = document.getElementById('user-name');
+        if (userNameElement && userData && userData.userName) {
+            userNameElement.textContent = userData.userName;
         }
     }
 });

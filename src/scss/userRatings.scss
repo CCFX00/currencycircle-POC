@@ -1,6 +1,6 @@
 $primary-color: #3b4da3;
 $secondary-color: #4b5cad;
-$highlight-color: #06a3b8; /* Red highlight color */
+$highlight-color: #06a3b8;
 $star-color: #ffd700;
 $text-color: white;
 
@@ -30,6 +30,13 @@ body, html {
         font-size: 24px;
         margin-right: 15px;
         cursor: pointer;
+        padding: 8px;
+        border-radius: 50%;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
     }
 
     h1 {
@@ -40,40 +47,49 @@ body, html {
 
 .rating {
     margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
 
     .stars {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
+        gap: 16px;
         margin-bottom: 10px;
 
         .star {
             color: $star-color;
-            font-size: 24px;
+            font-size: 32px;
+            cursor: pointer;
+            transition: transform 0.2s ease, color 0.2s ease;
+
+            &:hover {
+                transform: scale(1.1);
+            }
         }
     }
 
-    .bar {
+    .progress-bar-container {
+        width: 100%;
         height: 6px;
-        background-color: #f0f0f0;
+        background-color: rgba(255, 255, 255, 0.1);
         border-radius: 3px;
-        position: relative;
-
-        &::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 80%;
-            background-color: $star-color;
-            border-radius: 3px;
-        }
+        overflow: hidden;
     }
 
-    .score {
-        text-align: right;
-        margin-top: 5px;
-        font-size: 16px;
+    .progress-bar {
+        width: 0;
+        height: 100%;
+        background-color: $star-color;
+        border-radius: 3px;
+        transition: width 0.3s ease-in-out;
+
+        &[data-rating="1"] { width: 20%; background-color: #ff4d4d; }
+        &[data-rating="2"] { width: 40%; background-color: #ff4d4d; }
+        &[data-rating="3"] { width: 60%; background-color: $star-color; }
+        &[data-rating="4"] { width: 80%; background-color: #4CAF50; }
+        &[data-rating="5"] { width: 100%; background-color: #4CAF50; }
     }
 }
 
@@ -99,7 +115,11 @@ body, html {
             border-radius: 8px;
             font-size: 14px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+
+            &:hover {
+                transform: translateY(-2px);
+            }
 
             &.selected {
                 background-color: $highlight-color;
@@ -109,7 +129,6 @@ body, html {
     }
 }
 
-/* Style for the textarea to match the issue buttons */
 .comment-section {
     text-align: center;
     margin-bottom: 30px;
@@ -120,8 +139,8 @@ body, html {
     }
 
     textarea {
-        background-color: #f0f0f0;
-        color: #ffffff;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: $text-color;
         padding: 12px;
         border: none;
         border-radius: 8px;
@@ -129,12 +148,16 @@ body, html {
         width: 100%;
         box-sizing: border-box;
         resize: none;
-        transition: #fdfafa;
-    }
+        transition: background-color 0.3s ease;
 
-    textarea:focus {
-        outline: none;
-        background-color: #fcfcfc2d;
+        &::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        &:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.15);
+        }
     }
 }
 
@@ -150,10 +173,19 @@ body, html {
     font-weight: bold;
     cursor: pointer;
     margin-top: 20px;
-}
+    transition: transform 0.2s ease, opacity 0.2s ease;
 
-/* Highlight selected issue buttons in red with white text */
-.issue-btn.selected {
-    background-color: $highlight-color;
-    color: $text-color;
+    &:hover {
+        transform: translateY(-2px);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+
+    &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none;
+    }
 }

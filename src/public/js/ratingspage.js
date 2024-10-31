@@ -1,120 +1,119 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const stars = document.querySelectorAll('.star');
-    const scoreDisplay = document.querySelector('.score');
-    const issueButtons = document.querySelectorAll('.issue-btn');
-    const confirmButton = document.querySelector('.confirm-button');
-    const container = document.querySelector('.container');
-    const commentBox = document.querySelector('.comment-box');  
-    let currentRating = 0;
-    let selectedIssues = [];
+// Test data for submission
+const TEST_USER_ID = "667ec179951c292b3b25e184";
+const TEST_TRADE_ID = "66ffabf07f4ce0560cc41252";
 
-    // Get the current logged-in user ID, the user being rated, and the trade ID
-    const currentUserId = document.querySelector('[data-current-user-id]')?.dataset.currentUserId;
-    const userId = document.querySelector('[data-user-id]')?.dataset.userId;
-    const tradeId = document.querySelector('[data-trade-id]')?.dataset.tradeId;  // Get trade ID for this rating
+// Get all necessary DOM elements
+const stars = document.querySelectorAll('.star');
+const progressBar = document.querySelector('.progress-bar');
+const issueButtons = document.querySelectorAll('.issue-btn');
+const commentBox = document.querySelector('.comment-box');
+const confirmButton = document.querySelector('.confirm-button');
 
-    // Check if the current user is the same as the user being rated
-    const canRate = currentUserId !== userId;
+// State management
+let currentRating = 0;
+const selectedIssues = new Set();
 
-    // Disable rating if the user cannot rate themselves
-    if (!canRate) {
-        alert("You cannot rate yourself!");
-        stars.forEach(star => star.style.pointerEvents = 'none');
-        confirmButton.disabled = true;
+// Star rating functionality
+stars.forEach(star => {
+    star.addEventListener('click', (e) => {
+        currentRating = parseInt(e.target.dataset.value);
+        updateProgressBar();
+        updateStars();
+    });
+
+    star.addEventListener('mouseover', (e) => {
+        const value = parseInt(e.target.dataset.value);
+        highlightStars(value);
+    });
+});
+
+// Reset stars when mouse leaves the container
+document.querySelector('.stars').addEventListener('mouseleave', () => {
+    highlightStars(currentRating);
+});
+
+// Progress bar update function
+function updateProgressBar() {
+    progressBar.setAttribute('data-rating', currentRating.toString());
+}
+
+// Star highlight functions
+function highlightStars(count) {
+    stars.forEach((star, index) => {
+        star.textContent = index < count ? '★' : '☆';
+    });
+}
+
+function updateStars() {
+    highlightStars(currentRating);
+}
+
+// Issue button functionality
+issueButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        button.classList.toggle('selected');
+        if (button.classList.contains('selected')) {
+            selectedIssues.add(button.textContent);
+        } else {
+            selectedIssues.delete(button.textContent);
+        }
+    });
+});
+
+// Handle rating submission
+confirmButton.addEventListener('click', async () => {
+    if (currentRating === 0) {
+        alert('Please select a rating first');
         return;
     }
 
-    // Star rating functionality
-    stars.forEach(star => {
-        star.addEventListener('click', () => {
-            currentRating = parseInt(star.getAttribute('data-value'));
-            updateStars();
-            updateScoreDisplay();
-            updateProgressBar();
-        });
-    });
+    // Prepare the rating data
+    const ratingData = {
+        userId: TEST_USER_ID,
+        tradeId: TEST_TRADE_ID,
+        rating: currentRating,
+        comment: commentBox.value.trim(),
+        issues: Array.from(selectedIssues)
+    };
 
-    function updateStars() {
-        stars.forEach(star => {
-            const starValue = parseInt(star.getAttribute('data-value'));
-            star.textContent = starValue <= currentRating ? '★' : '☆';
-        });
-    }
+    try {
+        // Disable the confirm button while submitting
+        confirmButton.disabled = true;
+        confirmButton.textContent = 'Submitting...';
 
-    function updateScoreDisplay() {
-        scoreDisplay.textContent = currentRating;
-    }
-
-    function updateProgressBar() {
-        const bar = document.querySelector('.bar');
-        bar.style.setProperty('--progress', `${(currentRating / 5) * 100}%`);
-    }
-
-    // Issue selection functionality
-    issueButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            button.classList.toggle('selected');
-            const issue = button.textContent;
-            if (selectedIssues.includes(issue)) {
-                selectedIssues = selectedIssues.filter(i => i !== issue);
-            } else {
-                selectedIssues.push(issue);
-            }
-        });
-    });
-
-    // Confirm button functionality
-    confirmButton.addEventListener('click', () => {
-        if (currentRating === 0) {
-            alert('Please select a rating before confirming.');
-            return;
-        }
-
-        // Create the rating data to be sent to the backend
-        const ratingData = {
-            userId: userId, 
-            tradeId: tradeId,  // Include the trade ID in the payload
-            rating: currentRating, 
-            comment: selectedIssues.length > 0 ? selectedIssues.join(', ') : commentBox.value || "Excellent trade!"
-        };
-
-        fetch('http://localhost:3000/ccfx/api/v1/ratings', {
+        const response = await fetch('http://localhost:3000/ccfx/api/v1/ratings', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify(ratingData),
-        })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(err => { throw new Error(err.message) });
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Success:', data);
-            showThankYouMessage();
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Failed to submit rating: ' + error.message); // Display the actual error message from the backend
+            body: JSON.stringify(ratingData)
         });
-    });
 
-    function showThankYouMessage() {
-        container.style.display = 'none';
-        const thankYouMessage = document.createElement('div');
-        thankYouMessage.className = 'thank-you-message';
-        thankYouMessage.innerHTML = `
-            <h2>Thanks for rating!</h2>
-            <p>Your feedback is valuable to us.</p>
-            <button id="backButton">Go Back</button>
-        `;
-        document.body.appendChild(thankYouMessage);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
-        document.getElementById('backButton').addEventListener('click', () => {
-            document.body.removeChild(thankYouMessage);
-            window.history.back();
-        });
+        const result = await response.json();
+        console.log('Submission successful:', result);
+        alert('Rating submitted successfully!');
+
+        // Reset the form
+        currentRating = 0;
+        selectedIssues.clear();
+        commentBox.value = '';
+        progressBar.setAttribute('data-rating', '0');
+        highlightStars(0);
+        issueButtons.forEach(button => button.classList.remove('selected'));
+
+    } catch (error) {
+        console.error('Submission error:', error);
+        alert('You already rated trade');
+    } finally {
+        // Re-enable the confirm button
+        confirmButton.disabled = false;
+        confirmButton.textContent = 'Confirm';
     }
 });
+
+// Initialize the display
+updateStars();

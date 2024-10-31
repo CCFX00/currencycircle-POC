@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,18 +9,19 @@
 <body>
     <div class="container">
         <header class="header">
-            <button class="back-button">←</button>
+            <button class="back-button" onclick="window.history.back()">←</button>
             <h1>Rate your swap</h1>
         </header>
         
         <div class="rating">
             <div class="stars">
                 {% for i in range(5) %}
-                    <span class="star" data-value="{{ i + 1 }}">{% if i < 4 %}★{% else %}☆{% endif %}</span>
+                    <span class="star" data-value="{{ i + 1 }}">☆</span>
                 {% endfor %}
             </div>
-            <div class="bar"></div>
-            <div class="score">4</div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" data-rating="0"></div>
+            </div>
         </div>
 
         <div class="issues">
@@ -34,19 +34,21 @@
             </div>
         </div>
 
-        <!-- Add Textarea for additional comments -->
         <div class="comment-section">
             <p>Additional comments (optional):</p>
-            <textarea id="comment" rows="4" placeholder="Add your comments here..."></textarea>
+            <textarea class="comment-box" rows="4" placeholder="Add your comments here..."></textarea>
         </div>
 
         <button class="confirm-button">Confirm</button>
     </div>
-    
-    <!-- Inject userId and tradeId dynamically via Nunjucks -->
+
     <script>
-        const userId = "{{ userId }}";  // Dynamic userId
-        const tradeId = "{{ tradeId }}";  // Dynamic tradeId
+        const userId = "{{ userId | safe }}";
+        const tradeId = "{{ tradeId | safe }}";
+        
+        if (!userId || !tradeId) {
+            console.error("userId or tradeId is not defined. Please check if they are passed correctly from the server.");
+        }
     </script>
     <script src="/js/ratingspage.js" defer></script>
 
