@@ -187,6 +187,7 @@ body {
 }
 
 .popup-button#swap-popup-no,
+.popup-button#complete-popup-no,
 .popup-button#withdraw-popup-no,
 .popup-button#withdraw-notif-popup-no {
   background-color: transparent;
@@ -199,6 +200,7 @@ body {
   transition: background-color 0.3s ease;
 }
 .popup-button#swap-popup-no:hover,
+.popup-button#complete-popup-no:hover,
 .popup-button#withdraw-popup-no:hover,
 .popup-button#withdraw-notif-popup-no:hover {
   background-color: #e74c3c;

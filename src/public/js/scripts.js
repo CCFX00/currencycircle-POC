@@ -136,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
     window.userSocket.on('notifications', (notifications) => {
       const unreadNotifications = notifications.filter(notification => !notification.isRead);
 
-      Notifications = unreadNotifications
+      Notifications = notifications
       if(unreadNotifications.length > 0){
         notificationCountElement.textContent = unreadNotifications.length;
         notificationCountElement.style.display = "block";
@@ -148,6 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Listening for the notifications from the server
     window.userSocket.on('newNotification', (notification) => {
       Notifications.push(notification)
+      console.log(Notifications)
       if(Notifications.length > 0){
         notificationCountElement.textContent = Notifications.length;
         notificationCountElement.style.display = "block";
@@ -313,7 +314,7 @@ document.addEventListener("DOMContentLoaded", function () {
             </button>
           </div>
           <div id="notificationPopup" class="notification-container" style="display:none">
-              <p id="notificationMessage">${match.user.userName} will now be notified of your interest. If ${match.user.userName} accepts, your match fee will be ${match.matchFee}${match.to}.</p>
+              <p id="notificationMessage">${match.user.userName} will now be notified of your interest. If ${match.user.userName} accepts, your match fee will be ${match.matchFee}${match.to}.</br>The swap must be completed within 48hours.</p>
               <div class="modal-buttons">
                 <button id="yesButton" class="yes-button">Yes</button>
                 <button id="cancelButton" class="cancel-button">Cancel</button>
@@ -391,7 +392,7 @@ document.addEventListener("DOMContentLoaded", function () {
             recieverId: details.matchedOfferOwnerId, 
             offerId: details.userOfferId,
             message: notificationMessage.textContent,
-            matchFee: details.matchFee
+            matchFee: `${details.matchFee}${match.to}`
           })
 
           notificationPopup.style.display = 'none';
@@ -591,6 +592,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (discussionCard) {
           const roomId = discussionCard.getAttribute('data-discussion-id');
+          const tradeId = discussionCard.getAttribute("data-discussion-id"); 
           const senderId = discussionCard.getAttribute('data-sender-id');
           const senderName = discussionCard.getAttribute('data-sender-name');
           const senderImage = discussionCard.getAttribute('data-sender-image');
@@ -598,17 +600,18 @@ document.addEventListener("DOMContentLoaded", function () {
           const receiverName = discussionCard.getAttribute('data-reciever-name');
           const receiverImage = discussionCard.getAttribute('data-reciever-image');
           
-          handleChat(roomId, senderId, senderName, senderImage, receiverId, receiverName, receiverImage)
+          handleChat(roomId, tradeId, senderId, senderName, senderImage, receiverId, receiverName, receiverImage)
         }
       });
     });
 
   }
 
-  //=========
-  // Chat Handler
-  //================
-  function handleChat(roomId, senderId, senderName, senderImage, receiverId, receiverName, receiverImage) {
+  //================================================
+  // Chat | Complete trade | Cancel trade handler //
+  //================================================
+  function handleChat(roomId, tradeId, senderId, senderName, senderImage, receiverId, receiverName, receiverImage) {
+    // console.log(roomId, tradeId, senderId, senderName, senderImage, receiverId, receiverName, receiverImage)
 
     // Save the current body content to sessionStorage
     sessionStorage.setItem('previousPageContent', document.body.innerHTML);
@@ -657,7 +660,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <!-- Popup Modal complete swap -->
             <div id="swap-popup" class="popup" style="display:none;">
                 <div class="popup-content">
-                    <p>Are you sure this swap is </br>completed?</p>
+                    <p>Would you like to complete this swap?</br>Your counterparty has to mark the trade</br>as complete in order it to be closed.?</p>
                     <div class="popup-actions">
                         <button class="popup-button" id="swap-popup-yes">Yes</button>
                         <button class="popup-button" id="swap-popup-no">No</button>
@@ -676,13 +679,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
             </div>
 
+            <!-- Popup Modal complete notification -->
+            <div id="complete-notif-popup" class="popup" style="display:none;">
+                <div class="popup-content">
+                    <p id="completeNotifMessage"></p> <!-- Dynamically set the sender's name here -->
+                    <div class="popup-actions">
+                        <button class="popup-button" id="complete-popup-yes">Yes</button>
+                        <button class="popup-button" id="complete-popup-no">No</button>
+                    </div>
+                </div>
+            </div>
+
             <!-- Popup Modal withdrawal notification -->
             <div id="withdraw-notif-popup" class="popup" style="display:none;">
                 <div class="popup-content">
-                    <p>Your counter party wants to</b>withdraw from this swap</p>
+                    <p id="withdrawSwapMessage"></p>
                     <div class="popup-actions">
-                        <button class="popup-button" id="notif-popup-yes">Yes</button>
-                        <button class="popup-button" id="notif-popup-no">No</button>
+                        <button class="popup-button" id="withdraw-notif-popup-yes">Ok</button>
                     </div>
                 </div>
             </div>
@@ -747,6 +760,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Popup logic
+    //=============
     // Popup elements
     const swapButton = document.getElementById("swap-btn");
     const withdrawButton = document.getElementById("withdraw-btn");
@@ -761,16 +775,23 @@ document.addEventListener("DOMContentLoaded", function () {
     const withdrawYesBtn = document.getElementById('withdraw-popup-yes');
     const withdrawNoBtn = document.getElementById('withdraw-popup-no');
 
+    // Confirm swap notification elements
+    const confirmNotifPopup = document.getElementById('complete-notif-popup');
+    const confirmNotifYes = document.getElementById('complete-popup-yes');
+    const confirmNotifNo = document.getElementById('complete-popup-no');
+    const completeNotifMessage = document.getElementById('completeNotifMessage');
+
     // Withdrawal notification elements
     const withdrawNotifPopup = document.getElementById('withdraw-notif-popup');
-    const withdrawNotifYes = document.getElementById('notif-popup-yes');
-    const withdrawNotifNo = document.getElementById('notif-popup-no');
+    const withdrawNotifYes = document.getElementById('withdraw-notif-popup-yes');
+    const withdrawNotifNo = document.getElementById('withdraw-notif-popup-no');
 
     // Check if any popup is open
     function isAnyPopupOpen() {
       return swapPopup.style.display === 'block' || 
             withdrawPopup.style.display === 'block' || 
-            withdrawNotifPopup.style.display === 'block';
+            withdrawNotifPopup.style.display === 'block' ||
+            confirmNotifPopup.style.display === 'block';
     }
 
     // Disable buttons function
@@ -785,7 +806,8 @@ document.addEventListener("DOMContentLoaded", function () {
       withdrawButton.disabled = false;
     }
 
-    // Confirm swap
+    // Complete trade
+    //================
     swapButton.addEventListener("click", () => {
       if (!isAnyPopupOpen()) { // Ensure no other popup is active
         disableButtons();  // Disable buttons when popup is opened
@@ -799,12 +821,36 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     swapYesBtn.addEventListener("click", () => {
-      window.userSocket.emit('markTradeComplete', {});
+      window.userSocket.emit('markTradeComplete', { roomId, tradeId, senderId, senderName, action: 'sender' });
       swapPopup.style.display = 'none';
       enableButtons();  // Enable buttons after action is completed
     });
 
-    // Withdraw notification
+    // Complete swap notification
+    //============================
+    window.userSocket.on('completeTradeNotif', ({ senderName }) => {
+      if (!isAnyPopupOpen()) { // Ensure no other popup is active
+        disableButtons();  // Disable buttons when notification popup is opened
+        completeNotifMessage.innerHTML = `<b>${ senderName }</b> has marked this swap as completed.</br>You must both mark the trade as completed</br>in order for it to be closed.`;
+        
+        confirmNotifYes.addEventListener('click', () => {
+          window.userSocket.emit('markTradeComplete', { roomId, tradeId, senderId, senderName, action: 'receiver' });
+          confirmNotifPopup.style.display = 'none';
+          enableButtons();  // Enable buttons after action is completed
+        })
+        
+        confirmNotifPopup.style.display = 'block';
+
+        confirmNotifNo.addEventListener('click', () => {
+          confirmNotifPopup.style.display = 'none';
+          enableButtons();  // Enable buttons after action is completed
+        })
+      }
+    });
+
+
+    // Withdraw from swap
+    //====================
     withdrawButton.addEventListener('click', () => {
       if (!isAnyPopupOpen()) { // Ensure no other popup is active
         disableButtons();  // Disable buttons when popup is opened
@@ -812,39 +858,37 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
+    withdrawYesBtn.addEventListener('click', () => {
+      window.userSocket.emit('withdrawTrade', { roomId, tradeId, senderId, senderName, action: 'sender' });
+      withdrawPopup.style.display = 'none';
+      enableButtons();  // Enable buttons after action is completed
+    });
+
     withdrawNoBtn.addEventListener('click', () => {
       withdrawPopup.style.display = 'none';
       enableButtons();  // Enable buttons when popup is closed
     });
 
-    withdrawYesBtn.addEventListener('click', () => {
-      window.userSocket.emit('withdrawTrade', {});
-      withdrawPopup.style.display = 'none';
-      enableButtons();  // Enable buttons after action is completed
-    });
-
+    
     // Withdraw from swap notification
-    window.userSocket.on('withdrawTradeNotification', () => {
+    //=================================
+    window.userSocket.on('withdrawTradeNotification', ({ senderName }) => {
       if (!isAnyPopupOpen()) { // Ensure no other popup is active
         disableButtons();  // Disable buttons when notification popup is opened
+        document.getElementById('withdrawSwapMessage').innerHTML = `<b>${ senderName }</b> wants to</br>withdraw from this swap`
+
         withdrawNotifPopup.style.display = 'block';
+
+        withdrawNotifYes.addEventListener('click', () => {
+          withdrawNotifPopup.style.display = 'none';
+          enableButtons();  // Enable buttons after action is completed
+        });
       }
     });
 
-    withdrawNotifNo.addEventListener('click', () => {
-      withdrawNotifPopup.style.display = 'none';
-      enableButtons();  // Enable buttons when popup is closed
-    });
-
-    withdrawNotifYes.addEventListener('click', () => {
-      // window.userSocket.emit('withdrawTrade', {  });
-      withdrawNotifPopup.style.display = 'none';
-      enableButtons();  // Enable buttons after action is completed
-    });
-
-
 
     // Send message logic
+    //====================
     sendButton.addEventListener("click", () => {
         const message = messageInput.value.trim();
         if (message !== "") {
