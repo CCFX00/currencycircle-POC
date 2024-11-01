@@ -29,7 +29,7 @@
         </header>
         <main id="main-card">
             <div class="trader-card" data-user-id="{{ user._id }}">
-                <div class="profile-container">
+                <div class="profile-container" data-rated-user-id="{{ user._id }}">
                     {% if user.userImage %}
                         <img src="images/profiles/{{ user.userImage }}" alt="Profile Picture">
                     {% else %}
@@ -57,7 +57,6 @@
                     <p><i class="fas fa-clock"></i> Unknown average completion time</p>
                     <p><i class="fas fa-times-circle"></i> No Cancelled matches</p>
                     <p data-user-reported><i class="fas fa-exclamation-triangle"></i> {{ user.timesReported }} Time(s) Reported</p>
-                        
                 </div>
             </div>
             <div class="navigation-container">

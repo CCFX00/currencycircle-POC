@@ -43,11 +43,12 @@
     </div>
 
     <script>
-        const userId = "{{ userId | safe }}";
-        const tradeId = "{{ tradeId | safe }}";
-        
-        if (!userId || !tradeId) {
-            console.error("userId or tradeId is not defined. Please check if they are passed correctly from the server.");
+        const raterId = "{{ raterId | safe }}"; // User submitting the rating
+        const ratedUserId = "{{ ratedUserId | safe }}"; // User being rated
+        const tradeId = "{{ tradeId | safe }}"; // Trade ID
+
+        if (!raterId || !ratedUserId || !tradeId) {
+            console.error("raterId, ratedUserId, or tradeId is not defined. Please check if they are passed correctly from the server.");
         }
     </script>
     <script src="/js/ratingspage.js" defer></script>

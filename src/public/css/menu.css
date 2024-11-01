@@ -1,84 +1,126 @@
-/* Mobile-first styling */
+/* Base styling for all screen sizes */
+.container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
+}
+
+/* Header container styling */
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  padding: 20px 0;
+}
+
+.header-container h1 {
+  margin: 0;
+  flex-grow: 1;
+  text-align: center;
+}
+
+/* Menu icon styling */
+.menu-container {
+  position: relative;
+}
+
+.menu-icon {
+  cursor: pointer;
+  padding: 10px;
+  z-index: 1001;
+  display: block;
+}
+
+/* Sidebar base styling */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -250px;
+  width: 250px;
+  height: 100%;
+  background-color: white;
+  color: #333;
+  transition: right 0.3s ease-in-out;
+  padding: 20px;
+  box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  overflow-y: auto;
+  display: block !important; /* Force display */
+}
+
+.sidebar.active {
+  right: 0;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar ul li {
+  padding: 15px 0;
+  border-bottom: 1px solid #d4d2d2;
+}
+
+.sidebar ul li a {
+  color: rgb(37, 37, 37);
+  text-decoration: none;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.sidebar ul li a i {
+  margin-right: 10px;
+}
+
+.app-version {
+  position: absolute;
+  bottom: 20px;
+  width: calc(100% - 40px);
+  text-align: center;
+  font-size: 14px;
+  color: #999;
+}
+
+/* Mobile-specific adjustments */
 @media only screen and (max-width: 768px) {
-  /* Sidebar styling for mobile */
   .sidebar {
-    position: fixed;
-    top: 40px;
-    right: -250px;
+    top: 60px;
     width: 200px;
-    height: 80%;
+    height: calc(100% - 60px);
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
-    background-color: white;
-    color: #333;
-    transition: right 0.3s ease-in-out;
-    padding: 20px;
-    box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    overflow-y: auto;
   }
-  .sidebar ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  .container {
+    padding: 0 15px;
   }
-  .sidebar ul li {
-    padding: 15px 0;
-    border-bottom: 1px solid #d4d2d2;
+  .header-container {
+    padding-top: 10px;
   }
-  .sidebar ul li a {
-    color: rgb(37, 37, 37);
-    text-decoration: none;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-  }
-  /* Font Awesome icons with menu items */
-  .sidebar ul li a i {
-    margin-right: 10px;
-  }
-  /* App version styling */
-  .app-version {
-    position: absolute;
-    bottom: 20px;
-    width: 100%;
-    text-align: center;
-    font-size: 14px;
-    color: #999;
-  }
-  /* When the sidebar is active */
-  .sidebar.active {
-    right: 0;
-  }
-  /* Glass-like menu icon */
-  .menu-icon {
-    font-size: 24px;
-    cursor: pointer;
-    padding: 15px;
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    z-index: 1100;
-    background: rgba(255, 255, 255, 0.082);
-    border: 1px solid rgba(255, 255, 255, 0.075);
-    border-radius: 8px;
-    backdrop-filter: blur(5px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  }
-  /* Menu icon when the sidebar is active */
   .menu-icon.active i {
-    content: "\f00d"; /* Change to FontAwesome close icon */
+    content: "\f00d";
   }
 }
-/* Hide the sidebar and menu icon on larger screens */
-@media only screen and (min-width: 769px) {
-  .sidebar {
-    display: none;
-  }
-  .menu-icon {
-    display: none;
-  }
+/* Overlay for when sidebar is active */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.overlay.active {
+  display: block;
 }
 
 /*# sourceMappingURL=menu.css.map */

@@ -1,6 +1,7 @@
 // Test data for submission
-const TEST_USER_ID = "667ec179951c292b3b25e184";
-const TEST_TRADE_ID = "66ffabf07f4ce0560cc41252";
+const TEST_RATER_ID = "66ffabf07f4ce0560cc4e171"; 
+const TEST_RATED_USER_ID = "66ffabf07f4ce0560cc4e176"; 
+const TEST_TRADE_ID = "66ffabf07f4ce0560cc4e174"; 
 
 // Get all necessary DOM elements
 const stars = document.querySelectorAll('.star');
@@ -69,7 +70,8 @@ confirmButton.addEventListener('click', async () => {
 
     // Prepare the rating data
     const ratingData = {
-        userId: TEST_USER_ID,
+        raterId: TEST_RATER_ID, // The user giving the rating
+        ratedUserId: TEST_RATED_USER_ID, // The user being rated
         tradeId: TEST_TRADE_ID,
         rating: currentRating,
         comment: commentBox.value.trim(),

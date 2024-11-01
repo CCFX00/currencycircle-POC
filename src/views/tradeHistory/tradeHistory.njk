@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trade History</title>
     <script src="/js/tradehistory.js" defer></script>
+    <script src="/js/menu.js" defer></script>
     <link rel="stylesheet" href="/css/tradehistory.css">
+    <link rel="stylesheet" href="/css/menu.css">
 </head>
 <body>
     <div class="status-bar">
@@ -17,12 +19,29 @@
             <i class="fas fa-battery-full"></i>
         </div>
     </div>
-    <div class="trade-history-container">
-        <div class="nav-bar">
-            <i class="fas fa-bars menu-icon"></i>
-            <h1 class="page-title">Trade History</h1>
-        </div>
 
+    <div class="header-container">
+        <div class="menu-container">
+            <div class="menu-icon">
+                <i class="fas fa-bars"></i>
+            </div>
+            <h1 class="page-title">Trade History</h1>
+            <div class="sidebar">
+                <ul>
+                    <li><a href="#" id="dashboard-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="#" id="my-offers-link"><i class="fas fa-tags"></i> My Offers</a></li>
+                    <li><a href="#" id="matched-trades-link"><i class="fas fa-exchange-alt"></i> Matched Trades</a></li>
+                    <li><a href="#" id="in-discussion-link"><i class="fas fa-comments"></i> In Discussion</a></li>
+                    <li><a href="/chat"><i class="fas fa-comments"></i> Chats</a></li>
+                    <li><a href="/tradehistory"><i class="fas fa-history"></i> Trade History</a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+                <div class="app-version">Version 1.0</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="trade-history-container">
         <div class="tab-navigation">
             <div id="completed-tab" class="tab active">Completed</div>
             <div id="canceled-tab" class="tab">Cancelled</div>
@@ -36,6 +55,7 @@
                     <span class="exchange-rate">1 USD = 660 XAF</span>
                     <i class="fas fa-lock"></i>
                 </div>
+
                 <div class="currency-user">
                     <div class="user-profile">
                         <div class="profile-pic" style="background-image: url('/images/profiles/ateking.png');"></div>
@@ -65,6 +85,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="currency-exchange">
                     <div class="currency-amount">
                         <span class="currency-code">USD</span>
@@ -76,6 +97,7 @@
                         <span class="amount">792,000</span>
                     </div>
                 </div>
+
                 <div class="currency-user">
                     <div class="user-profile">
                         <div class="profile-pic" style="background-image: url('/images/profiles/tiksfon.png');"></div>
@@ -105,12 +127,13 @@
                         </div>
                     </div>
                 </div>
+
                 <hr class="review-divider">
                 <a href="/userratings" class="leave-review">Leave review</a>
             </div>
         </div>
 
-        <!-- Cancelled Tab Content (empty for now) -->
+        <!-- Cancelled Tab Content -->
         <div id="canceled-content" class="trade-content">
             <div class="cancelled-trade-card">
                 <div class="cancelled-trade-header">
@@ -157,6 +180,7 @@
             </div>
         </div>
     </div>
+
     {% include "partials/footer.njk" %}
 </body>
 </html>
