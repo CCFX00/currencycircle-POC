@@ -280,8 +280,6 @@ document.addEventListener("DOMContentLoaded", function () {
             <div>
               <p id="location"><i class="fas fa-map-marker-alt" id="location-icon"></i> ${match.user.city}, ${match.user.country}</p>
               <p id="completed-trades"><i class="fas fa-check-circle" id="completed-trades-icon"></i> 0 Completed trades</p>
-              <p id="times-reported"><i class="fas fa-exclamation-triangle" id="times-reported-icon"></i> ${user.timesReported} Time(s) Reported</p>
-
             </div>
             <div>
               <div class="user-rating">
@@ -883,3 +881,4 @@ function connectSocketIO(UID) {
     console.log("No trader card found.");
   }
 }
+

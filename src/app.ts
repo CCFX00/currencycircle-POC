@@ -31,7 +31,7 @@ import tradeRoutes from './routes/tradeRoutes';
 import rateRoutes from './routes/rateRoute';
 import discussionRoutes from './routes/discussionRoutes';
 import chatRoutes from './routes/chatRoutes';
-import tradeHistoryRoute from './routes/tradeshistoryRoutes';
+import tradeHistoryRoute from './routes/tradeHistoryRoutes';
 import ratingsRoute from './routes/ratingsRoute'; 
 
 // Use routes

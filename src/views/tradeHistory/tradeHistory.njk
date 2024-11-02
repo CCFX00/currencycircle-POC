@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trade History</title>
     <script src="/js/tradehistory.js" defer></script>
+    <script src="/js/tradehistoryids.js" defer></script>
     <script src="/js/menu.js" defer></script>
     <link rel="stylesheet" href="/css/tradehistory.css">
     <link rel="stylesheet" href="/css/menu.css">
@@ -49,135 +50,12 @@
 
         <!-- Completed Tab Content -->
         <div id="completed-content" class="trade-content active">
-            <div class="currency-card">
-                <div class="currency-header">
-                    <span class="date">06/04/2023</span>
-                    <span class="exchange-rate">1 USD = 660 XAF</span>
-                    <i class="fas fa-lock"></i>
-                </div>
-
-                <div class="currency-user">
-                    <div class="user-profile">
-                        <div class="profile-pic" style="background-image: url('/images/profiles/ateking.png');"></div>
-                        <span class="username">Ateking12</span>
-                    </div>
-                    <div class="user-info">
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="location">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Douala, Cameroon</span>
-                        </div>
-                    </div>
-                    <div class="trade-stats">
-                        <div class="completed-trades">
-                            <i class="fas fa-check-circle"></i>
-                            <span>3 Completed trades</span>
-                        </div>
-                        <div class="avg-completion-time">
-                            <i class="far fa-clock"></i>
-                            <span>08 hrs avg completion time</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="currency-exchange">
-                    <div class="currency-amount">
-                        <span class="currency-code">USD</span>
-                        <span class="amount">1200</span>
-                    </div>
-                    <i class="fas fa-exchange-alt"></i>
-                    <div class="currency-amount">
-                        <span class="currency-code">XAF</span>
-                        <span class="amount">792,000</span>
-                    </div>
-                </div>
-
-                <div class="currency-user">
-                    <div class="user-profile">
-                        <div class="profile-pic" style="background-image: url('/images/profiles/tiksfon.png');"></div>
-                        <span class="username">Tiksfon</span>
-                    </div>
-                    <div class="user-info">
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="location">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Douala, Cameroon</span>
-                        </div>
-                    </div>
-                    <div class="trade-stats">
-                        <div class="completed-trades">
-                            <i class="fas fa-check-circle"></i>
-                            <span>3 Completed trades</span>
-                        </div>
-                        <div class="avg-completion-time">
-                            <i class="far fa-clock"></i>
-                            <span>08 hrs avg completion time</span>
-                        </div>
-                    </div>
-                </div>
-
-                <hr class="review-divider">
-                <a href="/userratings" class="leave-review">Leave review</a>
-            </div>
+            <!-- Content will be dynamically populated by JavaScript -->
         </div>
 
         <!-- Cancelled Tab Content -->
         <div id="canceled-content" class="trade-content">
-            <div class="cancelled-trade-card">
-                <div class="cancelled-trade-header">
-                    <span class="cancelled-trade-date">06/04/2023</span>
-                    <span class="cancelled-trade-exchange-rate">1 USD = 660 XAF</span>
-                </div>
-                <div class="cancelled-trade-users">
-                    <div class="cancelled-trade-user cancelled-trade-user-left">
-                        <div class="profile-pic" style="background-image: url('/images/profiles/tiksfon.png');"></div>
-                        <span class="cancelled-trade-username">Tiksfon</span>
-                        <span class="cancelled-trade-location">New York, USA</span>
-                        <div class="cancelled-trade-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                    </div>
-                    <div class="cancelled-trade-exchange">
-                        <div class="cancelled-trade-exchange-row">
-                            <span class="cancelled-trade-currency-code">GBP</span>
-                            <span class="cancelled-trade-amount">1200</span>
-                        </div>
-                        <i class="fas fa-exchange-alt cancelled-trade-exchange-icon"></i>
-                        <div class="cancelled-trade-exchange-row">
-                            <span class="cancelled-trade-currency-code">XAF</span>
-                            <span class="cancelled-trade-amount">792,000</span>
-                        </div>
-                    </div>
-                    <div class="cancelled-trade-user cancelled-trade-user-right">
-                        <div class="profile-pic" style="background-image: url('/images/profiles/ateking.png');"></div>
-                        <span class="cancelled-trade-username">Kate</span>
-                        <span class="cancelled-trade-location">New York, USA</span>
-                        <div class="cancelled-trade-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- Content will be dynamically populated by JavaScript -->
         </div>
     </div>
 
