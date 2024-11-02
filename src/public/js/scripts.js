@@ -408,7 +408,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Accepting a notification
         acceptBtn.addEventListener('click', () => {
             let details = getMatchedTradeInfo(offerCard)
-            window.userSocket.emit('acceptOffer', { ...details, action: 'accept' });
+            window.userSocket.emit('acceptOffer', { ...details, matchFee: `${details.matchFee}${match.to}`, name: `${match.user.userName}`, action: 'accept' });  // please extract the name from the cookies
             offerCard.querySelector('.trade-actions').style.display = 'none';
             offerCard.querySelector('.trade-state').style.display = 'block';
         });
@@ -467,6 +467,7 @@ document.addEventListener("DOMContentLoaded", function () {
         discussionCard.setAttribute("data-reciever-id", data.matchedOfferOwnerId._id); 
         discussionCard.setAttribute("data-reciever-name", data.matchedOfferOwnerId.userName); 
         discussionCard.setAttribute("data-reciever-image", data.matchedOfferOwnerId.userImage); 
+        discussionCard.setAttribute("data-offer-id", data.matchedOfferId._id); 
 
         
         const loggedInUserProfile = data.loggedInUserId.userImage
@@ -599,8 +600,9 @@ document.addEventListener("DOMContentLoaded", function () {
           const receiverId = discussionCard.getAttribute('data-reciever-id');
           const receiverName = discussionCard.getAttribute('data-reciever-name');
           const receiverImage = discussionCard.getAttribute('data-reciever-image');
+          const offerId = discussionCard.getAttribute('data-offer-id'); 
           
-          handleChat(roomId, tradeId, senderId, senderName, senderImage, receiverId, receiverName, receiverImage)
+          handleChat(roomId, tradeId, senderId, senderName, senderImage, receiverId, offerId, receiverName, receiverImage)
         }
       });
     });
@@ -610,7 +612,7 @@ document.addEventListener("DOMContentLoaded", function () {
   //================================================
   // Chat | Complete trade | Cancel trade handler //
   //================================================
-  function handleChat(roomId, tradeId, senderId, senderName, senderImage, receiverId, receiverName, receiverImage) {
+  function handleChat(roomId, tradeId, senderId, senderName, senderImage, receiverId, offerId, receiverName, receiverImage) {
     // console.log(roomId, tradeId, senderId, senderName, senderImage, receiverId, receiverName, receiverImage)
 
     // Save the current body content to sessionStorage
@@ -784,7 +786,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // Withdrawal notification elements
     const withdrawNotifPopup = document.getElementById('withdraw-notif-popup');
     const withdrawNotifYes = document.getElementById('withdraw-notif-popup-yes');
-    const withdrawNotifNo = document.getElementById('withdraw-notif-popup-no');
 
     // Check if any popup is open
     function isAnyPopupOpen() {
@@ -821,20 +822,22 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     swapYesBtn.addEventListener("click", () => {
-      window.userSocket.emit('markTradeComplete', { roomId, tradeId, senderId, senderName, action: 'sender' });
+      console.log('offer id: ', offerId)
+      window.userSocket.emit('markTradeComplete', { roomId, tradeId, senderId, receiverId, offerId, senderName, action: 'sender' });
       swapPopup.style.display = 'none';
       enableButtons();  // Enable buttons after action is completed
     });
 
     // Complete swap notification
     //============================
-    window.userSocket.on('completeTradeNotif', ({ senderName }) => {
+    window.userSocket.on('completeTradeNotif', ({ senderName, from }) => {
       if (!isAnyPopupOpen()) { // Ensure no other popup is active
         disableButtons();  // Disable buttons when notification popup is opened
         completeNotifMessage.innerHTML = `<b>${ senderName }</b> has marked this swap as completed.</br>You must both mark the trade as completed</br>in order for it to be closed.`;
         
         confirmNotifYes.addEventListener('click', () => {
-          window.userSocket.emit('markTradeComplete', { roomId, tradeId, senderId, senderName, action: 'receiver' });
+          console.log('offer Id: ', offerId)
+          window.userSocket.emit('markTradeComplete', { roomId, tradeId, senderId, receiverId, offerId, senderName, action: 'receiver' });
           confirmNotifPopup.style.display = 'none';
           enableButtons();  // Enable buttons after action is completed
         })
@@ -859,7 +862,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     withdrawYesBtn.addEventListener('click', () => {
-      window.userSocket.emit('withdrawTrade', { roomId, tradeId, senderId, senderName, action: 'sender' });
+      window.userSocket.emit('withdrawTrade', { roomId, tradeId, senderId, receiverId, offerId, senderName, action: 'sender' });
       withdrawPopup.style.display = 'none';
       enableButtons();  // Enable buttons after action is completed
     });
@@ -872,7 +875,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
     // Withdraw from swap notification
     //=================================
-    window.userSocket.on('withdrawTradeNotification', ({ senderName }) => {
+    window.userSocket.on('withdrawTradeNotif', ({ senderName }) => {
       if (!isAnyPopupOpen()) { // Ensure no other popup is active
         disableButtons();  // Disable buttons when notification popup is opened
         document.getElementById('withdrawSwapMessage').innerHTML = `<b>${ senderName }</b> wants to</br>withdraw from this swap`
