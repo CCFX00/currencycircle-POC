@@ -76,6 +76,7 @@ body {
     padding: 15px;
     max-width: 400px;
     margin: 0 auto;
+    margin-top: 5px;
 }
 
 .currency-header {
@@ -304,6 +305,7 @@ body {
     padding: 15px;
     width: 350px;
     color: white;
+    margin-top: 5px;
 }
 
 .cancelled-trade-header {
@@ -384,3 +386,49 @@ body {
     color: #06899b;
     margin: 0 10px;
 }
+
+#completed-trades-container {
+    max-height: 450px;
+    overflow-y: scroll; /* Use 'scroll' to keep the scroll functionality */
+    margin-top: 20px;
+
+    /* Hide scrollbar for Chrome, Safari, and Edge */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;     /* Firefox */
+}
+#completed-trades-container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
+}
+
+#canceled-trades-container {
+    max-height: 450px;
+    overflow-y: scroll; /* Use 'scroll' to keep the scroll functionality */
+    margin-top: 20px;
+
+    /* Hide scrollbar for Chrome, Safari, and Edge */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;     /* Firefox */
+}
+#canceled-trades-container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
+}
+
+// .back-button {
+//     position: absolute;
+//     top: 20px;
+//     left: 20px;
+
+//     .icon-button {
+//       background-color: #00C58E;
+//       border: none;
+//       color: #fff;
+//       padding: 12px;
+//       border-radius: 50%;
+//       cursor: pointer;
+//       display: flex;
+//       align-items: center;
+//       justify-content: center;
+//       text-decoration: none;
+//       width: 20px;
+//     }
+// }

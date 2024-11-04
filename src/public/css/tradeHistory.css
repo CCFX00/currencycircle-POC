@@ -74,6 +74,7 @@ body {
   padding: 15px;
   max-width: 400px;
   margin: 0 auto;
+  margin-top: 5px;
 }
 
 .currency-header {
@@ -282,6 +283,7 @@ body {
   padding: 15px;
   width: 350px;
   color: white;
+  margin-top: 5px;
 }
 
 .cancelled-trade-header {
@@ -361,6 +363,32 @@ body {
 .cancelled-trade-exchange-icon {
   color: #06899b;
   margin: 0 10px;
+}
+
+#completed-trades-container {
+  max-height: 450px;
+  overflow-y: scroll; /* Use 'scroll' to keep the scroll functionality */
+  margin-top: 20px;
+  /* Hide scrollbar for Chrome, Safari, and Edge */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+#completed-trades-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
+
+#canceled-trades-container {
+  max-height: 450px;
+  overflow-y: scroll; /* Use 'scroll' to keep the scroll functionality */
+  margin-top: 20px;
+  /* Hide scrollbar for Chrome, Safari, and Edge */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+#canceled-trades-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
 }
 
 /*# sourceMappingURL=tradeHistory.css.map */

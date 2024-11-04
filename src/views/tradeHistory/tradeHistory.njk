@@ -2,13 +2,11 @@
 <html lang="en">
 <head>
     {% include "partials/header.njk" %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trade History</title>
     <script src="/js/tradehistory.js" defer></script>
     <link rel="stylesheet" href="/css/tradehistory.css">
 </head>
 <body>
+    
     <div class="status-bar">
         <span class="time">9:41</span>
         <div class="status-icons">
@@ -23,13 +21,105 @@
             <h1 class="page-title">Trade History</h1>
         </div>
 
+        {# <div class="back-button">
+            <a href="#" class="icon-button">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+        </div> #}
+
         <div class="tab-navigation">
             <div id="completed-tab" class="tab active">Completed</div>
             <div id="canceled-tab" class="tab">Cancelled</div>
         </div>
 
+        
         <!-- Completed Tab Content -->
         <div id="completed-content" class="trade-content active">
+            <div id="completed-trades-container">
+                <!-- Dynamic completed trades data will be inserted here -->
+            </div>
+            <div id="no-completed-trades" class="no-offers-container" style="display: none;">
+                <p>You have no completed trades</p>
+                <img src="/images/nooffers.png" alt="No Completed Trades">
+                <button class="create-offer-btn">Click the <span class="plus-icon">+</span> Sign to create an offer</button>
+            </div>
+        </div>
+
+        <!-- Cancelled Tab Content -->
+        <div id="canceled-content" class="trade-content">
+            <div id="canceled-trades-container">
+                <!-- Dynamic canceled trades data will be inserted here -->
+            </div>
+            <div id="no-cancelled-trades" class="no-offers-container" style="display: none;">
+                <p>You have no cancelled trades</p>
+                <img src="/images/nooffers.png" alt="No Cancelled Trades">
+                <button class="create-offer-btn">Click the <span class="plus-icon">+</span> Sign to create an offer</button>
+            </div>
+        </div>  
+
+        <div class="icons-container">
+            <div class="wallet-icon"><i class="fas fa-wallet"></i></div>
+            <div class="add-icon" onclick="createOffer()"><i class="fas fa-plus-circle"></i></div>
+            <div class="notification-icon">
+                <i class="fas fa-bell"></i>
+                <span id="notification-count" class="notification-badge" style="display:none"></span>
+            </div>
+            <div class="settings-icon"><i class="fas fa-cog"></i></div>
+            <div class="settings-icon" onclick="signout()"><i class="fas fa-sign-out-alt"></i></div>
+        </div>   
+    
+    </div>
+
+    {% include "partials/footer.njk" %}
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{#  from chat gpt
+
+    <div id="completed-content" class="trade-content active">
+
+        <div id="completed-trades" class="no-discussions">
+            <p>You have no completed trades</p>
+            <img src="images/nooffers.png" alt="No Completed Trades">
+            <button class="create-offer-btn">Click the <span class="plus-icon">+</span> Sign to create an offer</button>
+        </div> <!-- Placeholder for no completed trades -->
+    </div>
+
+    <div id="canceled-content" class="trade-content">
+
+
+
+        <div id="canceled-trades" class="no-discussions">
+            <p>You have no cancelled trades</p>
+            <img src="images/nooffers.png" alt="No Cancelled Trades">
+            <button class="create-offer-btn">Click the <span class="plus-icon">+</span> Sign to create an offer</button>
+        </div> <!-- Placeholder for no cancelled trades -->
+    </div> 
+    
+    
+#}
+
+
+{# 
+        <!-- Completed Tab Content -->
+        <div id="completed-content" class="trade-content active">
+
+
+
             <div class="currency-card">
                 <div class="currency-header">
                     <span class="date">06/04/2023</span>
@@ -108,10 +198,26 @@
                 <hr class="review-divider">
                 <a href="#" class="leave-review">Leave review</a>
             </div>
+
+
+
+            
+            <div id="no-completed-trades" class="no-offers-container">
+                <p>You have no completed trades</p>
+                <img src="/images/nooffers.png" alt="No Completed Trades">
+                <button class="create-offer-btn">Click the <span class="plus-icon">+</span> Sign to create an offer</button>
+            </div>
+
+
+
+
         </div>
+
 
         <!-- Cancelled Tab Content (empty for now) -->
         <div id="canceled-content" class="trade-content">
+
+
             <div class="cancelled-trade-card">
                 <div class="cancelled-trade-header">
                     <span class="cancelled-trade-date">06/04/2023</span>
@@ -155,8 +261,18 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    {% include "partials/footer.njk" %}
-</body>
-</html>
+
+
+
+
+            <div id="no-cancelled-trades" class="no-offers-container">
+                <p>You have no cancelled trades</p>
+                <img src="/images/nooffers.png" alt="No Cancelled Trades">
+                <button class="create-offer-btn">Click the <span class="plus-icon">+</span> Sign to create an offer</button>
+            </div>
+
+
+
+        </div> 
+
+#}
