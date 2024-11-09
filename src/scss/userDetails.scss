@@ -9,21 +9,9 @@ $icon-color: #00c5b6;
 $light-black: #333333;
 
 body {
-  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  // background-image: $background-image;
-  // background-size: cover;
-  // background-position: center;
-  // background-repeat: no-repeat;
-  // color: $text-color;
 }
-
-// .container {
-//   max-width: 600px;
-//   margin: 0 auto;
-//   padding: 20px;
-// }
 
 header {
   background-color: transparent;
@@ -129,7 +117,7 @@ header {
   }
 }
 
-
+// Styling empty offer container
 .no-offers-container {
   background-color: transparent;
   border-radius: 8px;
@@ -182,6 +170,21 @@ header {
   }
   .notification-icon {
     color: #474545; 
+    position: relative;
+  }
+  .notification-badge {
+    background-color: red;
+    color: white; 
+    border-radius: 50%;
+    width: 20px; 
+    height: 20px; 
+    display: none; 
+    position: absolute;
+    top: -5px; 
+    right: -5px; 
+    text-align: center; 
+    line-height: 20px; 
+    font-size: 12px; 
   }
   .settings-icon {
     color: #474545; 
@@ -201,19 +204,17 @@ header {
   overflow-y: auto;
   margin-top: 20px;
 }
-
 .offers-list {
   list-style: none;
   padding: 0;
 }
-
 .offer-card {
   background-color: #0b4183;
   border-radius: 10px;
   padding: 20px;
   color: white;
   margin-bottom: 20px;
-
+  
   .offer-header {
       display: flex;
       justify-content: space-between;
@@ -282,6 +283,7 @@ header {
   padding: 20px;
   color: white;
   margin-bottom: 20px;
+  position: relative;
 }
 .matched-trades-header {
   display: flex;
@@ -300,7 +302,7 @@ header {
   margin-bottom: 20px;
   font-weight: bolder;
 }
-.matched-trades-rate{
+.matched-trades-rate {
   color: #00c5b6;
   font-weight: bold;
 }
@@ -382,41 +384,254 @@ header {
 
 #location, #completed-trades, #completion-time{
   margin: 6px;
+} 
+
+
+// Notifications block with accept or decline offer.
+.trade-actions {
+  justify-content: center;
+  gap: 16px;
+  margin-top: 16px;
+}
+.trade-state {
+  justify-content: center;
+  margin-top: 16px;
+}
+.accept-btn,
+.decline-btn,
+.confirm-btn,
+.locked-btn {
+  display: flex;
+  gap: 10px;
+  padding: 10px 50px;
+  margin-bottom: 0px;
+  align-items: center;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.accept-btn {
+  background-color: #b0e2c4;
+  color: #3eaa3e;
+  border: none;
+}
+.accept-btn:hover {
+  background-color: #c1e4d0;
+}
+.decline-btn {
+  background-color: #dd9797;
+  color: #be0707;
+  border: none;
+}
+.decline-btn:hover {
+  background-color: #eed2d2;
+}
+.locked-btn {
+  background-color: #f7d2d2;
+  color: #ee3737;
+  border: none;
+  cursor: not-allowed;
+  padding: 10px;
+  font-size: 16px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.accept-btn i,
+.decline-btn i,
+.confirm-btn i,
+.locked-btn i {
+  font-size: 20px;
 }
 
 
-.no-offers-container-trades {
-  background-color: transparent;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+// Send notification modal popup 
+.notification-container {
+  position: fixed;
+  left: 0;
+  right: 0; 
+  bottom: 0; 
+  height: 27%;
+  border-top-right-radius: 40px;
+  border-top-left-radius: 40px;
+  font-size: 18px;
+  background-color: rgba(255, 255, 255, 0.9); 
+  z-index: 1; 
+}
+.notification-container p {
+  padding: 40px 40px 20px;
+  color: black; 
+  text-align: center; 
+  font-size: 18px; 
+  margin-bottom: 20px; 
+}
+.yes-button {
+  background-color: #00c5b6; 
+  color: white; 
+  border: none; 
+  padding: 20px 60px;
+  font-size: 18px; 
+  border-radius: 10px; 
+  font-size: 18px;
+  cursor: pointer; 
+  transition: background-color 0.3s ease; 
+  &:hover {
+    background-color: #16a085;
+  }
+}
+.cancel-button {
+  background-color: transparent; 
+  color: #e74c3c; 
+  border: 1px solid #e74c3c; 
+  padding: 20px 60px; 
+  border-radius: 10px; 
+  font-size: 18px;
+  cursor: pointer; 
+  transition: background-color 0.3s ease; 
+  &:hover {
+    background-color: #e74c3c; 
+  color: white; 
+  }
+}
+
+
+// Styling for in discussion tab
+.currency-card {
+  background-color: #283a84;
+  border-radius: 15px;
+  margin-top: 15px;
   padding: 20px;
-  margin-top: 20px;
+  width: 347px;
+  color: white;
+}
+
+.currency-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.currency-date {
+  font-size: 0.8em;
+}
+
+.currency-rate {
+  font-size: 0.9em;
+  color: #0bd4d4;
+  padding-right: 25px;
+}
+
+.currency-email-icon {
+  // position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 1.2em;
+  color:#00c5c5
+}
+
+.currency-user {
+  display: flex;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.currency-user-left {
+  display: flex;
+  align-items: flex-start;
+  margin-right: 20px;
+}
+
+.currency-avatar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 10px;
+  width: 60px;
+}
+
+.currency-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-bottom: 5px;
+}
+
+.currency-username {
+  font-size: 0.9em;
   text-align: center;
+}
 
-  p {
-    margin-bottom: 10px;
-  }
+.currency-user-right {
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
 
-  img {
-    max-width: 200px;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-  }
+.currency-info-left, .currency-info-right {
+  display: flex;
+  flex-direction: column;
+}
 
-  .create-offer-btn {
-    background-color: transparent;
-    border: none;
-    color: #ffffff;
-    cursor: pointer;
-    margin-top: 10px;
+.currency-info-left {
+  margin-right: 5px;
+  align-content: right;
+}
 
-    .plus-icon {
-      font-size: 20px;
-      font-weight: bold;
-      color: #F5F5F5;
-      background-color: #00c5b6;
-      border-radius: 50%;
-    }
-  }
+.currency-rating {
+  color: gold;
+  font-size: 1.2em;
+  margin-bottom: 5px;
+}
+
+.currency-stats {
+  font-size: 0.85em;
+  color: #ccc;
+}
+
+.currency-stat-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.currency-location {
+  font-size: 12px;
+  color: #ccc;
+  display: flex;
+  align-items: center;
+}
+
+.currency-location-icon, .currency-icon {
+  margin-right: 5px;
+  font-size: 1.2em;
+  color: #00c5b6;
+}
+
+.currency-exchange {
+  background-color: #e4e4fa10;
+  border-radius: 10px;
+  padding: 20px;
+  margin-left: 50px;
+  margin-right: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.currency-name {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.currency-amount {
+  font-size: 0.9em;
 }

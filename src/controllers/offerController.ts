@@ -24,7 +24,6 @@ export const offersPost = catchAsyncErrors(async (req: Request, res: Response, n
 
         let { from, to, amount, value, rate } = req.body
 
-        console.log(rate)
         const response: AxiosResponse = await axios.post(createOffer, { from, to, amount, value, rate }, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,

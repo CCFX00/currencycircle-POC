@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        {% include "partials/header.njk" %}
+        <link rel="stylesheet" href="/css/chat.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    </head>
+
+    <body>
+
+         <div class="chat-container">
+            <div class="chat-box">
+                <div class="header">
+                    <div class="back-arrow" onclick="goBack()">←</div>
+                    <div class="user-info">
+                        <div class="profile-pic" id="userImage" style="background-image: url('/images/profiles/tiksfon.png');"></div>
+                        <div class="username" id="userName">Tiksfon</div>
+                    </div>
+                    <div class="icons">
+                        <i class="icon material-icons">account_balance</i>
+                        <i class="icon material-icons">currency_exchange</i>
+                    </div>
+                </div>
+
+                <div class="messages" id="messages">
+                    <!-- Messages will be appended here dynamically -->
+                </div>
+
+                <!-- Typing Indicator -->
+                <div class="activity" id="typing-indicator" style="display: none;">
+                    <span id="typing-user"></span> is typing...
+                </div>
+
+                <div class="input-box">
+                    <input type="text" id="message-input" placeholder="Type a message">
+                    <button class="send-button" id="send-button">▶</button>
+                </div>
+            </div>
+        </div>
+
+        {% include "partials/footer.njk" %}
+        
+    </body>
+
+</html>
