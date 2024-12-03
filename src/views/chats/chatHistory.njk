@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include "partials/header.njk" %}
+    <script src="/js/chatHistory.js" defer></script>
+    <link rel="stylesheet" href="/css/tradehistory.css">
+</head>
+<body>
+    
+    <div class="status-bar">
+        <span class="time">9:41</span>
+        <div class="status-icons">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+    <div class="trade-history-container">
+        <div class="nav-bar">
+            <i class="fas fa-bars menu-icon"></i>
+            <h1 class="page-title">Your Chat History</h1>
+        </div>
+
+        {# <div class="back-button">
+            <a href="#" class="icon-button">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+        </div> #}
+
+        <div class="tab-navigation">
+            <div id="chats-tab" class="tab active">Your Chats</div>
+        </div>
+        
+        <!-- Chats Tab Content -->
+        <div id="chats-content" class="trade-content active">
+            <div id="chats-container" class="all-chats">
+                <!-- Dynamic all chat data will be inserted here -->
+            </div>
+            <div id="no-chats" class="no-offers-container" style="display: none;">
+                <p>You have no chats</p>
+                <img src="/images/nooffers.png" alt="No Completed Trades">
+                <button class="create-offer-btn">Click the <span class="plus-icon">+</span> Sign to create an offer</button>
+            </div>
+        </div>
+
+        <div class="icons-container">
+            <div class="wallet-icon"><i class="fas fa-wallet"></i></div>
+            <div class="add-icon" onclick="createOffer()"><i class="fas fa-plus-circle"></i></div>
+            <div class="notification-icon">
+                <i class="fas fa-bell"></i>
+                <span id="notification-count" class="notification-badge" style="display:none"></span>
+            </div>
+            <div class="settings-icon"><i class="fas fa-cog"></i></div>
+            <div class="settings-icon" onclick="signout()"><i class="fas fa-sign-out-alt"></i></div>
+        </div>   
+    
+    </div>
+
+    {% include "partials/footer.njk" %}
+</body>
+</html>

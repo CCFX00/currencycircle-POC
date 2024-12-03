@@ -3,6 +3,7 @@
 
 {% include "partials/header.njk" %}
 <script src="/js/menu.js" defer></script>
+<script src="/js/chatHistory.js" defer></script>
 <link rel="stylesheet" href="/css/menu.css">
 
 <body>  
@@ -14,14 +15,14 @@
                     <div class="sidebar">
                         <ul>
                             <li><a href="#" id="dashboard-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                            <li><a href="#" id="my-offers-link"><i class="fas fa-tags"></i> My Offers</a></li>
-                            <li><a href="#" id="matched-trades-link"><i class="fas fa-exchange-alt"></i> Matched Trades</a></li>
-                            <li><a href="#" id="in-discussion-link"><i class="fas fa-comments"></i> In Discussion</a></li>
-                            <li><a href="#"><i class="fas fa-comments"></i> Chats</a></li>
+                            <li><a href="#" id="chats-link"><i class="fas fa-tags"></i> Chats</a></li>
                             <li><a href="/trades/history" id="trade-history"><i class="fas fa-history"></i> Trade History</a></li>
-                            <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                            <li><a href="#" id="contact-us" ><i class="fas fa-cog"></i> Contact Us</a></li>
+                            {# <li><a href="#" id="matched-trades-link"><i class="fas fa-exchange-alt"></i> Matched Trades</a></li>
+                            <li><a href="#" id="in-discussion-link"><i class="fas fa-comments"></i> In Discussion</a></li>
+                            <li><a href="#"><i class="fas fa-comments"></i> Chats</a></li> #}                            
                         </ul>
-                        <div class="app-version">Version 1.0</div>
+                        <div class="app-version">Version 1.0</div>v
                     </div>
                 </div>
                 <h1>My Trades</h1>

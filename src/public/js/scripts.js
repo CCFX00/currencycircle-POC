@@ -609,11 +609,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
   }
 
+
+  document.querySelectorAll('trade-content').forEach(chat => {
+    chat.addEventListener('click', (event) =>{
+
+      console.log('chat clicked')
+      
+    })
+  })
+
+ 
+
+  // handleChat function's position
+
+});
+
   //================================================
   // Chat | Complete trade | Cancel trade handler //
   //================================================
   function handleChat(roomId, tradeId, senderId, senderName, senderImage, receiverId, offerId, receiverName, receiverImage) {
-    // console.log(roomId, tradeId, senderId, senderName, senderImage, receiverId, receiverName, receiverImage)
+    console.log('Chat data:', { roomId, tradeId, senderId, senderName, senderImage, receiverId, receiverName, receiverImage, offerId });
 
     // Save the current body content to sessionStorage
     sessionStorage.setItem('previousPageContent', document.body.innerHTML);
@@ -979,8 +994,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-});
-
 
 // IMAGE SPLASH AND WELCOME SCREENS
 // Array of image sources
@@ -1313,4 +1326,3 @@ function connectSocketIO(UID) {
     console.log("No trader card found.");
   }
 }
-

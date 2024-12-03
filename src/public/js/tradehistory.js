@@ -200,8 +200,6 @@ document.addEventListener("DOMContentLoaded", function() {
             canceledTradesContainer.style.display = 'block';
             trades.forEach(trade => {
 
-                console.log(trade)
-
                 const senderProfile = trade.senderId.userImage
                 ? `<div class="profile-pic" style="background-image: url('/images/profiles/${ trade.senderId.userImage}');"></div>`
                 : `<div class="profile-pic" style="background-image: url('/images/profiles/noProfile.png');"></div>`                

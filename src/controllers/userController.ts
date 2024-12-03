@@ -10,7 +10,7 @@ import FormData from 'form-data';
 // TEST CONTROLLER
 export const test = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
     try{
-        res.status(200).render('tradeHistory/tradeHistory', {title: 'User Details'})
+        res.status(200).render('chats/chatHistory', {title: 'User Details'})
     }catch(err: any){
         res.status(401).render('message', { message: err.response.data.message , data: err.response.data.success, title: 'Message' })
     }
